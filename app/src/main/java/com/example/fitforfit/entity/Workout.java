@@ -1,5 +1,6 @@
 package com.example.fitforfit.entity;
 
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
@@ -10,6 +11,7 @@ import androidx.room.PrimaryKey;
 public class Workout {
 
     @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "workout_id")
     public int id;
 
     public String name;
