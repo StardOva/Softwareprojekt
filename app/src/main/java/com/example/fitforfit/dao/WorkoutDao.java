@@ -14,10 +14,10 @@ import java.util.List;
 @Dao
 public interface WorkoutDao {
 
-    @Query("SELECT * FROM workout ORDER BY id DESC")
+    @Query("SELECT * FROM workout ORDER BY workout_id DESC")
     List<Workout> getAll();
 
-    @Query("SELECT * FROM workout WHERE id IN (:ids) ORDER BY id DESC")
+    @Query("SELECT * FROM workout WHERE workout_id IN (:ids) ORDER BY workout_id DESC")
     List<Workout> loadAllByIds(int[] ids);
 
     @Query("SELECT * FROM workout WHERE name = :name LIMIT 1")
@@ -29,7 +29,7 @@ public interface WorkoutDao {
     @Delete
     void delete(Workout workout);
 
-    @Query("UPDATE workout SET NAME = :newName WHERE id = :id")
+    @Query("UPDATE workout SET NAME = :newName WHERE workout_id = :id")
     void updateName(int id, String newName);
 
     @Transaction

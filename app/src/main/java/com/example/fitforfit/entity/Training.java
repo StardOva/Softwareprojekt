@@ -18,13 +18,13 @@ import java.util.TimeZone;
         foreignKeys = {
                 @ForeignKey(
                         entity = Workout.class,
-                        parentColumns = "id",
+                        parentColumns = "workout_id",
                         childColumns = "workout_id",
                         onDelete = CASCADE
                 ),
                 @ForeignKey(
                         entity = Exercise.class,
-                        parentColumns = "id",
+                        parentColumns = "exercise_id",
                         childColumns = "exercise_id",
                         onDelete = CASCADE
                 )
