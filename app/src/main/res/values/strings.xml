@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">FitforFit</string>
     <string name="tab_text_1">Tracker</string>
-    <string name="tab_text_2">Training</string>
+    <string name="tab_text_2">Workout</string>
 </resources>
