@@ -1,5 +1,6 @@
 package com.example.fitforfit.dao;
 
+import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
@@ -10,7 +11,7 @@ import com.example.fitforfit.entity.Workout;
 
 import java.util.List;
 
-
+@Dao
 public interface DayDao {
 
     @Query("SELECT * FROM day ORDER BY day_id DESC")

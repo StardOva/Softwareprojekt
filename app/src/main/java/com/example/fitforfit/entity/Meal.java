@@ -9,13 +9,13 @@ import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 @Entity(indices = {
-        @Index(value = {"id", "date_id"}, unique = true)
+        @Index(value = {"meal_id", "day_id"}, unique = true)
 },
         foreignKeys = {
                 @ForeignKey(
                         entity = Day.class,
-                        parentColumns = "date_id",
-                        childColumns = "date_id",
+                        parentColumns = "day_id",
+                        childColumns = "day_id",
                         onDelete = CASCADE
                 )
         })
@@ -25,8 +25,8 @@ public class Meal {
     @ColumnInfo(name = "meal_id")
     public int id;
 
-    @ColumnInfo(name = "date_id")
-    public int date_id;
+    @ColumnInfo(name = "day_id")
+    public int day_id;
 
     @ColumnInfo(name = "meal_name")
     public String meal_name;

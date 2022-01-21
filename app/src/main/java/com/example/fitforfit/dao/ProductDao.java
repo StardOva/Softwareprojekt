@@ -1,5 +1,6 @@
 package com.example.fitforfit.dao;
 
+import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
@@ -7,6 +8,7 @@ import androidx.room.Update;
 import com.example.fitforfit.entity.Product;
 import java.util.List;
 
+@Dao
 public interface ProductDao {
 
     @Query("SELECT * FROM product ORDER BY product_id DESC")
