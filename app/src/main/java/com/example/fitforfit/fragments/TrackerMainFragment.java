@@ -67,7 +67,7 @@ public class TrackerMainFragment extends Fragment {
 
     private void loadUserList() {
         Calendar cal = Calendar.getInstance();  //neue Kalender Instanz
-        cal.add(Calendar.DATE, 1);
+        //cal.add(Calendar.DATE, 1);
         SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd"); //Formater für richtiges Format
         String formatted_date_today = format1.format(cal.getTime());    //String des aktuellen Datum und richtigen Format
 
