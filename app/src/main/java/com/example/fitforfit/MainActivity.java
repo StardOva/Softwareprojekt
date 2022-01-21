@@ -3,6 +3,7 @@ package com.example.fitforfit;
 import android.os.Bundle;
 import android.view.View;
 
+import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
@@ -17,6 +18,10 @@ public class MainActivity extends AppCompatActivity {
 
     private ActivityMainBinding binding;
 
+    @StringRes
+    private static final int[] TAB_TITLES = new int[]{R.string.tab_text_1, R.string.tab_text_2};
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,8 +33,10 @@ public class MainActivity extends AppCompatActivity {
         ViewPager2           viewPager            = binding.viewPager;
         viewPager.setAdapter(sectionsPagerAdapter);
 
-        TabLayout tabs = binding.tabs;
-        new TabLayoutMediator(tabs, viewPager).attach();
+        TabLayout tabLayout = binding.tabs;
+        new TabLayoutMediator(tabLayout, viewPager, (tab, position) ->
+                tab.setText(TAB_TITLES[position])
+        ).attach();
 
         FloatingActionButton fab = binding.fab;
         fab.setOnClickListener(new View.OnClickListener() {

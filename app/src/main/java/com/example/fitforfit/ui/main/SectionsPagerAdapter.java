@@ -12,15 +12,14 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import com.example.fitforfit.R;
+import com.example.fitforfit.fragments.TrackerMainFragment;
+import com.example.fitforfit.fragments.WorkoutMainFragment;
 
 /**
  * A [FragmentPagerAdapter] that returns a fragment corresponding to
  * one of the sections/tabs/pages.
  */
 public class SectionsPagerAdapter extends FragmentStateAdapter {
-
-    @StringRes
-    private static final int[] TAB_TITLES = new int[]{R.string.tab_text_1, R.string.tab_text_2};
 
     public SectionsPagerAdapter(@NonNull FragmentActivity fragmentActivity) {
         super(fragmentActivity);
@@ -29,6 +28,12 @@ public class SectionsPagerAdapter extends FragmentStateAdapter {
     @NonNull
     @Override
     public Fragment createFragment(int position) {
+        switch (position){
+            case 0:
+                return new TrackerMainFragment();
+            case 1:
+                return new WorkoutMainFragment();
+        }
         return null;
     }
 
