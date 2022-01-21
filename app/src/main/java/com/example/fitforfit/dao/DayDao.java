@@ -25,4 +25,7 @@ public interface DayDao {
 
     @Update
     void update(Day day);
+
+    @Query("SELECT date FROM day ORDER BY day_id DESC LIMIT 1")
+    String getLastDate();
 }

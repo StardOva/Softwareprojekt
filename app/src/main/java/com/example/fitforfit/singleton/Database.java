@@ -15,7 +15,12 @@ public class Database {
             return db;
         }
 
-        db = Room.databaseBuilder(context, AppDatabase.class, DB_NAME).build();
+        db = Room.databaseBuilder(context, AppDatabase.class, DB_NAME)
+                .allowMainThreadQueries().fallbackToDestructiveMigration()
+                /*
+                TO DO -> .allowMainThreadQueries() loswerden -> Scheisse für Leistung
+                 */
+                .build();
         return db;
     }
 }
