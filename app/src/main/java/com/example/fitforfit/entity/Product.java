@@ -23,23 +23,23 @@ public class Product {
 
     //in g per 100g
     @ColumnInfo(name = "fat")
-    public int fat;
+    public float fat;
 
     @ColumnInfo(name = "saturated_fat")
-    public int saturated_fat;
+    public float saturated_fat;
 
     @ColumnInfo(name = "carb")
-    public int carb;
+    public float carb;
 
     @ColumnInfo(name = "sugar")
-    public int sugar;
+    public float sugar;
 
     @ColumnInfo(name = "fiber")
-    public int fiber;
+    public float fiber;
 
     @ColumnInfo(name = "protein")
-    public int protein;
+    public float protein;
 
     @ColumnInfo(name = "salt")
-    public int salt;
+    public float salt;
 }
