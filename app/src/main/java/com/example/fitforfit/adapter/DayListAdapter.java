@@ -38,7 +38,10 @@ public class DayListAdapter extends RecyclerView.Adapter<DayListAdapter.MyViewHo
 
     @Override
     public void onBindViewHolder(@NonNull DayListAdapter.MyViewHolder holder, int position) {
-        holder.dayButton.setText(this.dayList.get(position).date);
+        String[] split = this.dayList.get(position).date.split("-");
+        holder.dayButton.setText(split[2]+"."+split[1]+".");
+
+
     }
 
     @Override
