@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FitforFit">
         <activity
-            android:name=".ui.main.DayActivity"
+            android:name=".ui.main.TrackerDayActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

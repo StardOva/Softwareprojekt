@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fitforfit.R;
 import com.example.fitforfit.entity.Day;
-import com.example.fitforfit.ui.main.DayActivity;
+import com.example.fitforfit.ui.main.TrackerDayActivity;
 
 import java.util.List;
 
@@ -56,7 +56,7 @@ public class DayListAdapter extends RecyclerView.Adapter<DayListAdapter.MyViewHo
         holder.dayButton.setOnClickListener(v -> {
             Log.d("DayButton", split[2]+"."+split[1]+".");
 
-            Intent intent = new Intent(mainActivity, DayActivity.class);
+            Intent intent = new Intent(mainActivity, TrackerDayActivity.class);
             intent.putExtra("date", date);
             mainActivity.startActivity(intent);
 
