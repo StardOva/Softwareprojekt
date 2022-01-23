@@ -1,6 +1,7 @@
 package com.example.fitforfit.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,9 +40,21 @@ public class DayListAdapter extends RecyclerView.Adapter<DayListAdapter.MyViewHo
     @Override
     public void onBindViewHolder(@NonNull DayListAdapter.MyViewHolder holder, int position) {
         String[] split = this.dayList.get(position).date.split("-");
-        holder.dayButton.setText(split[2]+"."+split[1]+".");
+        String displayDate = split[2]+"."+split[1]+".";
+        holder.dayButton.setText(displayDate);
 
+        holder.dayButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Log.d("DayButton", split[2]+"."+split[1]+".");
+                /**
+                 * TO DO
+                 * Activity Startet -> mit Übergabe (INTENT) der DAY ID
+                 * in DayDao -> getDayIDbyDate(:date)
+                 * DayActivity -> StatsFragment, MealsFragment, (WaterFragment)
+                 */
 
+            }
+        });
     }
 
     @Override
