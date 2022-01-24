@@ -3,6 +3,7 @@ package com.example.fitforfit.fragments;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,7 +51,7 @@ public class TrackerMainFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         initRecyclerView(view);
-        loadUserList();
+        loadDayList();
     }
 
     private void initRecyclerView(View view) {
@@ -65,52 +66,82 @@ public class TrackerMainFragment extends Fragment {
         });
     }
 
-    private void loadUserList() {
-        Calendar cal = Calendar.getInstance();  //neue Kalender Instanz
-        //cal.add(Calendar.DATE, 1);
-        SimpleDateFormat format1 = new SimpleDateFormat("yyyy-MM-dd"); //Formater für richtiges Format
-        String formatted_date_today = format1.format(cal.getTime());    //String des aktuellen Datum und richtigen Format
+    private void loadDayList() {
 
+        //neue Kalender Instanz
+        Calendar cal = Calendar.getInstance();
+        //cal.add(Calendar.DATE, 2);//Addiert ein Tag
+        //Formater für richtiges Format
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        //String des aktuellen Datum und richtigen Format
+        String formatted_date_today = format.format(cal.getTime());
 
         AppDatabase db = Database.getInstance(getActivity());
 
-        String lastDate = db.dayDao().getLastDate();   //Auslesen letzten Date Eintrag(letztes Date)
+        //Auslesen letzten Date Eintrag(letztes Date)
+        String lastDate = db.dayDao().getLastDate();
+
+        //neue Kalender Instanz
+        Calendar cal_last = Calendar.getInstance();
+        //Damit bei ersten Aufruf App kein NullPointer entsteht
+        if(lastDate != null){
+
+        //neue Kalender Instanz
+
+        //String Array der Werte Jahr-Monat-Tag des letzten Date Eintrags
+        String[] split = lastDate.split("-");
+        //erzeugen Kalender Objekt -> Monat - 1 weil Januar in CalendarObjekt 0, Februar 1 ,...
+        cal_last.set(Integer.valueOf(split[0]),Integer.valueOf(split[1]),Integer.valueOf(split[2]));
+        }
+
+        Calendar tempCal = Calendar.getInstance();
+        String[] splitToday = formatted_date_today.split("-");
+        cal.set(Integer.valueOf(splitToday[0]),Integer.valueOf(splitToday[1])+1,Integer.valueOf(splitToday[2]));
+        tempCal.set(Integer.valueOf(splitToday[0]),Integer.valueOf(splitToday[1]),Integer.valueOf(splitToday[2]));
+        long diffmilli = tempCal.getTimeInMillis() - cal_last.getTimeInMillis();
+        long diffday = diffmilli / (24 * 60 *60 * 1000);
+
         if(lastDate == null){
-            //lastDate = "2000-10-06";
 
-            Day day = new Day();
-            day.progress = 75;
+            //Aktueller tag wird eingefügt
+            newDayInsert(formatted_date_today, db);
 
-            day.date = formatted_date_today;
-            db.dayDao().insert(day);
         }else{
+            Log.d("CONTROL_POINT_1", "diffday: " + String.valueOf(diffday));
+            if(diffday>1) {
+                int k = (int)diffday - 1 ;
+                for (int i = 0; i < (int)diffday; i++) {
 
-            Calendar cal_last = Calendar.getInstance(); //neue Kalender Instanz
-            String[] split = lastDate.split("-");   //String Array der Werte Jahr-Monat-Tag des letzten Date Eintrags
-            cal_last.set(Integer.valueOf(split[0]),Integer.valueOf(split[1])-1,Integer.valueOf(split[2])); //erzeugen Kalender Objekt
+                    Calendar newCal = Calendar.getInstance();
+                    newCal.add(Calendar.DATE, k * (-1));
+                    SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd");
+                    String formatted_date_today2 = format2.format(newCal.getTime());
+                    newDayInsert(formatted_date_today2, db);
+                    k--;
 
-            if(cal.compareTo(cal_last) > 0){ //Vergleich Heute und letzter Eintrag -> wenn >= 0 heute ist letzter Eintrag
+                }
+            }else{
 
-                Day day = new Day();
-                day.progress = 75;
+                //Vergleich Heute und letzter Eintrag -> wenn >= 0 heute ist letzter Eintrag
+                cal.set(Integer.valueOf(splitToday[0]),Integer.valueOf(splitToday[1]),Integer.valueOf(splitToday[2]));
+                if(cal.compareTo(cal_last) > 0){
+                    Log.d("CONTROL_POINT_2", "Compare: " + String.valueOf(cal.compareTo(cal_last)));
+                    newDayInsert(formatted_date_today, db);
 
-                day.date = formatted_date_today;
-                db.dayDao().insert(day);
-
-
+                }
             }
         }
-        /*
-        TO DO
-        Alle fehlenden tage werden hinzugefügt
 
-        Bsp.->
-        3 tage nicht App aktiviert
-        -> 3 letzten Tage hinzufügen, nicht nur aktuellen
-         */
-
-
+        //Alle Tage mit RecyclerView anzeigen
         List<Day> dayList = db.dayDao().getAllDays();
+        dayListAdapter.setContext(getActivity());
         dayListAdapter.setDayList(dayList);
+    }
+
+    public void newDayInsert(String newday, AppDatabase db){
+        Day day = new Day();
+        day.progress = 75;
+        day.date = newday;
+        db.dayDao().insert(day);
     }
 }

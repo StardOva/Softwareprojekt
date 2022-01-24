@@ -1,32 +1,42 @@
 package com.example.fitforfit.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fitforfit.R;
 import com.example.fitforfit.entity.Day;
+import com.example.fitforfit.ui.main.TrackerDayActivity;
 
 import java.util.List;
 
 public class DayListAdapter extends RecyclerView.Adapter<DayListAdapter.MyViewHolder>{
 
     private Context context;
+
     private List<Day> dayList;
     public DayListAdapter(Context context) {
         this.context = context;
+    }
+    Context mainActivity;
+
+    public void setContext(Context mainActivity){
+        this.mainActivity = mainActivity;
     }
 
     public void setDayList(List<Day> dayList) {
         this.dayList = dayList;
         notifyDataSetChanged();
     }
+
+
 
     @NonNull
     @Override
@@ -38,7 +48,19 @@ public class DayListAdapter extends RecyclerView.Adapter<DayListAdapter.MyViewHo
 
     @Override
     public void onBindViewHolder(@NonNull DayListAdapter.MyViewHolder holder, int position) {
-        holder.dayButton.setText(this.dayList.get(position).date);
+        String date = this.dayList.get(position).date;
+        String[] split = this.dayList.get(position).date.split("-");
+        String displayDate = split[2]+"."+split[1]+".";
+        holder.dayButton.setText(displayDate);
+
+        holder.dayButton.setOnClickListener(v -> {
+            Log.d("DayButton", split[2]+"."+split[1]+".");
+
+            Intent intent = new Intent(mainActivity, TrackerDayActivity.class);
+            intent.putExtra("date", date);
+            mainActivity.startActivity(intent);
+
+        });
     }
 
     @Override

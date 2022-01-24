@@ -26,6 +26,9 @@ public interface DayDao {
     @Update
     void update(Day day);
 
-    @Query("SELECT date FROM day ORDER BY day_id DESC LIMIT 1")
+    @Query("SELECT date FROM day WHERE date IS NOT NULL ORDER BY day_id DESC LIMIT 1")
     String getLastDate();
+
+    @Query("SELECT day_id FROM day WHERE date = :date LIMIT 1")
+    int getIdByDate(String date);
 }
