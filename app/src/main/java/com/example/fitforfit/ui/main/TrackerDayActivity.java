@@ -56,6 +56,7 @@ public class TrackerDayActivity extends AppCompatActivity {
         dateText.setText((date + " ID:" + String.valueOf(dayId)).toString());
 
 
+
         /*
         TO DO
         Return Button entfernen
