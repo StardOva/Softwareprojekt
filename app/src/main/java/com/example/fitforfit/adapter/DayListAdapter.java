@@ -20,12 +20,12 @@ import java.util.List;
 public class DayListAdapter extends RecyclerView.Adapter<DayListAdapter.MyViewHolder>{
 
     private Context context;
+    private Context mainActivity;
 
     private List<Day> dayList;
     public DayListAdapter(Context context) {
         this.context = context;
     }
-    Context mainActivity;
 
     public void setContext(Context mainActivity){
         this.mainActivity = mainActivity;
