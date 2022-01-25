@@ -1,17 +1,13 @@
 package com.example.fitforfit.ui.main;
 
-import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.text.Editable;
+import android.text.InputFilter;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -30,6 +26,8 @@ public class CreateNewWorkoutActivity extends AppCompatActivity {
     private Button saveButton;
     private AppDatabase db;
 
+    public static final int MAX_WORKOUT_NAME_LENGTH = 25;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,6 +42,9 @@ public class CreateNewWorkoutActivity extends AppCompatActivity {
         EditText editText = binding.textViewWorkoutName;
         editText.requestFocus();
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+
+        // Textfeld auf maximale Länge begrenzen
+        editText.setFilters(new InputFilter[] {new InputFilter.LengthFilter(MAX_WORKOUT_NAME_LENGTH)});
 
         // Button zum zurückgehen
         Button cancelButton = binding.btnCreateNewWorkoutCancel;
