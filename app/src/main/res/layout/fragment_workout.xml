@@ -20,12 +20,14 @@
             android:id="@+id/btnNewWorkout"
             android:layout_width="match_parent"
             android:layout_height="61dp"
-            android:text="@string/new_workout_button" />
+            android:text="@string/new_workout_button"
+            android:textSize="18sp"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="5dp"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewWorkouts"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="10dp" />
+            android:layout_height="match_parent" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
