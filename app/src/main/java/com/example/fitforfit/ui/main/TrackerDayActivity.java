@@ -20,6 +20,7 @@ public class TrackerDayActivity extends AppCompatActivity {
 
     private ActivityDayBinding binding;
     TextView dateText;
+
     Button returnButton;
 
     @StringRes
@@ -57,14 +58,7 @@ public class TrackerDayActivity extends AppCompatActivity {
 
 
 
-        /*
-        TO DO
-        Return Button entfernen
-        -> Parent Acitivity MainActivity setzen
-        -> über "Pfeil" im oberen Menü navigieren
-         */
-        returnButton = findViewById(R.id.return_button);
-        returnButton.setOnClickListener(view -> onReturnButtonClick());
+
 
     }
 
