@@ -1,10 +1,13 @@
 package com.example.fitforfit.fragments;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,6 +24,7 @@ import com.example.fitforfit.databinding.FragmentMainBinding;
 import com.example.fitforfit.entity.Day;
 import com.example.fitforfit.entity.Meal;
 import com.example.fitforfit.singleton.Database;
+import com.example.fitforfit.ui.main.AddNewMealActivity;
 import com.example.fitforfit.ui.main.TrackerDayActivity;
 
 import java.util.List;
@@ -29,6 +33,7 @@ public class TrackerMealsFragment extends Fragment {
 
     private FragmentMainBinding binding;
     private MealListAdapter mealListAdapter;
+    int dayId;
 
 
 
@@ -51,12 +56,23 @@ public class TrackerMealsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
+        initViews(view);
 
+    }
 
-
+    private void initViews(View view) {
         initRecyclerView(view);
         loadMealList();
 
+        Button addMealButton = view.findViewById(R.id.addMealButton);
+        addMealButton.setText("+ Meal");
+        addMealButton.setOnClickListener(v -> {
+
+            Intent intent = new Intent(getActivity(), AddNewMealActivity.class);
+            intent.putExtra("dayId", String.valueOf(dayId));
+            getActivity().startActivity(intent);
+
+        });
     }
 
     private void loadMealList() {
@@ -65,12 +81,15 @@ public class TrackerMealsFragment extends Fragment {
         meal.time = "18:34";
         meal.day_id = 3;
 
-        AppDatabase db = Database.getInstance(getActivity());
-        db.mealDao().insert(meal);
+        TrackerDayActivity dayActivity = (TrackerDayActivity) getActivity();
+        this.dayId = dayActivity.getCurrentDayId();
 
-        List<Meal> mealList = db.mealDao().getAllMeals();
+        AppDatabase db = Database.getInstance(getActivity());
+        //db.mealDao().insert(meal);
+
+        List<Meal> mealList = db.mealDao().getAllMealsOnDay(this.dayId);
         mealListAdapter.setContext(getActivity());
-        mealListAdapter.setDayList(mealList);
+        mealListAdapter.setMealList(mealList);
     }
 
     private void initRecyclerView(View view) {
@@ -83,6 +102,14 @@ public class TrackerMealsFragment extends Fragment {
             mealListAdapter = new MealListAdapter(getActivity());
             recyclerView.setAdapter(mealListAdapter);
         });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        // nach Anlegen eines neuen Workouts in der CreateNewWorkoutActivity
+        // muss die Liste neu geladen werden, damit das neue Workout auch dargestellt wird
+        loadMealList();
     }
 
 

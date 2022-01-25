@@ -20,6 +20,7 @@ public class TrackerDayActivity extends AppCompatActivity {
 
     private ActivityDayBinding binding;
     TextView dateText;
+    int dayId;
 
     Button returnButton;
 
@@ -51,15 +52,15 @@ public class TrackerDayActivity extends AppCompatActivity {
         String date = getIntent().getStringExtra("date");
 
         AppDatabase db = Database.getInstance(this);
-        int dayId = db.dayDao().getIdByDate(date);
+        dayId = db.dayDao().getIdByDate(date);
 
         dateText = findViewById(R.id.date_text);
         dateText.setText((date + " ID:" + String.valueOf(dayId)).toString());
 
+    }
 
-
-
-
+    public int getCurrentDayId(){
+        return this.dayId;
     }
 
     private void onReturnButtonClick() {

@@ -10,11 +10,19 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FitforFit">
         <activity
+            android:name=".ui.main.MealActivity"
+            android:exported="false">
+
+        </activity>
+        <activity
+            android:name=".ui.main.AddNewMealActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.main.TrackerDayActivity"
             android:exported="false">
             <meta-data
-            android:name="android.support.PARENT_ACTIVITY"
-            android:value=".MainActivity" />
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
         </activity>
         <activity
             android:name=".MainActivity"
@@ -27,9 +35,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.main.CreateNewWorkoutActivity"
-            android:exported="false">
-        </activity>
+        <activity
+            android:name=".ui.main.CreateNewWorkoutActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

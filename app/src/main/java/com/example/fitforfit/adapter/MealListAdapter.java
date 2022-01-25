@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.fitforfit.R;
 import com.example.fitforfit.entity.Day;
 import com.example.fitforfit.entity.Meal;
+import com.example.fitforfit.ui.main.MealActivity;
 import com.example.fitforfit.ui.main.TrackerDayActivity;
 
 import java.util.List;
@@ -33,7 +34,7 @@ public class MealListAdapter extends RecyclerView.Adapter<MealListAdapter.MyView
         this.dayActivity = dayActivity;
     }
 
-    public void setDayList(List<Meal> mealList) {
+    public void setMealList(List<Meal> mealList) {
         this.mealList = mealList;
         notifyDataSetChanged();
     }
@@ -50,26 +51,29 @@ public class MealListAdapter extends RecyclerView.Adapter<MealListAdapter.MyView
 
     @Override
     public void onBindViewHolder(@NonNull MealListAdapter.MyViewHolder holder, int position) {
-        holder.mealButton.setText("Hi");
+        String meal_name = this.mealList.get(position).meal_name;
+        holder.mealButton.setText(meal_name);
        /* String date = this.mealList.get(position).date;
         String[] split = this.mealList.get(position).date.split("-");
         String displayDate = split[2]+"."+split[1]+".";
         holder.dayButton.setText(displayDate);
+*/
+        holder.mealButton.setOnClickListener(v -> {
 
-        holder.dayButton.setOnClickListener(v -> {
-            Log.d("DayButton", split[2]+"."+split[1]+".");
 
-            Intent intent = new Intent(dayActivity, TrackerDayActivity.class);
-            intent.putExtra("date", date);
+            Intent intent = new Intent(dayActivity, MealActivity.class);
+            intent.putExtra("mealId", String.valueOf(mealList.get(position).id));
             dayActivity.startActivity(intent);
 
-        });*/
+        });
     }
 
     @Override
     public int getItemCount() {
         return  this.mealList.size();
     }
+
+
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
         /*TextView tvFirstName;
