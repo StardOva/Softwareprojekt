@@ -25,4 +25,7 @@ public interface IngredientDao {
 
     @Update
     void update(Ingredient ingredient);
+
+    @Query("SELECT * FROM ingredient WHERE meal_id = :mealId")
+    List<Ingredient> getAllIngredientsOnMeal(int mealId);
 }

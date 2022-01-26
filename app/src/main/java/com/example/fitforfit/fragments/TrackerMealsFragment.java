@@ -68,6 +68,13 @@ public class TrackerMealsFragment extends Fragment {
         addMealButton.setText("+ Meal");
         addMealButton.setOnClickListener(v -> {
 
+            AppDatabase db = Database.getInstance(getActivity());
+            Meal newmeal = new Meal();
+            newmeal.meal_name = "";
+            newmeal.time = "";
+            newmeal.day_id = this.dayId;
+            db.mealDao().insert(newmeal);
+
             Intent intent = new Intent(getActivity(), AddNewMealActivity.class);
             intent.putExtra("dayId", String.valueOf(dayId));
             getActivity().startActivity(intent);
@@ -76,16 +83,11 @@ public class TrackerMealsFragment extends Fragment {
     }
 
     private void loadMealList() {
-        Meal meal = new Meal();
-        meal.meal_name = "Mittag";
-        meal.time = "18:34";
-        meal.day_id = 3;
 
         TrackerDayActivity dayActivity = (TrackerDayActivity) getActivity();
         this.dayId = dayActivity.getCurrentDayId();
 
         AppDatabase db = Database.getInstance(getActivity());
-        //db.mealDao().insert(meal);
 
         List<Meal> mealList = db.mealDao().getAllMealsOnDay(this.dayId);
         mealListAdapter.setContext(getActivity());

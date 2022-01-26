@@ -1,17 +1,25 @@
 package com.example.fitforfit.ui.main;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import com.example.fitforfit.R;
+import com.example.fitforfit.adapter.IngredientListAdapter;
+import com.example.fitforfit.adapter.MealListAdapter;
 import com.example.fitforfit.database.AppDatabase;
+import com.example.fitforfit.entity.Ingredient;
 import com.example.fitforfit.entity.Meal;
 import com.example.fitforfit.entity.Workout;
 import com.example.fitforfit.singleton.Database;
@@ -22,6 +30,7 @@ public class AddNewMealActivity extends AppCompatActivity {
 
     int dayId;
     List<Meal> mealList;
+    private IngredientListAdapter ingListAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +38,11 @@ public class AddNewMealActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_new_meal);
 
         initViews();
+
+        initRecyclerView();// zeigt alle Zutaten des meals
+        loadIngredientList();
+
+
 
     }
 
@@ -49,6 +63,15 @@ public class AddNewMealActivity extends AppCompatActivity {
         EditText mealNameText = findViewById(R.id.mealNameEditText);
         mealNameText.setText("");
 
+        Button addIngredient = findViewById(R.id.addIngToMealButton);
+        addIngredient.setText("+Ingredient");
+        addIngredient.setOnClickListener((v -> {
+            //AddIngredientToMealActivity öffnen
+            Intent intent = new Intent(this, AddIngredientToMealActivity.class);
+            intent.putExtra("mealId", String.valueOf(db.mealDao().getLastMealId()));
+            this.startActivity(intent);
+        }));
+
         Button addButton = findViewById(R.id.addButton);
         addButton.setEnabled(false);
         addButton.setText("Add");
@@ -58,12 +81,8 @@ public class AddNewMealActivity extends AppCompatActivity {
                 name = "Meal#" + mealCount+1;
             }
             Log.d("MealAdded", "Added Meal on Day: " + this.dayId);
-            Meal newmeal = new Meal();
-            newmeal.meal_name = name;
-            //TODO automatic timestamp
-            newmeal.time = "18:34";//timestap.tostring;
-            newmeal.day_id = this.dayId;
-            db.mealDao().insert(newmeal);
+            //TODO auto timestamp
+            db.mealDao().updateMealNameTimeByMealId(name, "18:34", db.mealDao().getLastMealId());
 
             finish();
 
@@ -72,6 +91,7 @@ public class AddNewMealActivity extends AppCompatActivity {
         cancelButton.setText("Cancel");
         cancelButton.setOnClickListener((v -> {
 
+            db.mealDao().deleteMealById(db.mealDao().getLastMealId());
             finish();
 
         }));
@@ -114,6 +134,27 @@ public class AddNewMealActivity extends AppCompatActivity {
         });
     }
 
+    private void initRecyclerView() {
+        AsyncTask.execute(() -> {
+            RecyclerView recyclerViewMeals = findViewById(R.id.recyclerViewMeals);
+            recyclerViewMeals.setLayoutManager(new LinearLayoutManager(this));
+
+            DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
+            recyclerViewMeals.addItemDecoration(dividerItemDecoration);
+            ingListAdapter = new IngredientListAdapter(this);
+            recyclerViewMeals.setAdapter(ingListAdapter);
+        });
+    }
+    private void loadIngredientList() {
+
+        AppDatabase db = Database.getInstance(this);
+        //mealID id des zukünftigen MEals
+        int mealId = db.mealDao().getLastMealId();
+        List<Ingredient> ingredientList = db.ingredientDao().getAllIngredientsOnMeal(mealId);
+        ingListAdapter.setContext(this);
+        ingListAdapter.setIngredientList(ingredientList);
+    }
+
     /*
     String dayIdS = getIntent().getStringExtra("dayId");
     int dayId = Interger.valueof(dayIdS);
@@ -125,4 +166,10 @@ public class AddNewMealActivity extends AppCompatActivity {
             newmeal.day_id = this.dayId;
             db.mealDao().insert(newmeal);
      */
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadIngredientList();
+    }
 }
