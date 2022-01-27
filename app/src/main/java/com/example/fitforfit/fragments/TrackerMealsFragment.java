@@ -64,7 +64,7 @@ public class TrackerMealsFragment extends Fragment {
     private void initViews(View view) {
         cleanMeals();
         initRecyclerView(view);
-        //loadMealList();
+        //loadMealList();//TODO
 
         Button addMealButton = view.findViewById(R.id.addMealButton);
         addMealButton.setText("+ Meal");
@@ -114,7 +114,7 @@ public class TrackerMealsFragment extends Fragment {
 
             recyclerView.setAdapter(mealListAdapter);
 
-
+            //TODO not efficient
 
             TrackerDayActivity dayActivity = (TrackerDayActivity) getActivity();
             this.dayId = dayActivity.getCurrentDayId();

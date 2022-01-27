@@ -87,9 +87,9 @@ public class AddIngredientToMealActivity extends AppCompatActivity {
         String mealIdS = getIntent().getStringExtra("mealId");
         this.mealId = Integer.valueOf(mealIdS);
 
-        Button test = findViewById(R.id.test);
+        /*Button test = findViewById(R.id.test);
         Log.d("MEALID:",mealIdS);
-        /*test.setOnClickListener((view -> {
+        test.setOnClickListener((view -> {
 
             AppDatabase db = Database.getInstance(this);
             Ingredient testi = new Ingredient();
