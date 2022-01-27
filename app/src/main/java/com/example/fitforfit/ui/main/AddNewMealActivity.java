@@ -172,4 +172,5 @@ public class AddNewMealActivity extends AppCompatActivity {
         super.onResume();
         loadIngredientList();
     }
+
 }

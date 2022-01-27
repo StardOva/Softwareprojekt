@@ -22,14 +22,19 @@ public class TrackerDayActivity extends AppCompatActivity {
     TextView dateText;
     int dayId;
 
+
+
     Button returnButton;
 
+
+
     @StringRes
-    private static final int[] TAB_TITLES = new int[]{R.string.day_tab_text_1, R.string.day_tab_text_2, R.string.day_tab_text_3};
+    private static final int[] TAB_TITLES = new int[]{R.string.day_tab_text_1, R.string.day_tab_text_2};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_day);
 
         binding = ActivityDayBinding.inflate(getLayoutInflater());

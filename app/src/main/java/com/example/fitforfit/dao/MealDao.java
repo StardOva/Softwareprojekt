@@ -37,4 +37,7 @@ public interface MealDao {
 
     @Query("UPDATE meal SET meal_name = :name, time = :time WHERE meal_id = :meal_id")
     void updateMealNameTimeByMealId(String name, String time, int meal_id);
+
+    @Query("DELETE FROM meal WHERE meal_name = 'NO_PLACEHOLDER'")
+    void cleanMeals();
 }
