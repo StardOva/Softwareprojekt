@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FitforFit">
         <activity
+            android:name=".ui.main.IngredientActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.main.AddNewIngredientManuellProduct"
             android:exported="false" />
         <activity

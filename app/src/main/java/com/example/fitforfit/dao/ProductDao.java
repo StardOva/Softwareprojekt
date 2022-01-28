@@ -5,6 +5,8 @@ import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
+
+import com.example.fitforfit.entity.Ingredient;
 import com.example.fitforfit.entity.Product;
 import java.util.List;
 
@@ -51,5 +53,8 @@ public interface ProductDao {
 
     @Query("DELETE FROM product WHERE product_name = 'NO_PLACEHOLDER'")
     void cleanProducts();
+
+    @Query("SELECT * FROM product WHERE product_id = :id")
+    Product getProductById(int id);
 
 }

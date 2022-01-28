@@ -25,7 +25,7 @@
             />
 
         <EditText
-            android:id="@+id/productNameEdit"
+            android:id="@+id/IngredientNameText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -314,7 +314,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
         <Button
-            android:id="@+id/addProductManuell"
+            android:id="@+id/removeIngredientButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Add"
@@ -323,7 +323,7 @@
            />
 
         <Button
-            android:id="@+id/cancelProdcutManuell"
+            android:id="@+id/cancelIngredientButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
            android:layout_weight="1"

@@ -63,8 +63,8 @@ public class AddNewIngredientManuellProduct extends AppCompatActivity {
 
     private void initViews() {
 
-        this.addButton = findViewById(R.id.addProductManuell);
-        Button cancelButton = findViewById(R.id.cancelProdcutManuell);
+        this.addButton = findViewById(R.id.removeIngredientButton);
+        Button cancelButton = findViewById(R.id.cancelIngredientButton);
         addButton.setText("Add");
         addButton.setEnabled(false);
         cancelButton.setText("Cancel");
@@ -76,7 +76,7 @@ public class AddNewIngredientManuellProduct extends AppCompatActivity {
 
         });
 
-        this.prodNameEditText = findViewById(R.id.productNameEdit);
+        this.prodNameEditText = findViewById(R.id.IngredientNameText);
         this.ckalEdit = findViewById(R.id.ckalEdit);
         this.fatEdit = findViewById(R.id.fatEdit);
         this.satfatEdit = findViewById(R.id.satfatEdit);

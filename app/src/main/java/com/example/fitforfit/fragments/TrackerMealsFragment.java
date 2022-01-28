@@ -119,7 +119,7 @@ public class TrackerMealsFragment extends Fragment {
 
             recyclerView.setAdapter(mealListAdapter);
 
-            //TODO not efficient
+            //TODO not efficient - content of loadMeals()
 
             TrackerDayActivity dayActivity = (TrackerDayActivity) getActivity();
             this.dayId = dayActivity.getCurrentDayId();

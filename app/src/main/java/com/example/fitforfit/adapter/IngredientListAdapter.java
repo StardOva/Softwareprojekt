@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fitforfit.R;
 import com.example.fitforfit.entity.Ingredient;
-import com.example.fitforfit.entity.Meal;
+import com.example.fitforfit.ui.main.IngredientActivity;
 import com.example.fitforfit.ui.main.MealActivity;
 
 import java.util.List;
@@ -20,7 +20,7 @@ import java.util.List;
 public class IngredientListAdapter extends RecyclerView.Adapter<IngredientListAdapter.MyViewHolder>{
 
     private Context context;
-    private Context addNewMealActivity;
+    private Context parentActivity;
 
     private List<Ingredient> ingredientList;
 
@@ -28,8 +28,8 @@ public class IngredientListAdapter extends RecyclerView.Adapter<IngredientListAd
         this.context = context;
     }
 
-    public void setContext(Context addNewMealActivity){
-        this.addNewMealActivity = addNewMealActivity;
+    public void setContext(Context parentActivity){
+        this.parentActivity = parentActivity;
     }
 
     public void setIngredientList(List<Ingredient> ingredientList) {
@@ -59,9 +59,12 @@ public class IngredientListAdapter extends RecyclerView.Adapter<IngredientListAd
        */
         String ing_name = this.ingredientList.get(position).ingredient_name;
         holder.ingredientButton.setText(ing_name.toString());
-        /*holder.ingredientButton.setOnClickListener(v -> {
+        holder.ingredientButton.setOnClickListener(v -> {
                 //öffne Ingrdeint bearbeiten activity
-        });*/
+            Intent intent = new Intent(parentActivity, IngredientActivity.class);
+            intent.putExtra("ingId", String.valueOf(ingredientList.get(position).id));
+            parentActivity.startActivity(intent);
+        });
     }
 
     @Override
