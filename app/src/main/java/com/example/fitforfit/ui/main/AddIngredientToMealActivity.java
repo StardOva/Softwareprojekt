@@ -43,6 +43,7 @@ public class AddIngredientToMealActivity extends AppCompatActivity {
 
 
         initViews();
+
     }
 
 
@@ -57,6 +58,7 @@ public class AddIngredientToMealActivity extends AppCompatActivity {
         manuellButton.setOnClickListener(view -> {
             AppDatabase db = Database.getInstance(this);
             Product newprod = new Product();
+            newprod.product_name = "NO_PLACEHOLDER";
             db.productDao().insert(newprod);
 
 
@@ -73,8 +75,9 @@ public class AddIngredientToMealActivity extends AppCompatActivity {
         Button cancelIngButton = findViewById(R.id.cancelIngButton);
         cancelIngButton.setText("Cancel");
         cancelIngButton.setOnClickListener(view -> {
-            AppDatabase db = Database.getInstance(this);
-            db.productDao().deleteProductById(db.productDao().getLastProductId());
+            //AppDatabase db = Database.getInstance(this);
+            //db.productDao().deleteProductById(db.productDao().getLastProductId());
+            cleanProducts();
             finish();
         });
 
@@ -103,6 +106,13 @@ public class AddIngredientToMealActivity extends AppCompatActivity {
             finish();
 
         }));*/
+    }
+
+    private void cleanProducts() {
+
+        AppDatabase db = Database.getInstance(this);
+        db.productDao().cleanProducts();
+
     }
 
     @Override
@@ -149,7 +159,7 @@ public class AddIngredientToMealActivity extends AppCompatActivity {
             this.addIngButton.setOnClickListener(view -> {
 
                 Ingredient newingredient = new Ingredient();
-                newingredient.ingredient_name = product.product_name;
+                newingredient.ingredient_name = productNameText.getText().toString();
                 newingredient.product_id = productId;
                 newingredient.meal_id = this.mealId;
                 newingredient.quantity = Integer.parseInt(amountEditText.getText().toString());
@@ -165,5 +175,11 @@ public class AddIngredientToMealActivity extends AppCompatActivity {
         }
 
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        cleanProducts();
     }
 }

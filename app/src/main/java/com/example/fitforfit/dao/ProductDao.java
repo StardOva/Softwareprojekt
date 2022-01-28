@@ -41,8 +41,15 @@ public interface ProductDao {
     @Query("SELECT MAX(product_id) FROM product")
     int getLastProductId();
 
-    @Query("UPDATE product SET product_name = :name, protein = :protein, info = :info WHERE product_id = :id")
-    void updateProductByMealId(String name,float protein, String info, int id);
+    @Query("UPDATE product SET product_name = :name, ckal = :ckal, fat = :fat, saturated_fat = :satfat," +
+            "carb = :carb, sugar = :sugar, fiber = :fiber,protein = :protein, " +
+            "salt = :salt, info = :info WHERE product_id = :id")
+    void updateProductByMealId(String name, int ckal, float fat, float satfat,
+                               float carb, float sugar, float fiber,
+                               float protein, float salt,String info,
+                               int id);
 
+    @Query("DELETE FROM product WHERE product_name = 'NO_PLACEHOLDER'")
+    void cleanProducts();
 
 }

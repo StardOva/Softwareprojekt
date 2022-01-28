@@ -38,12 +38,17 @@ public class AddNewMealActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_new_meal);
 
         initViews();
-
+        cleanProducts();
         initRecyclerView();// zeigt alle Zutaten des meals
         loadIngredientList();
 
 
 
+    }
+
+    private void cleanProducts() {
+            AppDatabase db = Database.getInstance(this);
+            db.productDao().cleanProducts();
     }
 
     private void initViews() {

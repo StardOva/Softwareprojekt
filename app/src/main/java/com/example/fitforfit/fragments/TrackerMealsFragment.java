@@ -60,9 +60,14 @@ public class TrackerMealsFragment extends Fragment {
 
 
     }
+    private void cleanProducts() {
+        AppDatabase db = Database.getInstance(getActivity());
+        db.productDao().cleanProducts();
+    }
 
     private void initViews(View view) {
         cleanMeals();
+        cleanProducts();
         initRecyclerView(view);
         //loadMealList();//TODO
 
@@ -132,6 +137,7 @@ public class TrackerMealsFragment extends Fragment {
     public void onResume() {
         super.onResume();
         cleanMeals();
+        cleanProducts();
         // nach Anlegen eines neuen Workouts in der CreateNewWorkoutActivity
         // muss die Liste neu geladen werden, damit das neue Workout auch dargestellt wird
         loadMealList();
