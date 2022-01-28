@@ -2,53 +2,64 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
-    android:orientation="vertical"
-    android:padding="20dp">
-
-
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:orientation="vertical"
+        android:padding="20dp">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingBottom="20dp">
+        android:paddingTop="20dp">
         <TextView
-            android:id="@+id/textView6"
+            android:id="@+id/productNameTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Name:"
+            android:text="Produktname:"
             />
 
-        <EditText
-            android:id="@+id/IngredientNameText"
+        <TextView
+            android:id="@+id/ProductNameValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:hint="Produktname"
-            android:textSize="14sp"
+
             />
     </LinearLayout>
-    <View
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="3dp"
-        android:background="@android:color/darker_gray"/>
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+        <TextView
+            android:id="@+id/g100Text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Menge:"
+            />
+
+        <TextView
+            android:id="@+id/g100perTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="100g"
+
+            />
+    </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:paddingTop="20dp">
 
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Gebe alle Nährwerte pro 100g ein."
-            android:layout_weight="1"></TextView>
     </LinearLayout>
 
 
@@ -67,65 +78,65 @@
             <TextView
                 android:id="@+id/ckalTextView"
                 android:layout_width="wrap_content"
-                android:layout_height="40dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:paddingTop="10dp"
+
                 android:text="Kalorien:" />
 
             <TextView
                 android:id="@+id/fatTextView"
                 android:layout_width="wrap_content"
-                android:layout_height="40dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:paddingTop="10dp"
+
                 android:text="Fett:" />
 
             <TextView
                 android:id="@+id/satfatTextView"
                 android:layout_width="wrap_content"
-                android:layout_height="40dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:paddingTop="10dp"
+
                 android:text="davon gesättigte Fette:" />
 
             <TextView
                 android:id="@+id/carbTextView"
                 android:layout_width="wrap_content"
-                android:layout_height="40dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:paddingTop="10dp"
+
                 android:text="Kohlenhydrate:" />
 
             <TextView
                 android:id="@+id/sugarTextView"
                 android:layout_width="wrap_content"
-                android:layout_height="40dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:paddingTop="10dp"
+
                 android:text="davon Zucker:" />
 
             <TextView
                 android:id="@+id/fiberTextView"
                 android:layout_width="wrap_content"
-                android:layout_height="40dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:paddingTop="10dp"
+
                 android:text="Ballast:" />
 
             <TextView
                 android:id="@+id/textView7"
                 android:layout_width="wrap_content"
-                android:layout_height="40dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:paddingTop="10dp"
+
                 android:text="Protein:" />
 
             <TextView
                 android:id="@+id/saltTextView"
                 android:layout_width="wrap_content"
-                android:layout_height="40dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:paddingTop="10dp"
+
                 android:text="Salz:" />
         </LinearLayout>
 
@@ -141,77 +152,76 @@
                 android:layout_weight="1"
                 android:orientation="vertical">
 
-                <EditText
-                    android:id="@+id/ckalEdit"
+                <TextView
+                    android:id="@+id/ckalValue"
                     android:layout_width="wrap_content"
-                    android:layout_height="40dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:hint="Energie"
                     android:inputType="numberDecimal"
-                    android:textSize="14sp" />
+                    />
 
-                <EditText
-                    android:id="@+id/fatEdit"
+                <TextView
+                    android:id="@+id/fatValue"
                     android:layout_width="wrap_content"
-                    android:layout_height="40dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:hint="Gramm"
                     android:inputType="numberDecimal"
-                    android:textSize="14sp" />
+                    />
 
-                <EditText
-                    android:id="@+id/satfatEdit"
+                <TextView
+                    android:id="@+id/satfatValue"
                     android:layout_width="wrap_content"
-                    android:layout_height="40dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:hint="Gramm"
                     android:inputType="numberDecimal"
-                    android:textSize="14sp" />
+                    />
 
-                <EditText
-                    android:id="@+id/carbEdit"
+                <TextView
+                    android:id="@+id/carbValue"
                     android:layout_width="wrap_content"
-                    android:layout_height="40dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:hint="Gramm"
                     android:inputType="numberDecimal"
-                    android:textSize="14sp" />
+                    />
 
-                <EditText
-                    android:id="@+id/sugarEdit"
+                <TextView
+                    android:id="@+id/sugarValue"
                     android:layout_width="wrap_content"
-                    android:layout_height="40dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:hint="Gramm"
                     android:inputType="numberDecimal"
-                    android:textSize="14sp" />
+                    />
 
-                <EditText
-                    android:id="@+id/fiberEdit"
+                <TextView
+                    android:id="@+id/fiberValue"
                     android:layout_width="wrap_content"
-                    android:layout_height="40dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:hint="Gramm"
                     android:inputType="numberDecimal"
-                    android:textSize="14sp" />
-
-                <EditText
-                    android:id="@+id/proteinEdit"
+                    ></TextView>
+                <TextView
+                    android:id="@+id/proteinValue"
                     android:layout_width="wrap_content"
-                    android:layout_height="40dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:hint="Gramm"
                     android:inputType="numberDecimal"
-                    android:textSize="14sp" />
+                    />
 
-                <EditText
-                    android:id="@+id/saltEdit"
+                <TextView
+                    android:id="@+id/saltValue"
                     android:layout_width="wrap_content"
-                    android:layout_height="40dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:hint="Gramm"
                     android:inputType="numberDecimal"
-                    android:textSize="14sp" />
+                    />
             </LinearLayout>
 
             <LinearLayout
@@ -222,60 +232,60 @@
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="40dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="0.2"
-                    android:paddingTop="10dp"
+
                     android:text="ckal"></TextView>
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="40dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="0.2"
-                    android:paddingTop="10dp"
+
                     android:text="g">
 
                 </TextView>
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="40dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="0.2"
-                    android:paddingTop="10dp"
+
                     android:text="g"></TextView>
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="40dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="0.2"
-                    android:paddingTop="10dp"
+
                     android:text="g"></TextView>
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="40dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="0.2"
-                    android:paddingTop="10dp"
+
                     android:text="g"></TextView>
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="40dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="0.2"
-                    android:paddingTop="10dp"
+
                     android:text="g"></TextView>
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="40dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="0.2"
-                    android:paddingTop="10dp"
+
                     android:text="g"></TextView>
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="40dp"
+                    android:layout_height="wrap_content"
                     android:layout_weight="0.2"
-                    android:paddingTop="10dp"
+
                     android:text="g"></TextView>
             </LinearLayout>
         </LinearLayout>
@@ -293,43 +303,46 @@
         android:orientation="horizontal"
         android:paddingTop="20dp">
         <TextView
-            android:id="@+id/textView8"
+            android:id="@+id/infoTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Info:"
-             />
-        <EditText
-            android:id="@+id/infoEdit"
+            />
+        <TextView
+
+            android:id="@+id/infoValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="weitere Informationen"
             android:layout_weight="1"
-            android:textSize="14sp"
+
             />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingTop="40dp">
+
         <Button
             android:id="@+id/AddIngredientButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Add"
             android:layout_weight="1"
             android:padding="5dp"
-           />
+            android:text="Speichern" />
+
 
         <Button
             android:id="@+id/cancelIngredientButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-           android:layout_weight="1"
+            android:layout_weight="1"
             android:padding="5dp"
-            android:text="Cancel"
-          />
+            android:text="Cancel" />
     </LinearLayout>
+
 </LinearLayout>
-</ScrollView>
+    </ScrollView>

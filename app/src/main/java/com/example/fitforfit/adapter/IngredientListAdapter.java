@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.fitforfit.R;
 import com.example.fitforfit.entity.Ingredient;
 import com.example.fitforfit.ui.main.IngredientActivity;
-import com.example.fitforfit.ui.main.MealActivity;
 
 import java.util.List;
 
@@ -85,7 +84,7 @@ INHALT RECYCLER ROW LYOUT*/
             /*tvFirstName = view.findViewById(R.id.tvFirstName);
             tvLastName = view.findViewById(R.id.tvLastName);
             mealButton = view.findViewById(R.id.buttonMeal);*/
-            ingredientButton = view.findViewById(R.id.buttonIngredient);
+            ingredientButton = view.findViewById(R.id.buttonProduct);
 
         }
     }

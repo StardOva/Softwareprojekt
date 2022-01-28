@@ -9,7 +9,7 @@
         android:id="@+id/buttonProduct"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:text="Ingredient"
+        android:text="Product"
         android:textSize="50dp"
         android:translationY="10dp"
 

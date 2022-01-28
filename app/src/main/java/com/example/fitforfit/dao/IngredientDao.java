@@ -34,4 +34,6 @@ public interface IngredientDao {
 
     @Query("SELECT product_id FROM Ingredient WHERE ingredient_id = :id")
     int selectProdId(int id);
+
+
 }

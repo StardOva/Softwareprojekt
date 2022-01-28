@@ -63,7 +63,7 @@ public class AddNewIngredientManuellProduct extends AppCompatActivity {
 
     private void initViews() {
 
-        this.addButton = findViewById(R.id.removeIngredientButton);
+        this.addButton = findViewById(R.id.AddIngredientButton);
         Button cancelButton = findViewById(R.id.cancelIngredientButton);
         addButton.setText("Add");
         addButton.setEnabled(false);

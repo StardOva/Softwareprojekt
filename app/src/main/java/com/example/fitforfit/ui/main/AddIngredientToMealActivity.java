@@ -43,15 +43,82 @@ public class AddIngredientToMealActivity extends AppCompatActivity {
 
 
         initViews();
+        checkIntent();
 
     }
 
+    private void checkIntent() {
+
+        String prodIdS = getIntent().getStringExtra("prodId");
+        if(prodIdS != null && prodIdS != "" && getIntent().hasExtra("prodId"))
+        {
+            this.productId = Integer.valueOf(prodIdS);
+            this.manuellButton.setEnabled(false);
+            this.searchButton.setEnabled(false);
+            this.scanButton.setEnabled(false);
+
+            AppDatabase db = Database.getInstance(this);
+            this.product = db.productDao().findById(productId);
+
+            this.amountEditText.addTextChangedListener(new TextWatcher() {
+
+
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    String textFieldString = charSequence.toString().trim();
+
+                    // bei Länge 0
+                    if (textFieldString.length() == 0) {
+                        addIngButton.setEnabled(false);
+                        return;
+                    }
+
+                    // ansonsten den Button aktivieren
+                    addIngButton.setEnabled(true);
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+
+                }
+            });
+
+            //activ wenn Amount eingegeben
+            //this.addIngButton.setEnabled(true);
+            this.addIngButton.setOnClickListener(view -> {
+
+                Ingredient newingredient = new Ingredient();
+                newingredient.ingredient_name = productNameText.getText().toString();
+                newingredient.product_id = productId;
+                newingredient.meal_id = this.mealId;
+                newingredient.quantity = Integer.parseInt(amountEditText.getText().toString());
+                //AppDatabase db = Database.getInstance(this);
+                db.ingredientDao().insert(newingredient);
+                //ingredient mit productId, ingrdeitnnam=productname, mealid und quantity(amount) hinzufügen
+                finish();
+
+            });
+
+            this.productNameText.setText(product.product_name);
+        }
+
+    }
 
 
     private void initViews() {
 
         this.scanButton = findViewById(R.id.scanButton);
         this.searchButton = findViewById(R.id.searchButton);
+        searchButton.setOnClickListener(view -> {
+            Intent intent = new Intent(this, AddNewIngredientSearchProduct.class);
+            this.startActivity(intent);
+
+        });
 
         this.manuellButton = findViewById(R.id.manuellButton);
         manuellButton.setText("Eingabe");
