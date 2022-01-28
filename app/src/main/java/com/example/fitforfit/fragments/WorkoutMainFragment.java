@@ -60,7 +60,7 @@ public class WorkoutMainFragment extends Fragment {
             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
             this.workoutListAdapter = new WorkoutListAdapter(getActivity());
-            recyclerView.setAdapter(workoutListAdapter);
+            recyclerView.setAdapter(this.workoutListAdapter);
         });
     }
 

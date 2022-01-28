@@ -26,6 +26,8 @@
         <activity android:name=".ui.main.CreateNewWorkoutActivity"
             android:exported="false">
         </activity>
+        <activity android:name=".ui.main.WorkoutDetailActivity"
+            android:exported="false"/>
     </application>
 
 </manifest>

@@ -1,5 +1,6 @@
 package com.example.fitforfit;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 
@@ -7,7 +8,11 @@ import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.example.fitforfit.database.AppDatabase;
 import com.example.fitforfit.databinding.ActivityMainBinding;
+import com.example.fitforfit.entity.Exercise;
+import com.example.fitforfit.entity.WorkoutExercise;
+import com.example.fitforfit.singleton.Database;
 import com.example.fitforfit.ui.main.SectionsPagerAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -37,6 +42,20 @@ public class MainActivity extends AppCompatActivity {
         new TabLayoutMediator(tabLayout, viewPager, (tab, position) ->
                 tab.setText(TAB_TITLES[position])
         ).attach();
+
+        // TODO wieder rausnehmen
+        AsyncTask.execute(() -> {
+            /*
+            AppDatabase db = Database.getInstance(getApplicationContext());
+
+            WorkoutExercise workoutExercise = new WorkoutExercise();
+            workoutExercise.workoutId = 1;
+            workoutExercise.exerciseId = 1;
+            workoutExercise.pos = 1;
+
+            db.workoutExerciseDao().insert(workoutExercise);
+             */
+        });
 
         FloatingActionButton fab = binding.fab;
         fab.setOnClickListener(new View.OnClickListener() {
