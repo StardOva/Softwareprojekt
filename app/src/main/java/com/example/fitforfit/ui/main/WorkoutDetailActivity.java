@@ -1,7 +1,9 @@
 package com.example.fitforfit.ui.main;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.PersistableBundle;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,11 +22,12 @@ public class WorkoutDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         // welches Workout wurde angeklickt? -> ID an das Fragment übergeben
-        Bundle args = new Bundle();
-        args.putInt("workoutId", getIntent().getIntExtra("workoutId", 0));
+        Log.i("abcdef", String.valueOf(getIntent().getIntExtra("workoutId", 0)));
+
+        Intent intent = getIntent();
 
         WorkoutDetailFragment workoutDetailFragment = new WorkoutDetailFragment();
-        workoutDetailFragment.setArguments(args);
+        workoutDetailFragment.workoutId = getIntent().getIntExtra("workoutId", 0);
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,17 +16,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.fitforfit.R;
 import com.example.fitforfit.adapter.WorkoutDetailAdapter;
 import com.example.fitforfit.database.AppDatabase;
+import com.example.fitforfit.databinding.FragmentMainBinding;
 import com.example.fitforfit.databinding.FragmentWorkoutDetailBinding;
-import com.example.fitforfit.relationship.WorkoutWithExercises;
+import com.example.fitforfit.entity.Exercise;
 import com.example.fitforfit.singleton.Database;
 
 import java.util.List;
 
 public class WorkoutDetailFragment extends Fragment {
 
-    public FragmentWorkoutDetailBinding binding;
+    public FragmentMainBinding binding;
     private WorkoutDetailAdapter workoutDetailAdapter;
-    private int workoutId;
+    public int workoutId;
 
     public WorkoutDetailFragment() {
         super(R.layout.fragment_workout_detail);
@@ -43,7 +45,7 @@ public class WorkoutDetailFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        this.binding = FragmentWorkoutDetailBinding.inflate(inflater, container, false);
+        this.binding = FragmentMainBinding.inflate(inflater, container, false);
 
         return inflater.inflate(R.layout.fragment_workout_detail, binding.getRoot());
     }
@@ -52,7 +54,7 @@ public class WorkoutDetailFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         initRecyclerView(view);
         loadExerciseList();
-        initViews();
+        initViews(view);
 
     }
 
@@ -62,9 +64,10 @@ public class WorkoutDetailFragment extends Fragment {
         loadExerciseList();
     }
 
-    private void initViews() {
+    private void initViews(View view) {
         if (this.workoutDetailAdapter.getItemCount() == 0) {
-            this.binding.workoutDetailTextView.setText(R.string.workout_detail_no_exercises);
+           TextView textView = view.findViewById(R.id.workoutDetailTextView);
+           textView.setText(R.string.workout_detail_no_exercises);
         }
     }
 
@@ -79,8 +82,8 @@ public class WorkoutDetailFragment extends Fragment {
     }
 
     private void loadExerciseList() {
-        AppDatabase                db           = Database.getInstance(getContext());
-        List<WorkoutWithExercises> exerciseList = db.workoutDao().getRelatedExercises(this.workoutId);
+        AppDatabase    db           = Database.getInstance(getContext());
+        List<Exercise> exerciseList = db.workoutDao().getRelatedExercises(this.workoutId);
         if (exerciseList != null) {
             this.workoutDetailAdapter.setExerciseList(exerciseList);
         }

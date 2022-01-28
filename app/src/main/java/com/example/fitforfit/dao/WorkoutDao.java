@@ -4,11 +4,9 @@ import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
-import androidx.room.Transaction;
 
 import com.example.fitforfit.entity.Exercise;
 import com.example.fitforfit.entity.Workout;
-import com.example.fitforfit.relationship.WorkoutWithExercises;
 
 import java.util.List;
 
@@ -33,11 +31,7 @@ public interface WorkoutDao {
     @Query("UPDATE workout SET NAME = :newName WHERE workout_id = :id")
     void updateName(int id, String newName);
 
-    @Transaction
-    @Query("SELECT * FROM workout WHERE workout_id = :workoutId")
-    List<WorkoutWithExercises> getRelatedExercises(int workoutId);
-
-    @Query("SELECT * FROM exercise e INNER JOIN workoutexercise we ON we.exercise_id = e.exercise_id WHERE we.workout_id = :workoutId")
-    List<Exercise> getRelatedExercises2(int workoutId);
+    @Query("SELECT * FROM exercise e INNER JOIN workoutexercise we ON we.exercise_id = e.exercise_id WHERE we.workout_id = :workoutId ORDER BY we.pos ASC")
+    List<Exercise> getRelatedExercises(int workoutId);
 
 }

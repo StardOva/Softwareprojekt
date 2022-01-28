@@ -2,6 +2,7 @@ package com.example.fitforfit;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import androidx.annotation.StringRes;
@@ -18,6 +19,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -45,8 +48,13 @@ public class MainActivity extends AppCompatActivity {
 
         // TODO wieder rausnehmen
         AsyncTask.execute(() -> {
-            /*
+
             AppDatabase db = Database.getInstance(getApplicationContext());
+
+            /*
+            Exercise exercise = new Exercise();
+            exercise.name = "Beinpresse";
+            db.exerciseDao().insert(exercise);
 
             WorkoutExercise workoutExercise = new WorkoutExercise();
             workoutExercise.workoutId = 1;
@@ -54,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
             workoutExercise.pos = 1;
 
             db.workoutExerciseDao().insert(workoutExercise);
-             */
+            */
         });
 
         FloatingActionButton fab = binding.fab;

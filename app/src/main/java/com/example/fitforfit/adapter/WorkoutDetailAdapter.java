@@ -1,7 +1,6 @@
 package com.example.fitforfit.adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,20 +10,20 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fitforfit.R;
-import com.example.fitforfit.relationship.WorkoutWithExercises;
+import com.example.fitforfit.entity.Exercise;
 
 import java.util.List;
 
 public class WorkoutDetailAdapter extends RecyclerView.Adapter<WorkoutDetailAdapter.WorkoutDetailViewHolder> {
 
     private Context context;
-    private List<WorkoutWithExercises> exerciseList = null;
+    private List<Exercise> exerciseList = null;
 
     public WorkoutDetailAdapter(Context context){
         this.context = context;
     }
 
-    public void setExerciseList(List<WorkoutWithExercises> exerciseList){
+    public void setExerciseList(List<Exercise> exerciseList){
         this.exerciseList = exerciseList;
         notifyDataSetChanged();
     }
@@ -41,7 +40,7 @@ public class WorkoutDetailAdapter extends RecyclerView.Adapter<WorkoutDetailAdap
     public void onBindViewHolder(@NonNull WorkoutDetailViewHolder holder, int position) {
 
         if (this.exerciseList != null){
-            String name = this.exerciseList.get(position).exerciseList.get(position).name;
+            String name = this.exerciseList.get(position).name;
             holder.exerciseButton.setText(name);
         }
         // TODO Button oder Listeneintrag anders stylen?
