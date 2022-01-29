@@ -7,11 +7,13 @@ import com.example.fitforfit.entity.Product;
 import com.example.fitforfit.singleton.Database;
 
 import android.content.Intent;
+import android.database.sqlite.SQLiteConstraintException;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class AddNewIngredientManuellProduct extends AppCompatActivity {
 
@@ -115,14 +117,19 @@ public class AddNewIngredientManuellProduct extends AppCompatActivity {
             newprod.salt = Float.parseFloat(saltEdit.getText().toString());
             newprod.info = infoEdit.getText().toString();
 
-            db.productDao().updateProductByMealId( newprod.product_name, newprod.ckal, newprod.fat, newprod.saturated_fat, newprod.carb, newprod.sugar, newprod.fiber,newprod.protein, newprod.salt,newprod.info, productId);
+            try {
+                db.productDao().updateProductByMealId( newprod.product_name, newprod.ckal, newprod.fat, newprod.saturated_fat, newprod.carb, newprod.sugar, newprod.fiber,newprod.protein, newprod.salt,newprod.info, productId);
+                Intent resultIntent = new Intent();
+                resultIntent.putExtra("lastProdId", String.valueOf(productId));
+                setResult(RESULT_OK, resultIntent);
+                finish();
+                //update der werte der Edittexte in product
+                //productId als resultintent zurück an addingredienttomeal geben
+            } catch (SQLiteConstraintException e) {
+                Toast.makeText(AddNewIngredientManuellProduct.this, "Das Produkt existiert bereits!", Toast.LENGTH_SHORT).show();
+            }
 
-            Intent resultIntent = new Intent();
-            resultIntent.putExtra("lastProdId", String.valueOf(productId));
-            setResult(RESULT_OK, resultIntent);
-            finish();
-            //update der werte der Edittexte in product
-            //productId als resultintent zurück an addingredienttomeal geben
+
         });
     }
 }

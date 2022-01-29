@@ -15,6 +15,7 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -32,6 +33,9 @@ public class AddIngredientToMealActivity extends AppCompatActivity {
     Button searchButton;
     Button addIngButton;
 
+    TextView txt3 ;
+    TextView txt4;
+    TextView txt5 ;
 
 
 
@@ -56,6 +60,15 @@ public class AddIngredientToMealActivity extends AppCompatActivity {
             this.manuellButton.setEnabled(false);
             this.searchButton.setEnabled(false);
             this.scanButton.setEnabled(false);
+            this.manuellButton.setVisibility(View.INVISIBLE);
+            this.searchButton.setVisibility(View.INVISIBLE);
+            this.scanButton.setVisibility(View.INVISIBLE);
+            addIngButton.setVisibility(View.VISIBLE);
+            amountEditText.setVisibility(View.VISIBLE);
+            productNameText.setVisibility(View.VISIBLE);
+            txt3.setVisibility(View.VISIBLE);
+            txt4.setVisibility(View.VISIBLE);
+            txt5.setVisibility(View.VISIBLE);
 
             AppDatabase db = Database.getInstance(this);
             this.product = db.productDao().findById(productId);
@@ -113,6 +126,11 @@ public class AddIngredientToMealActivity extends AppCompatActivity {
     private void initViews() {
 
         this.scanButton = findViewById(R.id.scanButton);
+        this.scanButton.setOnClickListener(view -> {
+            Intent intent = new Intent(this, AddNewIngredientScanProductActivity.class);
+            this.startActivity(intent);
+            //TODO ERROR WEIL CAMERA CONNTECT FEHLSCHLÄGT
+        });
         this.searchButton = findViewById(R.id.searchButton);
         searchButton.setOnClickListener(view -> {
             Intent intent = new Intent(this, AddNewIngredientSearchProduct.class);
@@ -139,6 +157,7 @@ public class AddIngredientToMealActivity extends AppCompatActivity {
         this.addIngButton.setText("Add");
         this.addIngButton.setEnabled(false);
 
+
         Button cancelIngButton = findViewById(R.id.cancelIngButton);
         cancelIngButton.setText("Cancel");
         cancelIngButton.setOnClickListener(view -> {
@@ -156,6 +175,17 @@ public class AddIngredientToMealActivity extends AppCompatActivity {
 
         String mealIdS = getIntent().getStringExtra("mealId");
         this.mealId = Integer.valueOf(mealIdS);
+
+       this.txt3 = findViewById(R.id.textView3);
+        this.txt4 = findViewById(R.id.textView4);
+        this.txt5 = findViewById(R.id.textView5);
+
+        addIngButton.setVisibility(View.INVISIBLE);
+        amountEditText.setVisibility(View.INVISIBLE);
+        productNameText.setVisibility(View.INVISIBLE);
+        txt3.setVisibility(View.INVISIBLE);
+        txt4.setVisibility(View.INVISIBLE);
+        txt5.setVisibility(View.INVISIBLE);
 
         /*Button test = findViewById(R.id.test);
         Log.d("MEALID:",mealIdS);
@@ -194,6 +224,16 @@ public class AddIngredientToMealActivity extends AppCompatActivity {
             this.manuellButton.setEnabled(false);
             this.searchButton.setEnabled(false);
             this.scanButton.setEnabled(false);
+            this.manuellButton.setVisibility(View.INVISIBLE);
+            this.searchButton.setVisibility(View.INVISIBLE);
+            this.scanButton.setVisibility(View.INVISIBLE);
+
+            addIngButton.setVisibility(View.VISIBLE);
+            amountEditText.setVisibility(View.VISIBLE);
+            productNameText.setVisibility(View.VISIBLE);
+            txt3.setVisibility(View.VISIBLE);
+            txt4.setVisibility(View.VISIBLE);
+            txt5.setVisibility(View.VISIBLE);
 
             this.amountEditText.addTextChangedListener(new TextWatcher() {
                 @Override
@@ -208,11 +248,13 @@ public class AddIngredientToMealActivity extends AppCompatActivity {
                     // bei Länge 0
                     if (textFieldString.length() == 0) {
                         addIngButton.setEnabled(false);
+
                         return;
                     }
 
                     // ansonsten den Button aktivieren
                     addIngButton.setEnabled(true);
+
                 }
 
                 @Override

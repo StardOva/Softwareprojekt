@@ -30,12 +30,14 @@ public class ShowProductActivity extends AppCompatActivity {
     }
 
     private void getProduct() {
-        Log.d("CHECKPOINT", "1");
-        String prodIdS = getIntent().getStringExtra("prodId");
-        this.prodId = Integer.valueOf(prodIdS);
-        AppDatabase db = Database.getInstance(this);
-        this.prod = db.productDao().getProductById(this.prodId);
-        Log.d("CHECKPOINT", "2");
+        if(getIntent().hasExtra("prodId")) {
+            Log.d("CHECKPOINT", "1");
+            String prodIdS = getIntent().getStringExtra("prodId");
+            this.prodId = Integer.valueOf(prodIdS);
+            AppDatabase db = Database.getInstance(this);
+            this.prod = db.productDao().getProductById(this.prodId);
+            Log.d("CHECKPOINT", "2");
+        }
     }
 
     private void initViews() {

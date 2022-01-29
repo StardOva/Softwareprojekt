@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.fitforfit">
 
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,6 +12,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.FitforFit">
+        <activity
+            android:name=".ui.main.ScanErrorActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.main.AddNewIngredientScanProductActivity"
+            android:exported="false" />
         <activity
             android:name=".ui.main.ShowProductActivity"
             android:exported="false" />
