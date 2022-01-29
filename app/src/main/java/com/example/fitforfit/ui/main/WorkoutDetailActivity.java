@@ -20,8 +20,6 @@ public class WorkoutDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         // welches Workout wurde angeklickt? -> ID an das Fragment übergeben
-        Log.i("abcdef", String.valueOf(getIntent().getIntExtra("workoutId", 0)));
-
         Bundle args = new Bundle();
         WorkoutDetailFragment workoutDetailFragment = new WorkoutDetailFragment();
 
