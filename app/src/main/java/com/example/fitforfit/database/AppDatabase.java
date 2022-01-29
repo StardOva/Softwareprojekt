@@ -10,7 +10,6 @@ import com.example.fitforfit.dao.MealDao;
 import com.example.fitforfit.dao.ProductDao;
 import com.example.fitforfit.dao.TrainingDao;
 import com.example.fitforfit.dao.WorkoutDao;
-import com.example.fitforfit.dao.WorkoutExerciseDao;
 import com.example.fitforfit.entity.Day;
 import com.example.fitforfit.entity.Exercise;
 import com.example.fitforfit.entity.Ingredient;
@@ -20,7 +19,7 @@ import com.example.fitforfit.entity.Training;
 import com.example.fitforfit.entity.Workout;
 import com.example.fitforfit.entity.WorkoutExercise;
 
-@Database(entities = {Exercise.class, Training.class, Workout.class, WorkoutExercise.class, Day.class, Meal.class, Ingredient.class, Product.class}, version = 11)
+@Database(entities = {Exercise.class, Training.class, Workout.class, WorkoutExercise.class, Day.class, Meal.class, Ingredient.class, Product.class}, version = 13)
 public abstract class AppDatabase extends RoomDatabase {
 
     public abstract ExerciseDao exerciseDao();

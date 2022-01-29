@@ -8,18 +8,20 @@
     android:padding="20dp">
 
     <Button
-        android:id="@+id/addMealButton"
-        android:layout_width="match_parent"
+        android:id="@+id/deletebutton"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="+Mahlzeit"
+
+        android:text="Remove Meal"
          />
+<!--TODO Ingredients der mahlzeit in recyclerview anzeigen-->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerViewTrackerMeals"
+            android:id="@+id/recyclerViewMeals"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-             />
+            />
     </ScrollView>
 </LinearLayout>

@@ -13,11 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <Button
-        android:id="@+id/return_button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Return to Main" />
+
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/day_view_pager"

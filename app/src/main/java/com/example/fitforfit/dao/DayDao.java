@@ -31,4 +31,7 @@ public interface DayDao {
 
     @Query("SELECT day_id FROM day WHERE date = :date LIMIT 1")
     int getIdByDate(String date);
+
+    @Query("SELECT date FROM day WHERE day_id = :id LIMIT 1")
+    String getDateById(int id);
 }
