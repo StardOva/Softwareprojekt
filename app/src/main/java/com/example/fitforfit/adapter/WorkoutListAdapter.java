@@ -49,9 +49,9 @@ public class WorkoutListAdapter extends RecyclerView.Adapter<WorkoutListAdapter.
         String name = this.workoutList.get(position).name;
         holder.workoutButton.setText(name);
         holder.workoutButton.setOnClickListener(view -> {
-            Intent intent = new Intent(view.getContext(), WorkoutDetailActivity.class);
+            Intent intent = new Intent(this.mainActivity, WorkoutDetailActivity.class);
             intent.putExtra("workoutId", this.workoutList.get(position).id);
-            view.getContext().startActivity(intent);
+            this.mainActivity.startActivity(intent);
         });
     }
 

@@ -53,7 +53,6 @@ public class WorkoutDetailFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         initRecyclerView(view);
-        loadExerciseList();
         initViews(view);
 
     }
@@ -78,6 +77,7 @@ public class WorkoutDetailFragment extends Fragment {
 
             this.workoutDetailAdapter = new WorkoutDetailAdapter(getContext());
             recyclerView.setAdapter(this.workoutDetailAdapter);
+            loadExerciseList();
         });
     }
 
