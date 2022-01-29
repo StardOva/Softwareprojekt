@@ -30,6 +30,8 @@
             android:exported="false"/>
         <activity android:name=".ui.main.AddExerciseToWorkoutActivity"
             android:exported="false"/>
+        <activity android:name=".ui.main.CreateNewExerciseActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

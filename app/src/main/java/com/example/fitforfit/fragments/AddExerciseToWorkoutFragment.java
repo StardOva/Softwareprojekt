@@ -1,5 +1,6 @@
 package com.example.fitforfit.fragments;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -21,6 +22,7 @@ import com.example.fitforfit.databinding.FragmentAddExerciseToWorkoutBinding;
 import com.example.fitforfit.entity.Exercise;
 import com.example.fitforfit.singleton.Database;
 import com.example.fitforfit.ui.main.AddExerciseToWorkoutActivity;
+import com.example.fitforfit.ui.main.CreateNewExerciseActivity;
 
 import java.util.List;
 
@@ -62,6 +64,16 @@ public class AddExerciseToWorkoutFragment extends Fragment {
     public void onResume() {
         super.onResume();
         loadExerciseList();
+        if (this.exerciseListAdapter != null && this.binding != null) {
+            TextView textView = this.binding.addExerciseToWorkoutTextView;
+
+            if (this.exerciseListAdapter.getItemCount() == 0) {
+                textView.setText(R.string.workout_detail_no_exercises);
+            }
+            else {
+                textView.setVisibility(View.GONE);
+            }
+        }
     }
 
     private void initRecyclerView(View view) {
@@ -94,6 +106,8 @@ public class AddExerciseToWorkoutFragment extends Fragment {
         Button btnCreateNewExercise = view.findViewById(R.id.btnCreateNewExercise);
         btnCreateNewExercise.setOnClickListener(view1 -> {
             // TODO neue Activity wo man eine Übung anlegt
+            Intent intent = new Intent(this.parentActivity, CreateNewExerciseActivity.class);
+            this.parentActivity.startActivity(intent);
         });
     }
 

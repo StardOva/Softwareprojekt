@@ -13,7 +13,7 @@ import java.util.List;
 @Dao
 public interface ExerciseDao {
 
-    @Query("SELECT * FROM exercise ORDER BY exercise_id DESC")
+    @Query("SELECT * FROM exercise ORDER BY name")
     List<Exercise> getAll();
 
     @Query("SELECT * FROM exercise WHERE exercise_id IN (:ids) ORDER BY exercise_id DESC")

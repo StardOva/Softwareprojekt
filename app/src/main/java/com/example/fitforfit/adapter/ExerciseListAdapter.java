@@ -58,7 +58,7 @@ public class ExerciseListAdapter extends RecyclerView.Adapter<ExerciseListAdapte
         String name = this.exerciseList.get(position).name;
         holder.btnAddExerciseToWorkout.setText(name);
         holder.btnAddExerciseToWorkout.setOnClickListener(view -> {
-            // TODO speichere die Zuordnung und generiere eine Position
+            // speichere die Zuordnung und generiere eine Position
             AsyncTask.execute(() -> {
                 AppDatabase db = Database.getInstance(this.context);
 
