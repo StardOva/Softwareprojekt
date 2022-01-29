@@ -38,7 +38,6 @@ public class WorkoutDetailAdapter extends RecyclerView.Adapter<WorkoutDetailAdap
 
     @Override
     public void onBindViewHolder(@NonNull WorkoutDetailViewHolder holder, int position) {
-
         if (this.exerciseList != null){
             String name = this.exerciseList.get(position).name;
             holder.exerciseButton.setText(name);

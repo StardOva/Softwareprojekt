@@ -1,10 +1,12 @@
 package com.example.fitforfit.fragments;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -20,12 +22,13 @@ import com.example.fitforfit.databinding.FragmentMainBinding;
 import com.example.fitforfit.databinding.FragmentWorkoutDetailBinding;
 import com.example.fitforfit.entity.Exercise;
 import com.example.fitforfit.singleton.Database;
+import com.example.fitforfit.ui.main.AddExerciseToWorkoutActivity;
 
 import java.util.List;
 
 public class WorkoutDetailFragment extends Fragment {
 
-    public FragmentMainBinding binding;
+    public FragmentWorkoutDetailBinding binding;
     private WorkoutDetailAdapter workoutDetailAdapter;
     public int workoutId;
 
@@ -45,7 +48,7 @@ public class WorkoutDetailFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        this.binding = FragmentMainBinding.inflate(inflater, container, false);
+        this.binding = FragmentWorkoutDetailBinding.inflate(inflater, container, false);
 
         return inflater.inflate(R.layout.fragment_workout_detail, binding.getRoot());
     }
@@ -59,12 +62,15 @@ public class WorkoutDetailFragment extends Fragment {
     public void onResume() {
         super.onResume();
         loadExerciseList();
-    }
+        if (this.workoutDetailAdapter != null && this.binding != null) {
+            TextView textView = this.binding.workoutDetailTextView;
 
-    private void initViews(View view) {
-        if (this.workoutDetailAdapter.getItemCount() == 0) {
-           TextView textView = view.findViewById(R.id.workoutDetailTextView);
-           textView.setText(R.string.workout_detail_no_exercises);
+            if (this.workoutDetailAdapter.getItemCount() == 0) {
+                textView.setText(R.string.workout_detail_no_exercises);
+            }
+            else {
+                textView.setVisibility(View.GONE);
+            }
         }
     }
 
@@ -88,4 +94,17 @@ public class WorkoutDetailFragment extends Fragment {
         }
     }
 
+    private void initViews(View view) {
+        if (this.workoutDetailAdapter.getItemCount() == 0) {
+            TextView textView = view.findViewById(R.id.workoutDetailTextView);
+            textView.setText(R.string.workout_detail_no_exercises);
+        }
+
+        Button addExerciseBtn = view.findViewById(R.id.btnAddExercise);
+        addExerciseBtn.setOnClickListener(view1 -> {
+            Intent intent = new Intent(getActivity(), AddExerciseToWorkoutActivity.class);
+            intent.putExtra("workoutId", this.workoutId);
+            requireActivity().startActivity(intent);
+        });
+    }
 }

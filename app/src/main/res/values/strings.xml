@@ -13,5 +13,7 @@
     <string name="activity_new_workout_message">Name des Workouts</string>
     <string name="btn_add_exercise">Übung hinzufügen</string>
     <string name="workout_detail_no_exercises">Das Workout hat noch keine Übungen.</string>
+    <string name="add_exercise_to_workout_no_exercises">Es wurden noch keine Übungen angelegt.</string>
+    <string name="create_new_exercise">Neue Übung anlegen</string>
 
 </resources>
