@@ -13,17 +13,17 @@
         android:text=""
         android:layout_marginTop="5dp"/>
 
+    <Button
+        android:id="@+id/btnAddExercise"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_add_exercise" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewWorkoutExercises"
         android:layout_width="match_parent"
         android:layout_height="match_parent" >
 
     </androidx.recyclerview.widget.RecyclerView>
-
-    <Button
-        android:id="@+id/button"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/btn_add_exercise" />
 
 </LinearLayout>
