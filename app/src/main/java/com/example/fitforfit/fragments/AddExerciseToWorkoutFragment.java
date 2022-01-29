@@ -68,7 +68,7 @@ public class AddExerciseToWorkoutFragment extends Fragment {
             TextView textView = this.binding.addExerciseToWorkoutTextView;
 
             if (this.exerciseListAdapter.getItemCount() == 0) {
-                textView.setText(R.string.workout_detail_no_exercises);
+                textView.setText(R.string.add_exercise_to_workout_no_exercises);
             }
             else {
                 textView.setVisibility(View.GONE);

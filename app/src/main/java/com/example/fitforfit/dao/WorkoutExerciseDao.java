@@ -20,6 +20,6 @@ public interface WorkoutExerciseDao {
     @Update
     void update(WorkoutExercise workoutExercise);
 
-    @Query("SELECT pos FROM workoutexercise WHERE workout_id = :workoutId ORDER BY pos DESC LIMIT 1")
+    @Query("SELECT MAX(pos) FROM workoutexercise WHERE workout_id = :workoutId")
     int getLastPosByWorkoutId(int workoutId);
 }
