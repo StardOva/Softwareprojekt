@@ -17,12 +17,13 @@ import androidx.room.PrimaryKey;
                         childColumns = "meal_id",
                         onDelete = CASCADE
                 ),
-                @ForeignKey(
+                /*TODO Kommentar aufheben -> Testzwecke da NullPointer wenn noch kein Produkt vorhanden*/
+                /*@ForeignKey(
                         entity = Product.class,
                         parentColumns = "product_id",
                         childColumns = "product_id",
                         onDelete = CASCADE
-                )
+                )*/
         })
 public class Ingredient {
 

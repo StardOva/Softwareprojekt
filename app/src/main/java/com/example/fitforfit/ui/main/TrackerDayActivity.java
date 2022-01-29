@@ -20,14 +20,21 @@ public class TrackerDayActivity extends AppCompatActivity {
 
     private ActivityDayBinding binding;
     TextView dateText;
+    int dayId;
+
+
+
     Button returnButton;
 
+
+
     @StringRes
-    private static final int[] TAB_TITLES = new int[]{R.string.day_tab_text_1, R.string.day_tab_text_2, R.string.day_tab_text_3};
+    private static final int[] TAB_TITLES = new int[]{R.string.day_tab_text_1, R.string.day_tab_text_2};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_day);
 
         binding = ActivityDayBinding.inflate(getLayoutInflater());
@@ -50,22 +57,15 @@ public class TrackerDayActivity extends AppCompatActivity {
         String date = getIntent().getStringExtra("date");
 
         AppDatabase db = Database.getInstance(this);
-        int dayId = db.dayDao().getIdByDate(date);
+        dayId = db.dayDao().getIdByDate(date);
 
         dateText = findViewById(R.id.date_text);
         dateText.setText((date + " ID:" + String.valueOf(dayId)).toString());
 
+    }
 
-
-        /*
-        TO DO
-        Return Button entfernen
-        -> Parent Acitivity MainActivity setzen
-        -> über "Pfeil" im oberen Menü navigieren
-         */
-        returnButton = findViewById(R.id.return_button);
-        returnButton.setOnClickListener(view -> onReturnButtonClick());
-
+    public int getCurrentDayId(){
+        return this.dayId;
     }
 
     private void onReturnButtonClick() {

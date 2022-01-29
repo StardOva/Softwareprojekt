@@ -1,10 +1,17 @@
 package com.example.fitforfit.entity;
 
+import static androidx.room.ForeignKey.CASCADE;
+
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-@Entity
+@Entity(indices = {
+        @Index(value = {"product_name"}, unique = true)
+}
+        )
 public class Product {
 
     @PrimaryKey(autoGenerate = true)

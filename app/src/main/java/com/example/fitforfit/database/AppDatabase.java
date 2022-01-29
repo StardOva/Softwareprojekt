@@ -19,7 +19,7 @@ import com.example.fitforfit.entity.Training;
 import com.example.fitforfit.entity.Workout;
 import com.example.fitforfit.entity.WorkoutExercise;
 
-@Database(entities = {Exercise.class, Training.class, Workout.class, WorkoutExercise.class, Day.class, Meal.class, Ingredient.class, Product.class}, version = 11)
+@Database(entities = {Exercise.class, Training.class, Workout.class, WorkoutExercise.class, Day.class, Meal.class, Ingredient.class, Product.class}, version = 13)
 public abstract class AppDatabase extends RoomDatabase {
 
     public abstract ExerciseDao exerciseDao();
@@ -34,5 +34,5 @@ public abstract class AppDatabase extends RoomDatabase {
 
     public abstract IngredientDao ingredientDao();
 
-    public abstract ProductDao productDaoDao();
+    public abstract ProductDao productDao();
 }

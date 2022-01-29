@@ -2,6 +2,8 @@ package com.example.fitforfit.entity;
 
 import static androidx.room.ForeignKey.CASCADE;
 
+import android.text.Editable;
+
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
