@@ -68,8 +68,7 @@ public class WorkoutDetailFragment extends Fragment {
 
             if (this.workoutDetailAdapter.getItemCount() == 0) {
                 textView.setText(R.string.workout_detail_no_exercises);
-            }
-            else {
+            } else {
                 textView.setVisibility(View.GONE);
             }
         }
@@ -104,8 +103,9 @@ public class WorkoutDetailFragment extends Fragment {
         Button addExerciseBtn = view.findViewById(R.id.btnAddExercise);
         addExerciseBtn.setOnClickListener(view1 -> {
             Intent intent = new Intent(getActivity(), AddExerciseToWorkoutActivity.class);
-            intent.putExtra("workoutId", this.workoutId);
+            intent.putExtra("workoutId", workoutId);
             requireActivity().startActivity(intent);
         });
+
     }
 }

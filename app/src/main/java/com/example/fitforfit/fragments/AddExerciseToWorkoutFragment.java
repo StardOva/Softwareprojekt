@@ -92,7 +92,7 @@ public class AddExerciseToWorkoutFragment extends Fragment {
     private void loadExerciseList() {
         AppDatabase    db           = Database.getInstance(getContext());
         List<Exercise> exerciseList = db.exerciseDao().getAll();
-        if (exerciseList != null) {
+        if (exerciseList != null && this.exerciseListAdapter != null) {
             this.exerciseListAdapter.setExerciseList(exerciseList);
         }
     }
