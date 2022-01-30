@@ -23,7 +23,7 @@
             />
 
         <TextView
-            android:id="@+id/ProductNameValue"
+            android:id="@+id/DateValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -45,7 +45,7 @@
             />
 
         <TextView
-            android:id="@+id/g100perTextView"
+            android:id="@+id/WeekDayvalue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"

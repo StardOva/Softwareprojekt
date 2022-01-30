@@ -42,7 +42,7 @@ public class ShowProductActivity extends AppCompatActivity {
 
     private void initViews() {
 
-        TextView prodNameText = findViewById(R.id.ProductNameValue);
+        TextView prodNameText = findViewById(R.id.DateValue);
         TextView ckalText = findViewById(R.id.ckalValue);
         TextView fatText = findViewById(R.id.fatValue);
         TextView satfatText = findViewById(R.id.satfatValue);

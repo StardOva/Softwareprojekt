@@ -19,7 +19,7 @@ import android.widget.TextView;
 public class TrackerDayActivity extends AppCompatActivity {
 
     private ActivityDayBinding binding;
-    TextView dateText;
+
     int dayId;
 
 
@@ -59,8 +59,8 @@ public class TrackerDayActivity extends AppCompatActivity {
         AppDatabase db = Database.getInstance(this);
         dayId = db.dayDao().getIdByDate(date);
 
-        dateText = findViewById(R.id.date_text);
-        dateText.setText((date + " ID:" + String.valueOf(dayId)).toString());
+        //dateText = findViewById(R.id.date_text);
+        //dateText.setText((date + " ID:" + String.valueOf(dayId)).toString());
 
     }
 
