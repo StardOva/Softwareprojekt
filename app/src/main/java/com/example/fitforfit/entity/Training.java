@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 import java.util.TimeZone;
 
 @Entity(indices = {
-        @Index(value = {"workout_id", "exercise_id", "set"}, unique = true)
+        @Index(value = {"id", "workout_id", "exercise_id", "set"}, unique = true)
 },
         foreignKeys = {
                 @ForeignKey(

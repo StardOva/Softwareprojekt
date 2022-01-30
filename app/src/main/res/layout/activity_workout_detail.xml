@@ -7,6 +7,4 @@
     tools:context=".ui.main.WorkoutDetailActivity"
     android:orientation="vertical"
     android:id="@+id/fragment_workout_detail">
-
-
 </LinearLayout>
