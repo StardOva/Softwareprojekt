@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewManager;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -30,7 +31,7 @@ import java.util.List;
 public class WorkoutDetailFragment extends Fragment {
 
     public FragmentWorkoutDetailBinding binding;
-    private WorkoutDetailAdapter workoutDetailAdapter;
+    private WorkoutDetailAdapter workoutDetailAdapter = null;
     public int workoutId;
 
     public WorkoutDetailFragment() {
@@ -40,6 +41,7 @@ public class WorkoutDetailFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         Bundle args = getArguments();
         if (args != null) {
             this.workoutId = args.getInt("workoutId");
@@ -49,9 +51,11 @@ public class WorkoutDetailFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
         this.binding = FragmentWorkoutDetailBinding.inflate(inflater, container, false);
 
-        return inflater.inflate(R.layout.fragment_workout_detail, binding.getRoot());
+        return inflater.inflate(R.layout.fragment_workout_detail, this.binding.getRoot());
+        //return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     @Override
@@ -89,7 +93,7 @@ public class WorkoutDetailFragment extends Fragment {
     private void loadExerciseList() {
         AppDatabase    db           = Database.getInstance(getContext());
         List<Exercise> exerciseList = db.workoutDao().getRelatedExercises(this.workoutId);
-        if (exerciseList != null) {
+        if (exerciseList != null && this.workoutDetailAdapter != null) {
             this.workoutDetailAdapter.setExerciseList(exerciseList);
         }
     }

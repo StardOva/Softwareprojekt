@@ -41,6 +41,7 @@ public class AddExerciseToWorkoutFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         Bundle args = getArguments();
         if (args != null) {
             this.workoutId = args.getInt("workoutId");
@@ -69,8 +70,7 @@ public class AddExerciseToWorkoutFragment extends Fragment {
 
             if (this.exerciseListAdapter.getItemCount() == 0) {
                 textView.setText(R.string.add_exercise_to_workout_no_exercises);
-            }
-            else {
+            } else {
                 textView.setVisibility(View.GONE);
             }
         }
