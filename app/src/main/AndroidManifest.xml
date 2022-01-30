@@ -57,8 +57,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".ui.main.CreateNewWorkoutActivity"
+        <activity android:name=".ui.main.CreateNewWorkoutActivity"
+            android:exported="false">
+        </activity>
+        <activity android:name=".ui.main.WorkoutDetailActivity"
+            android:exported="false"/>
+        <activity android:name=".ui.main.AddExerciseToWorkoutActivity"
+            android:exported="false"/>
+        <activity android:name=".ui.main.CreateNewExerciseActivity"
             android:exported="false" />
     </application>
 

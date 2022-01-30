@@ -134,7 +134,7 @@ public class TrackerMainFragment extends Fragment {
 
         //Alle Tage mit RecyclerView anzeigen
         List<Day> dayList = db.dayDao().getAllDays();
-        dayListAdapter.setContext(getActivity());
+        dayListAdapter.setContext(getContext());
         dayListAdapter.setDayList(dayList);
     }
 

@@ -10,6 +10,7 @@ import com.example.fitforfit.dao.MealDao;
 import com.example.fitforfit.dao.ProductDao;
 import com.example.fitforfit.dao.TrainingDao;
 import com.example.fitforfit.dao.WorkoutDao;
+import com.example.fitforfit.dao.WorkoutExerciseDao;
 import com.example.fitforfit.entity.Day;
 import com.example.fitforfit.entity.Exercise;
 import com.example.fitforfit.entity.Ingredient;
@@ -35,4 +36,6 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract IngredientDao ingredientDao();
 
     public abstract ProductDao productDao();
+
+    public abstract WorkoutExerciseDao workoutExerciseDao();
 }

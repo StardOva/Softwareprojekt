@@ -1,6 +1,8 @@
 package com.example.fitforfit.adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fitforfit.R;
 import com.example.fitforfit.entity.Workout;
+import com.example.fitforfit.ui.main.WorkoutDetailActivity;
 
 import java.util.List;
 
@@ -45,8 +48,11 @@ public class WorkoutListAdapter extends RecyclerView.Adapter<WorkoutListAdapter.
     public void onBindViewHolder(@NonNull WorkoutListAdapter.WorkoutViewHolder holder, int position) {
         String name = this.workoutList.get(position).name;
         holder.workoutButton.setText(name);
-
-        // TODO onclicklistener auf jeden Button
+        holder.workoutButton.setOnClickListener(view -> {
+            Intent intent = new Intent(this.mainActivity, WorkoutDetailActivity.class);
+            intent.putExtra("workoutId", this.workoutList.get(position).id);
+            this.mainActivity.startActivity(intent);
+        });
     }
 
     @Override

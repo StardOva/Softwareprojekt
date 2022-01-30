@@ -8,7 +8,6 @@
     <string name="day_tab_text_1">Stats</string>
     <string name="day_tab_text_2">Meals</string>
     <string name="day_tab_text_3">More</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="new_workout_button">Neues Workout anlegen</string>
 
     <string name="activity_new_workout_message">Name des Workouts</string>
@@ -22,5 +21,10 @@
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
 
+    <string name="activity_new_exercise_message">Name der Übung</string>
+    <string name="btn_add_exercise">Übung hinzufügen</string>
+    <string name="workout_detail_no_exercises">Das Workout hat noch keine Übungen.</string>
+    <string name="add_exercise_to_workout_no_exercises">Es wurden noch keine Übungen angelegt.</string>
+    <string name="create_new_exercise">Neue Übung anlegen</string>
 
 </resources>

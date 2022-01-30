@@ -18,6 +18,7 @@ import com.example.fitforfit.R;
 import com.example.fitforfit.adapter.WorkoutListAdapter;
 import com.example.fitforfit.database.AppDatabase;
 import com.example.fitforfit.databinding.FragmentMainBinding;
+import com.example.fitforfit.databinding.FragmentWorkoutBinding;
 import com.example.fitforfit.entity.Workout;
 import com.example.fitforfit.singleton.Database;
 import com.example.fitforfit.ui.main.CreateNewWorkoutActivity;
@@ -51,7 +52,6 @@ public class WorkoutMainFragment extends Fragment {
         });
 
         initRecyclerView(view);
-        loadWorkoutList();
     }
 
     private void initRecyclerView(View view){
@@ -60,7 +60,8 @@ public class WorkoutMainFragment extends Fragment {
             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
             this.workoutListAdapter = new WorkoutListAdapter(getActivity());
-            recyclerView.setAdapter(workoutListAdapter);
+            recyclerView.setAdapter(this.workoutListAdapter);
+            loadWorkoutList();
         });
     }
 
