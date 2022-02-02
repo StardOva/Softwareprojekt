@@ -105,7 +105,6 @@ public class AddExerciseToWorkoutFragment extends Fragment {
 
         Button btnCreateNewExercise = view.findViewById(R.id.btnCreateNewExercise);
         btnCreateNewExercise.setOnClickListener(view1 -> {
-            // TODO neue Activity wo man eine Übung anlegt
             Intent intent = new Intent(this.parentActivity, CreateNewExerciseActivity.class);
             this.parentActivity.startActivity(intent);
         });

@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.view.ViewManager;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -25,6 +26,8 @@ import com.example.fitforfit.databinding.FragmentWorkoutDetailBinding;
 import com.example.fitforfit.entity.Exercise;
 import com.example.fitforfit.singleton.Database;
 import com.example.fitforfit.ui.main.AddExerciseToWorkoutActivity;
+import com.example.fitforfit.ui.main.TrainingActivity;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 
@@ -54,8 +57,9 @@ public class WorkoutDetailFragment extends Fragment {
 
         this.binding = FragmentWorkoutDetailBinding.inflate(inflater, container, false);
 
-        return inflater.inflate(R.layout.fragment_workout_detail, this.binding.getRoot());
-        //return super.onCreateView(inflater, container, savedInstanceState);
+        // TODO so entfernt er leider nicht mehr das TextView
+        //return inflater.inflate(R.layout.fragment_workout_detail, this.binding.getRoot());
+        return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     @Override
@@ -107,6 +111,13 @@ public class WorkoutDetailFragment extends Fragment {
         Button addExerciseBtn = view.findViewById(R.id.btnAddExercise);
         addExerciseBtn.setOnClickListener(view1 -> {
             Intent intent = new Intent(getActivity(), AddExerciseToWorkoutActivity.class);
+            intent.putExtra("workoutId", workoutId);
+            requireActivity().startActivity(intent);
+        });
+
+        FloatingActionButton fab = view.findViewById(R.id.fabStartTraining);
+        fab.setOnClickListener(view1 -> {
+            Intent intent = new Intent(getActivity(), TrainingActivity.class);
             intent.putExtra("workoutId", workoutId);
             requireActivity().startActivity(intent);
         });

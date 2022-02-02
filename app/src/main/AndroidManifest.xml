@@ -66,6 +66,8 @@
             android:exported="false"/>
         <activity android:name=".ui.main.CreateNewExerciseActivity"
             android:exported="false" />
+        <activity android:name=".ui.main.TrainingActivity"
+            android:exported="false"/>
     </application>
 
 </manifest>
