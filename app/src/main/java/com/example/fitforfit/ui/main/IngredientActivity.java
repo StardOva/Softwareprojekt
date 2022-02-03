@@ -16,6 +16,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.text.DecimalFormat;
+
 public class IngredientActivity extends AppCompatActivity {
 
     AppDatabase db;
@@ -56,15 +58,18 @@ public class IngredientActivity extends AppCompatActivity {
         ingquantityText.setText(String.valueOf(this.ing.quantity)+"g");
         float quant = this.ing.quantity;
         float quantFactor = quant / 100;
+
+        DecimalFormat round = new DecimalFormat("#.##");
+
         Log.d("CHECK_VALUE_QUANTFACTOR",String.valueOf(quantFactor));
-        ingckalText.setText(String.valueOf(this.prod.ckal * quantFactor));
-        ingfatText.setText(String.valueOf(this.prod.fat * quantFactor));
-        ingsatfatText.setText(String.valueOf(this.prod.saturated_fat * quantFactor));
-        ingcarbText.setText(String.valueOf(this.prod.carb * quantFactor));
-        ingsugarText.setText(String.valueOf(this.prod.sugar * quantFactor));
-        ingfiberText.setText(String.valueOf(this.prod.fiber * quantFactor));
-        ingproteinText.setText(String.valueOf(this.prod.protein * quantFactor));
-        ingsaltText.setText(String.valueOf(this.prod.salt * quantFactor));
+        ingckalText.setText(String.valueOf(round.format(this.prod.ckal * quantFactor)));
+        ingfatText.setText(String.valueOf(round.format(this.prod.fat * quantFactor)));
+        ingsatfatText.setText(String.valueOf(round.format(this.prod.saturated_fat * quantFactor)));
+        ingcarbText.setText(String.valueOf(round.format(this.prod.carb * quantFactor)));
+        ingsugarText.setText(String.valueOf(round.format(this.prod.sugar * quantFactor)));
+        ingfiberText.setText(String.valueOf(round.format(this.prod.fiber * quantFactor)));
+        ingproteinText.setText(String.valueOf(round.format(this.prod.protein * quantFactor)));
+        ingsaltText.setText(String.valueOf(round.format(this.prod.salt * quantFactor)));
 
 
         //Produktanzeige mit Werten pro 100g
@@ -80,16 +85,16 @@ public class IngredientActivity extends AppCompatActivity {
         TextView prodsaltText = findViewById(R.id.saltValue);
         TextView prodinfoText = findViewById(R.id.infoValue);
 
-        prodNameText.setText(this.prod.product_name);
-        prodckalText.setText(String.valueOf(this.prod.ckal));
-        prodfatText.setText(String.valueOf(this.prod.fat));
-        prodsatfatText.setText(String.valueOf(this.prod.saturated_fat));
-        prodcarbText.setText(String.valueOf(this.prod.carb));
-        prodsugarText.setText(String.valueOf(this.prod.sugar));
-        prodfiberText.setText(String.valueOf(this.prod.fiber));
-        prodproteinText.setText(String.valueOf(this.prod.protein));
-        prodsaltText.setText(String.valueOf(this.prod.salt));
-        prodinfoText.setText(this.prod.info);
+        prodNameText.setText(round.format(this.prod.product_name));
+        prodckalText.setText(String.valueOf(round.format(this.prod.ckal)));
+        prodfatText.setText(String.valueOf(round.format(this.prod.fat)));
+        prodsatfatText.setText(String.valueOf(round.format(this.prod.saturated_fat)));
+        prodcarbText.setText(String.valueOf(round.format(this.prod.carb)));
+        prodsugarText.setText(String.valueOf(round.format(this.prod.sugar)));
+        prodfiberText.setText(String.valueOf(round.format(this.prod.fiber)));
+        prodproteinText.setText(String.valueOf(round.format(this.prod.protein)));
+        prodsaltText.setText(String.valueOf(round.format(this.prod.salt)));
+        prodinfoText.setText(round.format(this.prod.info));
 
 
         Button removeBtn = findViewById(R.id.RemoveIngredientButton);
