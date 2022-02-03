@@ -183,10 +183,18 @@ public class TrackerStatsFragment extends Fragment {
 
         BarChart bar = view.findViewById(R.id.barChart);
         ArrayList<BarEntry> listb = new ArrayList<>();
-        listb.add(new BarEntry(1, new float[]{kcal,100-kcal}));
-        listb.add(new BarEntry(2, new float[]{protein,100-protein}));
-        listb.add(new BarEntry(3, new float[]{fat,100-fat}));
-        listb.add(new BarEntry(4, new float[]{carb,100-carb}));
+        float a = 0;
+        if(100-kcal <= 0){a = 0;}else{a = 100-kcal;};
+        float b = 0;
+        if(100-protein <= 0){b = 0;}else{b = 100-protein;};
+        float e = 0;
+        if(100-fat <= 0){e = 0;}else{e = 100-fat;};
+        float d = 0;
+        if(100-carb <= 0){d = 0;}else{d = 100-carb;};
+        listb.add(new BarEntry(1, new float[]{kcal,a}));
+        listb.add(new BarEntry(2, new float[]{protein,b}));
+        listb.add(new BarEntry(3, new float[]{fat,e}));
+        listb.add(new BarEntry(4, new float[]{carb,d}));
 
 
         BarDataSet barDataSet = new BarDataSet(listb, "");

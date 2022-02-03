@@ -1,5 +1,6 @@
 package com.example.fitforfit.ui.main;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.fitforfit.R;
 import com.example.fitforfit.database.AppDatabase;
@@ -7,8 +8,12 @@ import com.example.fitforfit.entity.Ingredient;
 import com.example.fitforfit.entity.Product;
 import com.example.fitforfit.singleton.Database;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 public class IngredientActivity extends AppCompatActivity {
@@ -85,6 +90,35 @@ public class IngredientActivity extends AppCompatActivity {
         prodproteinText.setText(String.valueOf(this.prod.protein));
         prodsaltText.setText(String.valueOf(this.prod.salt));
         prodinfoText.setText(this.prod.info);
+
+
+        Button removeBtn = findViewById(R.id.RemoveIngredientButton);
+        removeBtn.setOnClickListener(view -> {
+            AlertDialog alertDialog = new AlertDialog.Builder(this)
+                    .setTitle("Bestätigen")
+                    .setMessage("Diese Zutat wirklich löschen?")
+                    .setPositiveButton("JA", null)
+                    .setNegativeButton("NEIN", null)
+                    .show();
+
+            Button positiveBtn = alertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
+            positiveBtn.setOnClickListener(view1 -> {
+                db.ingredientDao().deleteIngredientById(this.ingId);
+                finish();
+            });
+
+        });
+
+        Button backBtn = findViewById(R.id.cancelIngredientButton);
+        backBtn.setOnClickListener(view -> {finish();});
+
+        Button changeBtn = findViewById(R.id.changeIngredientButton);
+        changeBtn.setOnClickListener(view -> {
+
+            Intent intent = new Intent(this, ChangeIngredientActivity.class);
+            intent.putExtra("ingId", String.valueOf(this.ingId));
+            this.startActivity(intent);
+        });
     }
 
     private void getProduct() {
@@ -104,5 +138,13 @@ public class IngredientActivity extends AppCompatActivity {
         String ingIdS = getIntent().getStringExtra("ingId");
         this.ingId = Integer.valueOf(ingIdS);
         Log.d("INGREDIENT_ID", String.valueOf(ingId));
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getIngredient();
+        initViews();
+
     }
 }

@@ -53,7 +53,7 @@ public class ShowProductActivity extends AppCompatActivity {
         TextView saltText = findViewById(R.id.saltValue);
         TextView infoText = findViewById(R.id.infoValue);
 
-        Button addButton = findViewById(R.id.AddIngredientButton);
+        Button addButton = findViewById(R.id.RemoveIngredientButton);
         Button cancelButton = findViewById(R.id.cancelButton);
 
         prodNameText.setText(this.prod.product_name);

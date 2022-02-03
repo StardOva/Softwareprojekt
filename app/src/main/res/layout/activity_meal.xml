@@ -6,14 +6,27 @@
     android:paddingRight="16dp"
     android:orientation="vertical"
     android:padding="20dp">
-
-    <Button
-        android:id="@+id/deletebutton"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
-        android:text="Remove Meal"
-         />
+        <Button
+            android:id="@+id/deletebutton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Remove Meal"
+            />
+        <Button
+            android:id="@+id/addbutton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Add to Meal"
+            />
+
+    </LinearLayout>
 <!--TODO Ingredients der mahlzeit in recyclerview anzeigen-->
     <ScrollView
         android:layout_width="match_parent"
