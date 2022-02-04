@@ -31,6 +31,9 @@ public class TrainingActivity extends AppCompatActivity {
     // speichert die aktuelle Position in der Liste der Übungen
     private int currentExercisePos;
 
+    // speichert die aktuelle Übungs ID
+    private int currentExerciseId;
+
     // Liste der Übungen eines Workouts
     private List<Exercise> exerciseList;
 
@@ -64,6 +67,8 @@ public class TrainingActivity extends AppCompatActivity {
             workoutNameTextView.setText(workout.name);
 
             currentExercisePos = 0;
+            // TODO die exercise ID ist momentan nicht eindeutig, da ein Workout mehrmals dieselbe Übung enthalten kann
+            currentExerciseId = exerciseList.get(currentExercisePos).id;
             updateTextOfExerciseTextView();
 
             // initiales Training Objekt
@@ -72,7 +77,7 @@ public class TrainingActivity extends AppCompatActivity {
             currentTrainingList.add(training);
 
             exerciseTrainingList = new HashMap<>();
-            exerciseTrainingList.put(exerciseList.get(currentExercisePos).id, currentTrainingList);
+            exerciseTrainingList.put(currentExercisePos, currentTrainingList);
 
             initViews();
 
@@ -93,7 +98,7 @@ public class TrainingActivity extends AppCompatActivity {
     private Training getNewTrainingInstance(int set) {
         Training training = new Training();
         training.workoutId = workoutId;
-        training.exerciseId = exerciseList.get(currentExercisePos).id;
+        training.exerciseId = currentExerciseId;
         training.set = set;
         return training;
     }
@@ -131,14 +136,14 @@ public class TrainingActivity extends AppCompatActivity {
         updateTextOfExerciseTextView();
 
         // wenn das Exercise Objekt schon erzeugt wurde, lade es neu ein, ansonsten erzeuge es
-        if (exerciseTrainingList.containsKey(exerciseList.get(currentExercisePos).id)){
-            currentTrainingList = exerciseTrainingList.get(exerciseList.get(currentExercisePos).id);
+        if (exerciseTrainingList.containsKey(currentExerciseId)){
+            currentTrainingList = exerciseTrainingList.get(currentExerciseId);
         }
         else {
             currentTrainingList = new ArrayList<>();
             Training training = getNewTrainingInstance(0);
             currentTrainingList.add(training);
-            exerciseTrainingList.put(exerciseList.get(currentExercisePos).id, currentTrainingList);
+            exerciseTrainingList.put(currentExerciseId, currentTrainingList);
         }
 
         trainingSetListAdapter.setTrainingList(currentTrainingList);
