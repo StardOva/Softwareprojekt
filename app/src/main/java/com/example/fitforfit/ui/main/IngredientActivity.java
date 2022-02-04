@@ -11,8 +11,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 public class IngredientActivity extends AppCompatActivity {
 
     AppDatabase db;
@@ -66,7 +64,7 @@ public class IngredientActivity extends AppCompatActivity {
 
         //Produktanzeige mit Werten pro 100g
 
-        TextView prodNameText = findViewById(R.id.ProductNameValue);
+        TextView prodNameText = findViewById(R.id.DateValue);
         TextView prodckalText = findViewById(R.id.ckalValue);
         TextView prodfatText = findViewById(R.id.fatValue);
         TextView prodsatfatText = findViewById(R.id.satfatValue);
