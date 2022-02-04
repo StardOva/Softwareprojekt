@@ -1,5 +1,6 @@
 package com.example.fitforfit.ui.main;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -12,6 +13,7 @@ import com.example.fitforfit.entity.Ingredient;
 import com.example.fitforfit.entity.Meal;
 import com.example.fitforfit.singleton.Database;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -51,7 +53,7 @@ public class MealActivity extends AppCompatActivity {
     }
 
     private void initRecyclerView() {
-        AsyncTask.execute(() -> {
+        //AsyncTask.execute(() -> {
             RecyclerView recyclerViewMeals = findViewById(R.id.recyclerViewMeals);
             recyclerViewMeals.setLayoutManager(new LinearLayoutManager(this));
 
@@ -66,21 +68,55 @@ public class MealActivity extends AppCompatActivity {
             List<Ingredient> ingredientList = db.ingredientDao().getAllIngredientsOnMeal(this.mealId);
             ingListAdapter.setContext(this);
             ingListAdapter.setIngredientList(ingredientList);
-        });
+            Log.d("CHECKPOINT", "1");
+       // });
     }
 
     private void initViews() {
         String mealIdS = getIntent().getStringExtra("mealId");
         this.mealId = Integer.valueOf(mealIdS);
 
+        Button addIngredient = findViewById(R.id.addbutton);
+        addIngredient.setText("+Ingredient");
+        addIngredient.setOnClickListener((v -> {
+            //AddIngredientToMealActivity öffnen
+            Intent intent = new Intent(this, AddIngredientToMealActivity.class);
+            intent.putExtra("mealId", String.valueOf(this.mealId));
+            this.startActivity(intent);
+        }));
         Button deleteButton = findViewById(R.id.deletebutton);
         deleteButton.setText("Remove Meal");
         deleteButton.setOnClickListener((v -> {
 
             AppDatabase db = Database.getInstance(this);
-            db.mealDao().deleteMealById(mealId);
-            finish();
 
+            AlertDialog alertDialog = new AlertDialog.Builder(this)
+                    .setTitle("Bestätigen")
+                    .setMessage("Dies Mahlzeit wirklich löschen?")
+                    .setPositiveButton("JA", null)
+                    .setNegativeButton("NEIN", null)
+                    .show();
+
+            Button positiveBtn = alertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
+            positiveBtn.setOnClickListener(view1 -> {
+                db.mealDao().deleteMealById(mealId);
+                db.ingredientDao().deleteAllIngredientByMealId(mealId);
+                finish();
+
+            });
         }));
+
+
+
+
+
+
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        initRecyclerView();
     }
 }

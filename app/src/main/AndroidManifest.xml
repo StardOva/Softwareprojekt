@@ -13,6 +13,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FitforFit">
         <activity
+            android:name=".ui.main.ChangeIngredientActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.main.ScanErrorActivity"
             android:exported="false" />
         <activity
@@ -57,14 +60,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.main.CreateNewWorkoutActivity"
-            android:exported="false">
-        </activity>
-        <activity android:name=".ui.main.WorkoutDetailActivity"
-            android:exported="false"/>
-        <activity android:name=".ui.main.AddExerciseToWorkoutActivity"
-            android:exported="false"/>
-        <activity android:name=".ui.main.CreateNewExerciseActivity"
+        <activity
+            android:name=".ui.main.CreateNewWorkoutActivity"
+            android:exported="false"></activity>
+        <activity
+            android:name=".ui.main.WorkoutDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.main.AddExerciseToWorkoutActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.main.CreateNewExerciseActivity"
             android:exported="false" />
         <activity android:name=".ui.main.TrainingActivity"
             android:exported="false"/>

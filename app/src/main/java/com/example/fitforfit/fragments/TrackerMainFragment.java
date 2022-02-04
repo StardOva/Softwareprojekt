@@ -68,66 +68,62 @@ public class TrackerMainFragment extends Fragment {
 
     private void loadDayList() {
 
-        //neue Kalender Instanz
-        Calendar cal = Calendar.getInstance();
-        //cal.add(Calendar.DATE, 2);//Addiert ein Tag
-        //Formater für richtiges Format
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        //String des aktuellen Datum und richtigen Format
-        String formatted_date_today = format.format(cal.getTime());
-
         AppDatabase db = Database.getInstance(getActivity());
 
-        //Auslesen letzten Date Eintrag(letztes Date)
-        String lastDate = db.dayDao().getLastDate();
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");//FORMAT
+        Calendar cal = Calendar.getInstance();//HEUTE
+        //cal.add(Calendar.DATE, 12);
+        String formatted_date_today = format.format(cal.getTime());//HEUTE STRING
+        String[] splitToday = formatted_date_today.split("-");
+        cal.set(Integer.valueOf(splitToday[0]),Integer.valueOf(splitToday[1])-1,Integer.valueOf(splitToday[2]));//HEUTE ALS CAL
 
-        //neue Kalender Instanz
+        String lastDate = db.dayDao().getLastDate();//AUSLESEN LETZTES DATUM
+        //String lastDate = "2022-02-02";//STRING LETZTES DATUM
         Calendar cal_last = Calendar.getInstance();
-        //Damit bei ersten Aufruf App kein NullPointer entsteht
         if(lastDate != null){
-
-        //neue Kalender Instanz
-
-        //String Array der Werte Jahr-Monat-Tag des letzten Date Eintrags
-        String[] split = lastDate.split("-");
-        //erzeugen Kalender Objekt -> Monat - 1 weil Januar in CalendarObjekt 0, Februar 1 ,...
-        cal_last.set(Integer.valueOf(split[0]),Integer.valueOf(split[1]),Integer.valueOf(split[2]));
+            String[] split = lastDate.split("-");
+            cal_last.set(Integer.valueOf(split[0]),Integer.valueOf(split[1])-1,Integer.valueOf(split[2]));//LETZTES DATUM ALS CAL (Jan-0, Feb-1,...)
         }
 
-        Calendar tempCal = Calendar.getInstance();
-        String[] splitToday = formatted_date_today.split("-");
-        cal.set(Integer.valueOf(splitToday[0]),Integer.valueOf(splitToday[1])+1,Integer.valueOf(splitToday[2]));
-        tempCal.set(Integer.valueOf(splitToday[0]),Integer.valueOf(splitToday[1]),Integer.valueOf(splitToday[2]));
-        long diffmilli = tempCal.getTimeInMillis() - cal_last.getTimeInMillis();
+        long diffmilli = cal.getTimeInMillis() - cal_last.getTimeInMillis();
         long diffday = diffmilli / (24 * 60 *60 * 1000);
-
+        Log.d("CHECK_DATE", "HEUTE: " + format.format(cal.getTime()));
+        Log.d("CHECK_DATE","Letztes eingetragendes Datum: "+ lastDate + "("+ format.format(cal_last.getTime())+") mit d:" + String.valueOf(diffday));
+        //System.out.println("Letztes eingetragendes Datum: "+ lastDate + "("+ format.format(cal_last.getTime())+") mit d:" + String.valueOf(diffday));
         if(lastDate == null){
-
-            //Aktueller tag wird eingefügt
-            newDayInsert(formatted_date_today, db);
-
+            newDayInsert(formatted_date_today, db);//HEUTE WIRD EINGEFÜGT
+            Log.d("CHECK_DATE", "Noch kein Tag vorhanden - heute als ersten tag eingetragen: " + formatted_date_today);
+            //System.out.println("Noch kein Tag vorhanden - heute als ersten tag eingetragen " + formatted_date_today);
         }else{
             Log.d("CONTROL_POINT_1", "diffday: " + String.valueOf(diffday));
             if(diffday>1) {
-                int k = (int)diffday - 1 ;
-                for (int i = 0; i < (int)diffday; i++) {
+                int k = (int)diffday  ;
+                for (int i = 0; i <= (int)diffday; i++) {
 
-                    Calendar newCal = Calendar.getInstance();
+                    Calendar newCal = cal;
                     newCal.add(Calendar.DATE, k * (-1));
                     SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd");
                     String formatted_date_today2 = format2.format(newCal.getTime());
                     newDayInsert(formatted_date_today2, db);
+                    //System.out.println("DAtum eingetragen: " + formatted_date_today2);
+                    //System.out.println(String.valueOf(k));
+                    Log.d("CHECK_DATE", formatted_date_today2 + String.valueOf(k));
+                    newCal.add(Calendar.DATE, k);
                     k--;
+
 
                 }
             }else{
 
                 //Vergleich Heute und letzter Eintrag -> wenn >= 0 heute ist letzter Eintrag
-                cal.set(Integer.valueOf(splitToday[0]),Integer.valueOf(splitToday[1]),Integer.valueOf(splitToday[2]));
+                //System.out.println("Datum ist aktuell: " + splitToday[0]+"-"+splitToday[1]+"-"+splitToday[2] + "("+ format.format(cal.getTime())+")");
                 if(cal.compareTo(cal_last) > 0){
                     Log.d("CONTROL_POINT_2", "Compare: " + String.valueOf(cal.compareTo(cal_last)));
                     newDayInsert(formatted_date_today, db);
+                    //System.out.println("Datum geändert zu: "+ formatted_date_today);
 
+                }else {
+                    System.out.println("Keine Änderung");
                 }
             }
         }

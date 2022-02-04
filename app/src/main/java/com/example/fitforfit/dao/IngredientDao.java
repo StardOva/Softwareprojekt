@@ -35,5 +35,14 @@ public interface IngredientDao {
     @Query("SELECT product_id FROM Ingredient WHERE ingredient_id = :id")
     int selectProdId(int id);
 
+    @Query("DELETE FROM ingredient WHERE ingredient_id = :id")
+    void deleteIngredientById(int id);
+
+    @Query("DELETE FROM ingredient WHERE meal_id = :id")
+    void deleteAllIngredientByMealId(int id);
+
+    @Query("UPDATE ingredient SET ingredient_name = :name, quantity = :quant WHERE ingredient_id = :id")
+    void updateNameQuantityById(String name, int quant, int id);
+
 
 }

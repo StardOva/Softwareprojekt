@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -31,16 +32,20 @@ import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.google.android.material.slider.LabelFormatter;
 
 import org.w3c.dom.Text;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -76,6 +81,11 @@ public class TrackerStatsFragment extends Fragment {
     String date;
 
     AppDatabase db = Database.getInstance(getActivity());
+
+    int gewicht = 80;//in kg
+    int groesse = 180;//in cm
+    int alter = 21;
+    int alltag = 500; //in kcal
 
 
 
@@ -116,17 +126,19 @@ public class TrackerStatsFragment extends Fragment {
         c.set(Integer.valueOf(split[0]),Integer.valueOf(split[1]),Integer.valueOf(split[2])); //erzeugen Kalender Objekt#
         String weekDay = "";
         int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
+        Log.d("WEEK_DAY", String.valueOf(dayOfWeek));
         if(dayOfWeek == 0){
-            weekDay = "Mittwoch";
-        }else if(dayOfWeek == 1){weekDay = "Donnerstag";}
-        else if(dayOfWeek == 2){weekDay = "Freitag";}
-        else if(dayOfWeek == 3){weekDay = "Samstag";}
-        else if(dayOfWeek == 4){weekDay = "Sonntag";}
-        else if(dayOfWeek == 5){weekDay = "Montag";}
-        else if(dayOfWeek == 6){weekDay = "Dienstag";}
+            weekDay = "Samstag";
+        }else if(dayOfWeek == 1){weekDay = "Sonntag";}
+        else if(dayOfWeek == 2){weekDay = "Montag";}
+        else if(dayOfWeek == 3){weekDay = "Dienstag";}
+        else if(dayOfWeek == 4){weekDay = "Mittwoch";}
+        else if(dayOfWeek == 5){weekDay = "Donnserstag";}
+        else if(dayOfWeek == 6){weekDay = "Freitag";}
         weekDayText = view.findViewById(R.id.WeekDayvalue);
         weekDayText.setText(weekDay);
 
+        DecimalFormat round = new DecimalFormat("#.##");
 
         kcalText = view.findViewById(R.id.ckalValue);
         fatText = view.findViewById(R.id.fatValue);
@@ -137,67 +149,32 @@ public class TrackerStatsFragment extends Fragment {
         proteinText = view.findViewById(R.id.proteinValue);
         saltText = view.findViewById(R.id.saltValue);
 
-        kcalText.setText(String.valueOf(this.kcalOfDay));
-        fatText.setText(String.valueOf(this.fatOfDay));
-        satfatText.setText(String.valueOf(this.satfatOfDay));
-        carbText.setText(String.valueOf(this.carbOfDay));
-        sugarText.setText(String.valueOf(this.sugarOfDay));
-        fiberText.setText(String.valueOf(this.fiberOfDay));
-        proteinText.setText(String.valueOf(this.proteinOfDay));
-        saltText.setText(String.valueOf(this.saltOfDay));
-
-        int[] colors = new int[10];
-        int counter = 0;
-
-        for(int color : ColorTemplate.JOYFUL_COLORS){
-            colors[counter] = color;
-            counter++;
-        }
-        for(int color : ColorTemplate.MATERIAL_COLORS){
-            colors[counter] = color;
-            counter++;
-        }
-
-        /*
-        TODO Werte fpr Piechart bestimmen
-         */
-
-        PieChart pie = view.findViewById(R.id.pieChart);
-        ArrayList<PieEntry> list = new ArrayList<>();
-        list.add(new PieEntry(1,"Fett"));
-        list.add(new PieEntry(2,"gesättigte Fette"));
-        list.add(new PieEntry(2,"Kohlenhydrate"));
-        list.add(new PieEntry(2,"Zucker"));
-        list.add(new PieEntry(2,"Ballaststoffe"));
-        list.add(new PieEntry(4,"Eiweiß"));
-        list.add(new PieEntry(2,"Salz"));
-
-
-
-        Legend legend = pie.getLegend();
-        legend.setOrientation(Legend.LegendOrientation.VERTICAL);
-        legend.setDirection(Legend.LegendDirection.RIGHT_TO_LEFT);
-        legend.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
-        legend.setVerticalAlignment(Legend.LegendVerticalAlignment.CENTER);
-        legend.setWordWrapEnabled(true);
-        legend.setTextSize(16f);
-        //legend.setForm(Legend.LegendForm.CIRCLE);
-
-
-        Description des = new Description();
-        des.setText("");
-        pie.setDescription(des);
-
-
-        PieDataSet pieDataSet = new PieDataSet(list, "");
-        pieDataSet.setValueTextSize(16f);
-        pieDataSet.setColors(colors);
-        //pieDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
-        pie.setData(new PieData(pieDataSet));
-        pie.setDrawEntryLabels(false);
-        pie.setUsePercentValues(true);
+        kcalText.setText(String.valueOf(round.format(this.kcalOfDay)));
+        fatText.setText(String.valueOf(round.format(this.fatOfDay)));
+        satfatText.setText(String.valueOf(round.format(this.satfatOfDay)));
+        carbText.setText(String.valueOf(round.format(this.carbOfDay)));
+        sugarText.setText(String.valueOf(round.format(this.sugarOfDay)));
+        fiberText.setText(String.valueOf(round.format(this.fiberOfDay)));
+        proteinText.setText(String.valueOf(round.format(this.proteinOfDay)));
+        saltText.setText(String.valueOf(round.format(this.saltOfDay)));
 
         ///BARCHART
+        float grundumsatz = (float)(66.47 + (13.7 * this.gewicht) + (5 * this.groesse) - (6.8 * 21)) + this.alltag;
+        float kcal = (this.kcalOfDay * 100) / grundumsatz;
+        //Log.d("Grundumsatz", String.valueOf(grundumsatz));
+
+        float proteinsoll = (float)(1.8 * this.gewicht); //1.8g in Aufbau
+        float protein = (this.proteinOfDay * 100) / proteinsoll;
+
+        float fatsoll = (float)(1 * this.gewicht); //1g in Aufbau
+        float fat = (this.fatOfDay * 100) / fatsoll;
+
+        float carbsoll = (float)(((grundumsatz)-((proteinsoll * 4.1) + (fatsoll * 9.3)))/4.1);
+        float carb = (this.carbOfDay * 100) /carbsoll;
+        //protein -> 4.1kcal pro gramm
+        //fat -> 9.3kcal pro gramm
+        //carbs -> 4.1kcal pro gramm
+        //carbs sollten rest an benötigten kcal auffüllen(proteine und fette bestimmte menge)
 
         /*
         TODO Werte fpr Barchart bestimmen
@@ -206,10 +183,18 @@ public class TrackerStatsFragment extends Fragment {
 
         BarChart bar = view.findViewById(R.id.barChart);
         ArrayList<BarEntry> listb = new ArrayList<>();
-        listb.add(new BarEntry(1, new float[]{40,100-40}));
-        listb.add(new BarEntry(2, new float[]{20,100-20}));
-        listb.add(new BarEntry(3, new float[]{90,100-90}));
-        listb.add(new BarEntry(4, new float[]{90,100-90}));
+        float a = 0;
+        if(100-kcal <= 0){a = 0;}else{a = 100-kcal;};
+        float b = 0;
+        if(100-protein <= 0){b = 0;}else{b = 100-protein;};
+        float e = 0;
+        if(100-fat <= 0){e = 0;}else{e = 100-fat;};
+        float d = 0;
+        if(100-carb <= 0){d = 0;}else{d = 100-carb;};
+        listb.add(new BarEntry(1, new float[]{kcal,a}));
+        listb.add(new BarEntry(2, new float[]{protein,b}));
+        listb.add(new BarEntry(3, new float[]{fat,e}));
+        listb.add(new BarEntry(4, new float[]{carb,d}));
 
 
         BarDataSet barDataSet = new BarDataSet(listb, "");
@@ -226,6 +211,85 @@ public class TrackerStatsFragment extends Fragment {
         bar.setData(barData);
         bar.getDescription().setText("");
         bar.animateY(2000);
+        String[] labels = {"", "Energie","Proteine", "Fette", "Kohlendydrate"};
+        bar.getLegend().setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
+        bar.getLegend().setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
+
+        XAxis x = bar.getXAxis();
+        x.setGranularity(1f);
+        x.setGranularityEnabled(true);
+        x.setCenterAxisLabels(false);
+        x.setPosition(XAxis.XAxisPosition.BOTTOM);
+        x.setValueFormatter(new IndexAxisValueFormatter(labels));
+
+        /*
+        TODO Werte fpr Piechart bestimmen
+         */
+
+        PieChart pie = view.findViewById(R.id.pieChart);
+        ArrayList<PieEntry> list = new ArrayList<>();
+        list.add(new PieEntry(this.fatOfDay,"Fett"));
+        list.add(new PieEntry(this.carbOfDay,"Kohlenhydrate"));
+        list.add(new PieEntry(this.fiberOfDay,"Ballaststoffe"));
+        list.add(new PieEntry(this.proteinOfDay,"Eiweiß"));
+        list.add(new PieEntry(this.saltOfDay,"Salz"));
+
+        Legend legend = pie.getLegend();
+        legend.setOrientation(Legend.LegendOrientation.VERTICAL);
+        legend.setDirection(Legend.LegendDirection.RIGHT_TO_LEFT);
+        legend.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
+        legend.setVerticalAlignment(Legend.LegendVerticalAlignment.CENTER);
+        legend.setWordWrapEnabled(true);
+        legend.setTextSize(16f);
+        legend.setEnabled(false);
+        //legend.setForm(Legend.LegendForm.CIRCLE);
+
+        Description des = new Description();
+        des.setText("");
+        pie.setDescription(des);
+
+        PieDataSet pieDataSet = new PieDataSet(list, "");
+        pieDataSet.setValueTextSize(16f);
+        pieDataSet.setColors(
+                Color.parseColor("#"+Integer.toHexString(ContextCompat.getColor(getContext(), R.color.fit_orange_dark))),
+                Color.parseColor("#"+Integer.toHexString(ContextCompat.getColor(getContext(), R.color.fit_blue_dark))),
+                Color.parseColor("#"+Integer.toHexString(ContextCompat.getColor(getContext(), R.color.fit_brown))),
+                Color.parseColor("#"+Integer.toHexString(ContextCompat.getColor(getContext(), R.color.fit_green))),
+                Color.parseColor("#"+Integer.toHexString(ContextCompat.getColor(getContext(), R.color.fit_grey))));
+        //pieDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
+        pie.setData(new PieData(pieDataSet));
+        pie.setDrawEntryLabels(true);
+        pie.setUsePercentValues(true);
+
+
+        PieChart piefat = view.findViewById(R.id.pieChartfat);
+        ArrayList<PieEntry> listfat = new ArrayList<>();
+        listfat.add(new PieEntry(this.fatOfDay-this.satfatOfDay,"ungesättigte Fett"));
+        listfat.add(new PieEntry(this.satfatOfDay,"gesättigte Fette"));
+        PieDataSet pieDataSetfat = new PieDataSet(listfat, "");
+        pieDataSetfat.setColors(
+                Color.parseColor("#"+Integer.toHexString(ContextCompat.getColor(getContext(), R.color.fit_orange_dark))),
+                Color.parseColor("#"+Integer.toHexString(ContextCompat.getColor(getContext(), R.color.fit_orange_light))));
+        pieDataSetfat.setValueTextSize(16f);
+        piefat.setData(new PieData(pieDataSetfat));
+        piefat.getLegend().setEnabled(false);
+        piefat.setDescription(des);
+
+        PieChart piecarb = view.findViewById(R.id.pieChartcarb);
+        ArrayList<PieEntry> listcarb = new ArrayList<>();
+        listcarb.add(new PieEntry(this.carbOfDay-this.sugarOfDay,"andere Kohlenhydrate"));
+        listcarb.add(new PieEntry(this.sugarOfDay,"Zucker"));
+        PieDataSet pieDataSetcarb = new PieDataSet(listcarb, "");
+        pieDataSetcarb.setColors(
+                Color.parseColor("#"+Integer.toHexString(ContextCompat.getColor(getContext(), R.color.fit_blue_dark))),
+                Color.parseColor("#"+Integer.toHexString(ContextCompat.getColor(getContext(), R.color.fit_blue_light))));
+        pieDataSetcarb.setValueTextSize(16f);
+        piecarb.setData(new PieData(pieDataSetcarb));
+        piecarb.getLegend().setEnabled(false);
+        piecarb.setDescription(des);
+
+
+
     }
 
     private void getData() {
