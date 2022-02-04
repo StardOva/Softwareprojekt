@@ -3,11 +3,14 @@ package com.example.fitforfit.fragments;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewManager;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,13 +26,15 @@ import com.example.fitforfit.databinding.FragmentWorkoutDetailBinding;
 import com.example.fitforfit.entity.Exercise;
 import com.example.fitforfit.singleton.Database;
 import com.example.fitforfit.ui.main.AddExerciseToWorkoutActivity;
+import com.example.fitforfit.ui.main.TrainingActivity;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 
 public class WorkoutDetailFragment extends Fragment {
 
     public FragmentWorkoutDetailBinding binding;
-    private WorkoutDetailAdapter workoutDetailAdapter;
+    private WorkoutDetailAdapter workoutDetailAdapter = null;
     public int workoutId;
 
     public WorkoutDetailFragment() {
@@ -39,6 +44,7 @@ public class WorkoutDetailFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         Bundle args = getArguments();
         if (args != null) {
             this.workoutId = args.getInt("workoutId");
@@ -48,9 +54,12 @@ public class WorkoutDetailFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
         this.binding = FragmentWorkoutDetailBinding.inflate(inflater, container, false);
 
-        return inflater.inflate(R.layout.fragment_workout_detail, binding.getRoot());
+        // TODO so entfernt er leider nicht mehr das TextView
+        //return inflater.inflate(R.layout.fragment_workout_detail, this.binding.getRoot());
+        return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     @Override
@@ -67,8 +76,7 @@ public class WorkoutDetailFragment extends Fragment {
 
             if (this.workoutDetailAdapter.getItemCount() == 0) {
                 textView.setText(R.string.workout_detail_no_exercises);
-            }
-            else {
+            } else {
                 textView.setVisibility(View.GONE);
             }
         }
@@ -89,7 +97,7 @@ public class WorkoutDetailFragment extends Fragment {
     private void loadExerciseList() {
         AppDatabase    db           = Database.getInstance(getContext());
         List<Exercise> exerciseList = db.workoutDao().getRelatedExercises(this.workoutId);
-        if (exerciseList != null) {
+        if (exerciseList != null && this.workoutDetailAdapter != null) {
             this.workoutDetailAdapter.setExerciseList(exerciseList);
         }
     }
@@ -103,8 +111,16 @@ public class WorkoutDetailFragment extends Fragment {
         Button addExerciseBtn = view.findViewById(R.id.btnAddExercise);
         addExerciseBtn.setOnClickListener(view1 -> {
             Intent intent = new Intent(getActivity(), AddExerciseToWorkoutActivity.class);
-            intent.putExtra("workoutId", this.workoutId);
+            intent.putExtra("workoutId", workoutId);
             requireActivity().startActivity(intent);
         });
+
+        FloatingActionButton fab = view.findViewById(R.id.fabStartTraining);
+        fab.setOnClickListener(view1 -> {
+            Intent intent = new Intent(getActivity(), TrainingActivity.class);
+            intent.putExtra("workoutId", workoutId);
+            requireActivity().startActivity(intent);
+        });
+
     }
 }

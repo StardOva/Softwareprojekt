@@ -19,6 +19,9 @@ public interface WorkoutDao {
     @Query("SELECT * FROM workout WHERE workout_id IN (:ids) ORDER BY workout_id DESC")
     List<Workout> loadAllByIds(int[] ids);
 
+    @Query("SELECT * FROM workout WHERE workout_id = :id")
+    Workout getById(int id);
+
     @Query("SELECT * FROM workout WHERE name = :name LIMIT 1")
     Workout findByName(String name);
 

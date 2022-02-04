@@ -41,6 +41,7 @@ public class AddExerciseToWorkoutFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         Bundle args = getArguments();
         if (args != null) {
             this.workoutId = args.getInt("workoutId");
@@ -69,8 +70,7 @@ public class AddExerciseToWorkoutFragment extends Fragment {
 
             if (this.exerciseListAdapter.getItemCount() == 0) {
                 textView.setText(R.string.add_exercise_to_workout_no_exercises);
-            }
-            else {
+            } else {
                 textView.setVisibility(View.GONE);
             }
         }
@@ -92,7 +92,7 @@ public class AddExerciseToWorkoutFragment extends Fragment {
     private void loadExerciseList() {
         AppDatabase    db           = Database.getInstance(getContext());
         List<Exercise> exerciseList = db.exerciseDao().getAll();
-        if (exerciseList != null) {
+        if (exerciseList != null && this.exerciseListAdapter != null) {
             this.exerciseListAdapter.setExerciseList(exerciseList);
         }
     }
@@ -105,7 +105,6 @@ public class AddExerciseToWorkoutFragment extends Fragment {
 
         Button btnCreateNewExercise = view.findViewById(R.id.btnCreateNewExercise);
         btnCreateNewExercise.setOnClickListener(view1 -> {
-            // TODO neue Activity wo man eine Übung anlegt
             Intent intent = new Intent(this.parentActivity, CreateNewExerciseActivity.class);
             this.parentActivity.startActivity(intent);
         });

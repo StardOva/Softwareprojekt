@@ -92,7 +92,7 @@ public class MealActivity extends AppCompatActivity {
 
             AlertDialog alertDialog = new AlertDialog.Builder(this)
                     .setTitle("Bestätigen")
-                    .setMessage("Dies Mahlzeit wirklich löschen?")
+                    .setMessage("Diese Mahlzeit wirklich löschen?")
                     .setPositiveButton("JA", null)
                     .setNegativeButton("NEIN", null)
                     .show();

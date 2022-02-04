@@ -1,7 +1,6 @@
 package com.example.fitforfit.ui.main;
 
 import android.os.Bundle;
-import android.util.Log;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,14 +18,14 @@ public class WorkoutDetailActivity extends AppCompatActivity {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // welches Workout wurde angeklickt? -> ID an das Fragment übergeben
-        Bundle                args                  = new Bundle();
-        WorkoutDetailFragment workoutDetailFragment = new WorkoutDetailFragment();
-
-        args.putInt("workoutId", getIntent().getIntExtra("workoutId", 0));
-        workoutDetailFragment.setArguments(args);
-
         if (savedInstanceState == null) {
+            // welches Workout wurde angeklickt? -> ID an das Fragment übergeben
+            Bundle                args                  = new Bundle();
+            WorkoutDetailFragment workoutDetailFragment = new WorkoutDetailFragment();
+
+            args.putInt("workoutId", getIntent().getIntExtra("workoutId", 0));
+            workoutDetailFragment.setArguments(args);
+
             getSupportFragmentManager().beginTransaction()
                     .setReorderingAllowed(true)
                     .add(R.id.fragment_workout_detail, workoutDetailFragment, null)

@@ -37,7 +37,7 @@ public class TrackerMealsFragment extends Fragment {
     List<Meal> mealList;
 
 
-    public TrackerMealsFragment(){
+    public TrackerMealsFragment() {
         super(R.layout.fragment_tracker_meals);
     }
 
@@ -49,8 +49,6 @@ public class TrackerMealsFragment extends Fragment {
         binding = FragmentMainBinding.inflate(inflater, container, false);
 
         return inflater.inflate(R.layout.fragment_tracker_meals, binding.getRoot());
-
-
     }
 
     @Override
@@ -60,6 +58,7 @@ public class TrackerMealsFragment extends Fragment {
 
 
     }
+
     private void cleanProducts() {
         AppDatabase db = Database.getInstance(getActivity());
         db.productDao().cleanProducts();
@@ -75,8 +74,8 @@ public class TrackerMealsFragment extends Fragment {
         addMealButton.setText("+ Meal");
         addMealButton.setOnClickListener(v -> {
 
-            AppDatabase db = Database.getInstance(getActivity());
-            Meal newmeal = new Meal();
+            AppDatabase db      = Database.getInstance(getActivity());
+            Meal        newmeal = new Meal();
             newmeal.meal_name = "NO_PLACEHOLDER";
             newmeal.time = "";
             newmeal.day_id = this.dayId;
@@ -110,26 +109,26 @@ public class TrackerMealsFragment extends Fragment {
 
     private void initRecyclerView(View view) {
 
-            RecyclerView recyclerView = view.findViewById(R.id.recyclerViewTrackerMeals);
-            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        RecyclerView recyclerView = view.findViewById(R.id.recyclerViewTrackerMeals);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-            DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL);
-            recyclerView.addItemDecoration(dividerItemDecoration);
-            mealListAdapter = new MealListAdapter(getActivity());
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL);
+        recyclerView.addItemDecoration(dividerItemDecoration);
+        mealListAdapter = new MealListAdapter(getActivity());
 
-            recyclerView.setAdapter(mealListAdapter);
+        recyclerView.setAdapter(mealListAdapter);
 
-            //TODO not efficient - content of loadMeals()
+        //TODO not efficient - content of loadMeals()
 
-            TrackerDayActivity dayActivity = (TrackerDayActivity) getActivity();
-            this.dayId = dayActivity.getCurrentDayId();
+        TrackerDayActivity dayActivity = (TrackerDayActivity) getActivity();
+        this.dayId = dayActivity.getCurrentDayId();
 
-            AppDatabase db = Database.getInstance(getActivity());
+        AppDatabase db = Database.getInstance(getActivity());
 
-            this.mealList = db.mealDao().getAllMealsOnDay(this.dayId);
-            Log.d("DEBUG NULLPOINTER", "CHECKPOINT 1");
-            mealListAdapter.setContext(getActivity());
-            mealListAdapter.setMealList(this.mealList);
+        this.mealList = db.mealDao().getAllMealsOnDay(this.dayId);
+        Log.d("DEBUG NULLPOINTER", "CHECKPOINT 1");
+        mealListAdapter.setContext(getActivity());
+        mealListAdapter.setMealList(this.mealList);
 
     }
 

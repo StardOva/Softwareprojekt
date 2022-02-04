@@ -18,14 +18,14 @@ public class AddExerciseToWorkoutActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Bundle                       args     = new Bundle();
-        AddExerciseToWorkoutFragment fragment = new AddExerciseToWorkoutFragment();
-
-        args.putInt("workoutId", getIntent().getIntExtra("workoutId", 0));
-        fragment.setArguments(args);
-        fragment.setParentActivity(this);
-
         if (savedInstanceState == null) {
+            Bundle                       args     = new Bundle();
+            AddExerciseToWorkoutFragment fragment = new AddExerciseToWorkoutFragment();
+
+            args.putInt("workoutId", getIntent().getIntExtra("workoutId", 0));
+            fragment.setArguments(args);
+            fragment.setParentActivity(this);
+
             getSupportFragmentManager().beginTransaction()
                     .setReorderingAllowed(true)
                     .add(R.id.fragment_add_exercise_to_workout, fragment, null)
