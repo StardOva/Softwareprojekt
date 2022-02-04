@@ -26,6 +26,7 @@
     <string name="create_new_exercise">Neue Übung anlegen</string>
     <string name="prev">Zurück</string>
     <string name="next">Weiter</string>
+    <string name="finished">Fertig</string>
     <string name="reps">Wiederholungen:</string>
     <string name="weight">Gewicht:</string>
     <string name="kilo">kg</string>

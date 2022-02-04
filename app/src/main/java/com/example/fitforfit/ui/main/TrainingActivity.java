@@ -1,10 +1,12 @@
 package com.example.fitforfit.ui.main;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -19,9 +21,11 @@ import com.example.fitforfit.entity.Training;
 import com.example.fitforfit.entity.Workout;
 import com.example.fitforfit.singleton.Database;
 
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class TrainingActivity extends AppCompatActivity {
 
@@ -35,6 +39,9 @@ public class TrainingActivity extends AppCompatActivity {
     // speichert die aktuelle Übungs ID
     private int currentExerciseId;
 
+    // die aktuelle ID der Trainings Session
+    private int trainingId;
+
     // Liste der Übungen eines Workouts
     private List<Exercise> exerciseList;
 
@@ -44,7 +51,7 @@ public class TrainingActivity extends AppCompatActivity {
     // jede Übung braucht einen eigenen Adapter
     private HashMap<Integer, TrainingSetListAdapter> setListAdapterHashMap;
 
-    // TODO Liste aller exerciseIds und der dazugehörigen Sätze
+    // Liste aller exerciseIds und der dazugehörigen Sätze
     private HashMap<Integer, ArrayList<Training>> exerciseTrainingList;
 
     private TrainingSetListAdapter currentSetListAdapter;
@@ -53,6 +60,8 @@ public class TrainingActivity extends AppCompatActivity {
 
     private Button prevButton;
     private Button nextButton;
+
+    private AlertDialog.Builder finishAlertDialog;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -64,6 +73,7 @@ public class TrainingActivity extends AppCompatActivity {
 
         db = Database.getInstance(getApplicationContext());
         workoutId = getIntent().getIntExtra("workoutId", 0);
+        trainingId = db.trainingDao().getLastId() + 1;
 
         if (workoutId > 0) {
             exerciseList = db.workoutDao().getRelatedExercises(workoutId);
@@ -94,8 +104,14 @@ public class TrainingActivity extends AppCompatActivity {
             setListAdapterHashMap.put(currentExerciseId, currentSetListAdapter);
 
             initRecyclerView();
-
         }
+
+        finishAlertDialog = new AlertDialog.Builder(this)
+                .setTitle("Bestätigen")
+                .setMessage("Das Training beenden und alle Werte speichern?")
+                .setPositiveButton("JA", (dialogInterface, i) -> finish())
+                .setNegativeButton("NEIN", null);
+
     }
 
     private void updateTextOfExerciseTextView() {
@@ -107,6 +123,7 @@ public class TrainingActivity extends AppCompatActivity {
 
     private Training getNewTrainingInstance(int set) {
         Training training = new Training();
+        training.id = trainingId;
         training.workoutId = workoutId;
         training.exerciseId = currentExerciseId;
         training.set = set;
@@ -128,15 +145,12 @@ public class TrainingActivity extends AppCompatActivity {
         nextButton = binding.buttonTrainingNextExercise;
         prevButton.setEnabled(false);
 
-        prevButton.setOnClickListener(view -> {
-            performExerciseChange(--currentExercisePos);
-        });
+        prevButton.setOnClickListener(view -> performExerciseChange(--currentExercisePos));
         nextButton.setOnClickListener(view -> performExerciseChange(++currentExercisePos));
 
         Button addSetButton = binding.buttonAddSet;
         addSetButton.setOnClickListener(view -> {
-            int      currentSet = currentTrainingList.size();
-            Training training   = getNewTrainingInstance(currentSet + 1);
+            Training training = getNewTrainingInstance(currentTrainingList.size());
             currentTrainingList.add(training);
             currentSetListAdapter.setTrainingList(currentTrainingList);
         });
@@ -150,16 +164,11 @@ public class TrainingActivity extends AppCompatActivity {
     private void performExerciseChange(int newExercisePos) {
         currentExercisePos = newExercisePos;
 
+        // aus dem Adapter die aktuelle Trainingsliste mit jedem Satz und Gewicht + Wiederholungen holen
+        currentTrainingList = currentSetListAdapter.getTrainingList();
+
         // Liste der Sätze der aktuellen Übung (vor dem Wechsel der Übung) speichern
-        // wenn es schon einen Eintrag in der Hashmap gibt, muss dieser erst entfernt und dann
-        // neu hinzugefügt werden, da replace() erst ab Android N funktioniert
-        if (exerciseTrainingList.containsKey(currentExerciseId)) {
-            exerciseTrainingList.remove(currentExerciseId);
-            exerciseTrainingList.put(currentExerciseId, currentTrainingList);
-        } else {
-            // wenn die Satzliste noch nicht enthalten ist, kann sie einfach hinzugefügt werden
-            exerciseTrainingList.put(currentExerciseId, currentTrainingList);
-        }
+        exerciseTrainingList.put(currentExerciseId, currentTrainingList);
 
         // danach die neue exerciseId holen
         currentExerciseId = exerciseList.get(currentExercisePos).id;
@@ -188,12 +197,29 @@ public class TrainingActivity extends AppCompatActivity {
 
         prevButton.setEnabled(currentExercisePos != 0);
 
-        //noinspection RedundantIfStatement
         if (currentExercisePos + 1 == exerciseList.size()) {
-            // TODO hier Funktion bauen die das Training abschließt und die Activity beendet
-            nextButton.setEnabled(false);
+            nextButton.setText(R.string.finished);
+            nextButton.setOnClickListener(view -> finishAlertDialog.show());
         } else {
-            nextButton.setEnabled(true);
+            nextButton.setText(R.string.next);
+            nextButton.setOnClickListener(view -> performExerciseChange(++currentExercisePos));
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.i("abcdef", "onDestroy: adadwd");
+        // alle Werte speichern
+        for (ArrayList<Training> trainingList : exerciseTrainingList.values()) {
+            for (Training training : trainingList) {
+                db.trainingDao().insert(training);
+            }
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        finishAlertDialog.show();
     }
 }

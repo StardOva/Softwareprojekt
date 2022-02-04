@@ -12,9 +12,10 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.TimeZone;
 
-@Entity(indices = {
-        @Index(value = {"id", "workout_id", "exercise_id", "set"}, unique = true)
-},
+@Entity(primaryKeys = {"id", "workout_id", "exercise_id", "set"},
+        indices = {
+                @Index(value = {"id", "workout_id", "exercise_id", "set"}, unique = true)
+        },
         foreignKeys = {
                 @ForeignKey(
                         entity = Workout.class,
@@ -31,7 +32,6 @@ import java.util.TimeZone;
         })
 public class Training {
 
-    @PrimaryKey(autoGenerate = true)
     public int id;
 
     @ColumnInfo(name = "workout_id")
