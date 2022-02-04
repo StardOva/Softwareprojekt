@@ -146,7 +146,13 @@ public class TrainingActivity extends AppCompatActivity {
         prevButton.setEnabled(false);
 
         prevButton.setOnClickListener(view -> performExerciseChange(--currentExercisePos));
-        nextButton.setOnClickListener(view -> performExerciseChange(++currentExercisePos));
+
+        if (exerciseList.size() > 1) {
+            nextButton.setOnClickListener(view -> performExerciseChange(++currentExercisePos));
+        } else {
+            nextButton.setText(R.string.finished);
+            nextButton.setOnClickListener(view -> finishAlertDialog.show());
+        }
 
         Button addSetButton = binding.buttonAddSet;
         addSetButton.setOnClickListener(view -> {
@@ -209,7 +215,6 @@ public class TrainingActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.i("abcdef", "onDestroy: adadwd");
         // alle Werte speichern
         for (ArrayList<Training> trainingList : exerciseTrainingList.values()) {
             for (Training training : trainingList) {
