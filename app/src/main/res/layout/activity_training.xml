@@ -44,7 +44,8 @@
                 android:id="@+id/buttonAddSet"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/add_set" />
+                android:text="@string/add_set"
+                android:layout_marginTop="10dp"/>
 
         </LinearLayout>
 

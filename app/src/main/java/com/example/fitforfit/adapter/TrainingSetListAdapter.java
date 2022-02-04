@@ -1,9 +1,12 @@
 package com.example.fitforfit.adapter;
 
 import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.Rect;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,7 +20,7 @@ import java.util.List;
 public class TrainingSetListAdapter extends RecyclerView.Adapter<TrainingSetListAdapter.TrainingSetViewHolder> {
 
     private Context context;
-    private ArrayList<Training> trainingList = null;
+    private ArrayList<Training> trainingList = new ArrayList<>();
 
     public TrainingSetListAdapter(Context context) {
         this.context = context;
@@ -27,7 +30,6 @@ public class TrainingSetListAdapter extends RecyclerView.Adapter<TrainingSetList
         this.trainingList = trainingList;
         notifyDataSetChanged();
     }
-
 
     @NonNull
     @Override
@@ -39,7 +41,8 @@ public class TrainingSetListAdapter extends RecyclerView.Adapter<TrainingSetList
 
     @Override
     public void onBindViewHolder(@NonNull TrainingSetViewHolder holder, int position) {
-
+        String text = (position + 1) + ". Satz";
+        holder.setTV.setText(text);
     }
 
     @Override
@@ -50,9 +53,11 @@ public class TrainingSetListAdapter extends RecyclerView.Adapter<TrainingSetList
     public static class TrainingSetViewHolder extends RecyclerView.ViewHolder {
 
         // TODO Layout designen
+        TextView setTV;
 
         public TrainingSetViewHolder(@NonNull View itemView) {
             super(itemView);
+            setTV = itemView.findViewById(R.id.trainingSetNumberTextView);
         }
     }
 }

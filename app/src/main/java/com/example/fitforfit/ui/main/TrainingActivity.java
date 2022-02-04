@@ -6,6 +6,7 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -40,10 +41,15 @@ public class TrainingActivity extends AppCompatActivity {
     // speichert Sätze zur aktuell ausgeführten Übung
     private ArrayList<Training> currentTrainingList;
 
+    // jede Übung braucht einen eigenen Adapter
+    private HashMap<Integer, TrainingSetListAdapter> setListAdapterHashMap;
+
     // TODO Liste aller exerciseIds und der dazugehörigen Sätze
     private HashMap<Integer, ArrayList<Training>> exerciseTrainingList;
 
-    private TrainingSetListAdapter trainingSetListAdapter;
+    private TrainingSetListAdapter currentSetListAdapter;
+
+    RecyclerView recyclerView;
 
     private Button prevButton;
     private Button nextButton;
@@ -77,12 +83,16 @@ public class TrainingActivity extends AppCompatActivity {
             currentTrainingList.add(training);
 
             exerciseTrainingList = new HashMap<>();
-            exerciseTrainingList.put(currentExercisePos, currentTrainingList);
+            exerciseTrainingList.put(currentExerciseId, currentTrainingList);
 
             initViews();
 
-            trainingSetListAdapter = new TrainingSetListAdapter(getApplicationContext());
-            trainingSetListAdapter.setTrainingList(currentTrainingList);
+            currentSetListAdapter = new TrainingSetListAdapter(getApplicationContext());
+            currentSetListAdapter.setTrainingList(currentTrainingList);
+
+            setListAdapterHashMap = new HashMap<>();
+            setListAdapterHashMap.put(currentExerciseId, currentSetListAdapter);
+
             initRecyclerView();
 
         }
@@ -104,9 +114,13 @@ public class TrainingActivity extends AppCompatActivity {
     }
 
     private void initRecyclerView() {
-        RecyclerView recyclerView = binding.trainingSets;
+        recyclerView = binding.trainingSets;
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        recyclerView.setAdapter(trainingSetListAdapter);
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
+
+        recyclerView.addItemDecoration(dividerItemDecoration);
+
+        recyclerView.setAdapter(currentSetListAdapter);
     }
 
     private void initViews() {
@@ -114,7 +128,9 @@ public class TrainingActivity extends AppCompatActivity {
         nextButton = binding.buttonTrainingNextExercise;
         prevButton.setEnabled(false);
 
-        prevButton.setOnClickListener(view -> performExerciseChange(--currentExercisePos));
+        prevButton.setOnClickListener(view -> {
+            performExerciseChange(--currentExercisePos);
+        });
         nextButton.setOnClickListener(view -> performExerciseChange(++currentExercisePos));
 
         Button addSetButton = binding.buttonAddSet;
@@ -122,7 +138,7 @@ public class TrainingActivity extends AppCompatActivity {
             int      currentSet = currentTrainingList.size();
             Training training   = getNewTrainingInstance(currentSet + 1);
             currentTrainingList.add(training);
-            trainingSetListAdapter.setTrainingList(currentTrainingList);
+            currentSetListAdapter.setTrainingList(currentTrainingList);
         });
     }
 
@@ -133,20 +149,42 @@ public class TrainingActivity extends AppCompatActivity {
      */
     private void performExerciseChange(int newExercisePos) {
         currentExercisePos = newExercisePos;
+
+        // Liste der Sätze der aktuellen Übung (vor dem Wechsel der Übung) speichern
+        // wenn es schon einen Eintrag in der Hashmap gibt, muss dieser erst entfernt und dann
+        // neu hinzugefügt werden, da replace() erst ab Android N funktioniert
+        if (exerciseTrainingList.containsKey(currentExerciseId)) {
+            exerciseTrainingList.remove(currentExerciseId);
+            exerciseTrainingList.put(currentExerciseId, currentTrainingList);
+        } else {
+            // wenn die Satzliste noch nicht enthalten ist, kann sie einfach hinzugefügt werden
+            exerciseTrainingList.put(currentExerciseId, currentTrainingList);
+        }
+
+        // danach die neue exerciseId holen
+        currentExerciseId = exerciseList.get(currentExercisePos).id;
         updateTextOfExerciseTextView();
 
         // wenn das Exercise Objekt schon erzeugt wurde, lade es neu ein, ansonsten erzeuge es
-        if (exerciseTrainingList.containsKey(currentExerciseId)){
+        if (exerciseTrainingList.containsKey(currentExerciseId)) {
             currentTrainingList = exerciseTrainingList.get(currentExerciseId);
-        }
-        else {
+        } else {
             currentTrainingList = new ArrayList<>();
             Training training = getNewTrainingInstance(0);
             currentTrainingList.add(training);
             exerciseTrainingList.put(currentExerciseId, currentTrainingList);
         }
 
-        trainingSetListAdapter.setTrainingList(currentTrainingList);
+        // Adapter zur Übung einladen oder erzeugen
+        if (setListAdapterHashMap.containsKey(currentExerciseId)) {
+            currentSetListAdapter = setListAdapterHashMap.get(currentExerciseId);
+        } else {
+            currentSetListAdapter = new TrainingSetListAdapter(getApplicationContext());
+            setListAdapterHashMap.put(currentExerciseId, currentSetListAdapter);
+        }
+
+        currentSetListAdapter.setTrainingList(currentTrainingList);
+        recyclerView.setAdapter(currentSetListAdapter);
 
         prevButton.setEnabled(currentExercisePos != 0);
 
