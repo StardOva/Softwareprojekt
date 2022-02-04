@@ -22,24 +22,24 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_weight="2"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/trainingRepsTextView"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:gravity="center"
                 android:text="@string/reps"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:gravity="center_vertical"/>
 
             <TextView
                 android:id="@+id/trainingWeightTextView"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="48dp"
-                android:gravity="center"
                 android:text="@string/weight"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:gravity="center_vertical"/>
 
         </LinearLayout>
 
@@ -50,7 +50,7 @@
 
             <EditText
                 android:id="@+id/repCount"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:inputType="numberDecimal"
