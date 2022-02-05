@@ -1,7 +1,6 @@
 package com.example.fitforfit.ui.main;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -22,11 +21,9 @@ import com.example.fitforfit.entity.Workout;
 import com.example.fitforfit.singleton.Database;
 import com.example.fitforfit.utils.DateUtils;
 
-import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class TrainingActivity extends AppCompatActivity {
 
@@ -52,7 +49,7 @@ public class TrainingActivity extends AppCompatActivity {
     // jede Übung braucht einen eigenen Adapter
     private HashMap<Integer, TrainingSetListAdapter> setListAdapterHashMap;
 
-    // Liste aller exerciseIds und der dazugehörigen Sätze
+    // HashMap aller exerciseIds und der dazugehörigen Sätze
     private HashMap<Integer, ArrayList<Training>> exerciseTrainingList;
 
     private TrainingSetListAdapter currentSetListAdapter;
@@ -76,10 +73,23 @@ public class TrainingActivity extends AppCompatActivity {
 
         db = Database.getInstance(getApplicationContext());
         workoutId = getIntent().getIntExtra("workoutId", 0);
-        trainingId = db.trainingDao().getLastId() + 1;
 
-        // aktuelles Datum YYYY-MM-DD
-        dateString = DateUtils.getDateString();
+        // wenn die trainingId mitgeliefert wurde, dann nimm diese (wenn eine Session später nochmal bearbeitet wird)
+        trainingId = getIntent().getIntExtra("trainingId", 0);
+        // wird die Session gerade bearbeitet oder ist es eine neue
+        boolean editSession = true;
+
+        if (trainingId == 0) {
+            trainingId = db.trainingDao().getLastId() + 1;
+            editSession = false;
+        }
+
+        // wenn Session bearbeitet wird, nimm dessen Datum
+        dateString = getIntent().getStringExtra("createdAt");
+        if (dateString == null) {
+            // aktuelles Datum DD-MM-YYYY
+            dateString = DateUtils.getGermanDateString();
+        }
 
         if (workoutId > 0) {
             exerciseList = db.workoutDao().getRelatedExercises(workoutId);
@@ -93,13 +103,31 @@ public class TrainingActivity extends AppCompatActivity {
             currentExerciseId = exerciseList.get(currentExercisePos).id;
             updateTextOfExerciseTextView();
 
-            // initiales Training Objekt
-            Training training = getNewTrainingInstance(0);
             currentTrainingList = new ArrayList<>();
-            currentTrainingList.add(training);
-
             exerciseTrainingList = new HashMap<>();
-            exerciseTrainingList.put(currentExerciseId, currentTrainingList);
+
+            // initiales Training Objekt, falls die Session gerade nicht bearbeitet wird
+            if (!editSession) {
+                Training training = getNewTrainingInstance(0);
+                currentTrainingList.add(training);
+                exerciseTrainingList.put(currentExerciseId, currentTrainingList);
+            } else {
+                // ansonsten gehe durch die Liste der Übungen
+                boolean firstRun = true;
+                for (Exercise exercise : exerciseList) {
+                    // und lade alle zugehörigen Sätze ein
+                    List<Training> dbTrainingList = db.trainingDao().getAllSetsByWorkoutAndTrainingAndExerciseId(workoutId, trainingId, exercise.id);
+
+                    // beim ersten Durchlauf gleich noch die Variable currentTrainingList setzen
+                    if (firstRun){
+                        currentTrainingList = (ArrayList<Training>) dbTrainingList;
+                        firstRun = false;
+                    }
+
+                    exerciseTrainingList.put(exercise.id, (ArrayList<Training>) dbTrainingList);
+                }
+            }
+
 
             initViews();
 

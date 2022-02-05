@@ -34,7 +34,7 @@ public class WorkoutMainFragment extends Fragment {
     private FragmentMainBinding binding;
     private WorkoutListAdapter workoutListAdapter;
 
-    public WorkoutMainFragment(){
+    public WorkoutMainFragment() {
         super(R.layout.fragment_workout);
     }
 
@@ -58,19 +58,17 @@ public class WorkoutMainFragment extends Fragment {
         initRecyclerView(view);
     }
 
-    private void initRecyclerView(View view){
-        AsyncTask.execute(() -> {
-            RecyclerView recyclerView = view.findViewById(R.id.recyclerViewWorkouts);
-            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+    private void initRecyclerView(View view) {
+        RecyclerView recyclerView = view.findViewById(R.id.recyclerViewWorkouts);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-            this.workoutListAdapter = new WorkoutListAdapter(getActivity());
-            recyclerView.setAdapter(this.workoutListAdapter);
-            loadWorkoutList();
-        });
+        this.workoutListAdapter = new WorkoutListAdapter(getActivity());
+        recyclerView.setAdapter(this.workoutListAdapter);
+        AsyncTask.execute(this::loadWorkoutList);
     }
 
-    private void loadWorkoutList(){
-        AppDatabase db = Database.getInstance(getContext());
+    private void loadWorkoutList() {
+        AppDatabase   db          = Database.getInstance(getContext());
         List<Workout> workoutList = db.workoutDao().getAll();
         this.workoutListAdapter.setContext(getContext());
         this.workoutListAdapter.setWorkoutList(workoutList);

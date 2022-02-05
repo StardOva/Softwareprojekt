@@ -74,6 +74,9 @@
         <activity
             android:name=".ui.main.TrainingActivity"
             android:exported="false" />
+        <activity
+            android:name=".ui.main.WorkoutStatsActivity"
+            android:exported="false" />
     </application>
 
 </manifest>
