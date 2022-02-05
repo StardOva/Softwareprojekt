@@ -52,7 +52,6 @@
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:label="@string/app_name"
             android:theme="@style/Theme.FitforFit.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -62,7 +61,7 @@
         </activity>
         <activity
             android:name=".ui.main.CreateNewWorkoutActivity"
-            android:exported="false"></activity>
+            android:exported="false" />
         <activity
             android:name=".ui.main.WorkoutDetailActivity"
             android:exported="false" />
@@ -72,8 +71,9 @@
         <activity
             android:name=".ui.main.CreateNewExerciseActivity"
             android:exported="false" />
-        <activity android:name=".ui.main.TrainingActivity"
-            android:exported="false"/>
+        <activity
+            android:name=".ui.main.TrainingActivity"
+            android:exported="false" />
     </application>
 
 </manifest>

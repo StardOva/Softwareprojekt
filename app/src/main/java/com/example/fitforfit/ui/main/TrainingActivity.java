@@ -20,6 +20,7 @@ import com.example.fitforfit.entity.Exercise;
 import com.example.fitforfit.entity.Training;
 import com.example.fitforfit.entity.Workout;
 import com.example.fitforfit.singleton.Database;
+import com.example.fitforfit.utils.DateUtils;
 
 import java.util.AbstractMap;
 import java.util.ArrayList;
@@ -63,6 +64,8 @@ public class TrainingActivity extends AppCompatActivity {
 
     private AlertDialog.Builder finishAlertDialog;
 
+    private String dateString;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,6 +77,9 @@ public class TrainingActivity extends AppCompatActivity {
         db = Database.getInstance(getApplicationContext());
         workoutId = getIntent().getIntExtra("workoutId", 0);
         trainingId = db.trainingDao().getLastId() + 1;
+
+        // aktuelles Datum YYYY-MM-DD
+        dateString = DateUtils.getDateString();
 
         if (workoutId > 0) {
             exerciseList = db.workoutDao().getRelatedExercises(workoutId);
@@ -127,6 +133,7 @@ public class TrainingActivity extends AppCompatActivity {
         training.workoutId = workoutId;
         training.exerciseId = currentExerciseId;
         training.set = set;
+        training.createdAt = dateString;
         return training;
     }
 

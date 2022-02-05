@@ -3,6 +3,8 @@ package com.example.fitforfit.fragments;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.format.DateUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +25,8 @@ import com.example.fitforfit.entity.Workout;
 import com.example.fitforfit.singleton.Database;
 import com.example.fitforfit.ui.main.CreateNewWorkoutActivity;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 
 public class WorkoutMainFragment extends Fragment {
