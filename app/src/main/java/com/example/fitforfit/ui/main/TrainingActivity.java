@@ -128,7 +128,6 @@ public class TrainingActivity extends AppCompatActivity {
                 }
             }
 
-
             initViews();
 
             currentSetListAdapter = new TrainingSetListAdapter(getApplicationContext());
