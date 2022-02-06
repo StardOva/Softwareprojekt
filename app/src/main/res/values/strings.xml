@@ -12,6 +12,7 @@
 
     <string name="activity_new_workout_message">Name des Workouts</string>
     <string name="title_activity_sacn">SacnActivity</string>
+
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
     <string name="second_fragment_label">Second Fragment</string>
@@ -31,5 +32,9 @@
     <string name="weight">Gewicht:</string>
     <string name="kilo">kg</string>
     <string name="add_set">Satz hinzufügen</string>
+
+    <string name="workout_stats_tab1">Auswertung</string>
+    <string name="workout_stats_tab2">Verlauf</string>
+    <string name="stats">Statistiken</string>
 
 </resources>

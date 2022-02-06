@@ -46,4 +46,7 @@ public class Training {
 
     public int reps;
 
+    @ColumnInfo(name = "created_at")
+    public String createdAt;
+
 }

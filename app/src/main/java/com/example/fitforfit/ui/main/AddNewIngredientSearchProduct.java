@@ -41,7 +41,7 @@ public class AddNewIngredientSearchProduct extends AppCompatActivity {
 
     private void loadIngredientList(String search) {
         AppDatabase db = Database.getInstance(this);
-        if(search == "NO_SEARCH_INPUT"){
+        if(search.equals("NO_SEARCH_INPUT")){
             productList = db.productDao().getAllProducts();
         }else{
             productList = db.productDao().searchProductsByName(search);
