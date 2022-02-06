@@ -23,6 +23,12 @@
             android:layout_height="wrap_content"
             android:text="@string/btn_add_exercise" />
 
+        <Button
+            android:id="@+id/btnWorkoutStats"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/stats" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewWorkoutExercises"
             android:layout_width="match_parent"

@@ -27,6 +27,7 @@ import com.example.fitforfit.entity.Exercise;
 import com.example.fitforfit.singleton.Database;
 import com.example.fitforfit.ui.main.AddExerciseToWorkoutActivity;
 import com.example.fitforfit.ui.main.TrainingActivity;
+import com.example.fitforfit.ui.main.WorkoutStatsActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
@@ -111,6 +112,13 @@ public class WorkoutDetailFragment extends Fragment {
         Button addExerciseBtn = view.findViewById(R.id.btnAddExercise);
         addExerciseBtn.setOnClickListener(view1 -> {
             Intent intent = new Intent(getActivity(), AddExerciseToWorkoutActivity.class);
+            intent.putExtra("workoutId", workoutId);
+            requireActivity().startActivity(intent);
+        });
+
+        Button workoutStatsBtn = view.findViewById(R.id.btnWorkoutStats);
+        workoutStatsBtn.setOnClickListener(view1 -> {
+            Intent intent = new Intent(getActivity(), WorkoutStatsActivity.class);
             intent.putExtra("workoutId", workoutId);
             requireActivity().startActivity(intent);
         });
