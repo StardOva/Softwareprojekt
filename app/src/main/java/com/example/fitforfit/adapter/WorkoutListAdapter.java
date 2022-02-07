@@ -21,17 +21,17 @@ public class WorkoutListAdapter extends RecyclerView.Adapter<WorkoutListAdapter.
 
     private Context context;
     private Context mainActivity;
-    private List<Workout> workoutList;
+    private List<Workout> workoutList = null;
 
-    public WorkoutListAdapter(Context context){
+    public WorkoutListAdapter(Context context) {
         this.context = context;
     }
 
-    public void setContext(Context mainActivity){
+    public void setContext(Context mainActivity) {
         this.mainActivity = mainActivity;
     }
 
-    public void setWorkoutList(List<Workout> workoutList){
+    public void setWorkoutList(List<Workout> workoutList) {
         this.workoutList = workoutList;
         notifyDataSetChanged();
     }
@@ -57,7 +57,11 @@ public class WorkoutListAdapter extends RecyclerView.Adapter<WorkoutListAdapter.
 
     @Override
     public int getItemCount() {
-        return this.workoutList.size();
+        if (this.workoutList != null) {
+            return this.workoutList.size();
+        }
+
+        return 0;
     }
 
     public static class WorkoutViewHolder extends RecyclerView.ViewHolder {
