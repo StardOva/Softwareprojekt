@@ -70,8 +70,10 @@ public class WorkoutMainFragment extends Fragment {
     private void loadWorkoutList() {
         AppDatabase   db          = Database.getInstance(getContext());
         List<Workout> workoutList = db.workoutDao().getAll();
-        this.workoutListAdapter.setContext(getContext());
-        this.workoutListAdapter.setWorkoutList(workoutList);
+        requireActivity().runOnUiThread(() -> {
+            workoutListAdapter.setContext(getContext());
+            workoutListAdapter.setWorkoutList(workoutList);
+        });
     }
 
     @Override
@@ -79,6 +81,6 @@ public class WorkoutMainFragment extends Fragment {
         super.onResume();
         // nach Anlegen eines neuen Workouts in der CreateNewWorkoutActivity
         // muss die Liste neu geladen werden, damit das neue Workout auch dargestellt wird
-        loadWorkoutList();
+        AsyncTask.execute(this::loadWorkoutList);
     }
 }

@@ -32,7 +32,7 @@ public class TrackerMainFragment extends Fragment {
     private DayListAdapter dayListAdapter;
 
 
-    public TrackerMainFragment(){
+    public TrackerMainFragment() {
         super(R.layout.fragment_tracker);
     }
 
@@ -40,30 +40,26 @@ public class TrackerMainFragment extends Fragment {
     public View onCreateView(
             @NonNull LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-        
+
         binding = FragmentMainBinding.inflate(inflater, container, false);
 
         return inflater.inflate(R.layout.fragment_tracker, binding.getRoot());
-
-
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         initRecyclerView(view);
-        loadDayList();
     }
 
     private void initRecyclerView(View view) {
-        AsyncTask.execute(() -> {
-            RecyclerView recyclerView = view.findViewById(R.id.recyclerViewTrackerMain);
-            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        RecyclerView recyclerView = view.findViewById(R.id.recyclerViewTrackerMain);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(requireActivity(), DividerItemDecoration.VERTICAL);
+        recyclerView.addItemDecoration(dividerItemDecoration);
+        dayListAdapter = new DayListAdapter(getActivity());
+        recyclerView.setAdapter(dayListAdapter);
 
-            DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL);
-            recyclerView.addItemDecoration(dividerItemDecoration);
-            dayListAdapter = new DayListAdapter(getActivity());
-            recyclerView.setAdapter(dayListAdapter);
-        });
+        AsyncTask.execute(this::loadDayList);
     }
 
     private void loadDayList() {
@@ -71,39 +67,39 @@ public class TrackerMainFragment extends Fragment {
         AppDatabase db = Database.getInstance(getActivity());
 
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");//FORMAT
-        Calendar cal = Calendar.getInstance();//HEUTE
+        Calendar         cal    = Calendar.getInstance();//HEUTE
         //cal.add(Calendar.DATE, 12);
-        String formatted_date_today = format.format(cal.getTime());//HEUTE STRING
-        String[] splitToday = formatted_date_today.split("-");
-        cal.set(Integer.valueOf(splitToday[0]),Integer.valueOf(splitToday[1])-1,Integer.valueOf(splitToday[2]));//HEUTE ALS CAL
+        String   formatted_date_today = format.format(cal.getTime());//HEUTE STRING
+        String[] splitToday           = formatted_date_today.split("-");
+        cal.set(Integer.valueOf(splitToday[0]), Integer.valueOf(splitToday[1]) - 1, Integer.valueOf(splitToday[2]));//HEUTE ALS CAL
 
         String lastDate = db.dayDao().getLastDate();//AUSLESEN LETZTES DATUM
         //String lastDate = "2022-02-02";//STRING LETZTES DATUM
         Calendar cal_last = Calendar.getInstance();
-        if(lastDate != null){
+        if (lastDate != null) {
             String[] split = lastDate.split("-");
-            cal_last.set(Integer.valueOf(split[0]),Integer.valueOf(split[1])-1,Integer.valueOf(split[2]));//LETZTES DATUM ALS CAL (Jan-0, Feb-1,...)
+            cal_last.set(Integer.valueOf(split[0]), Integer.valueOf(split[1]) - 1, Integer.valueOf(split[2]));//LETZTES DATUM ALS CAL (Jan-0, Feb-1,...)
         }
 
         long diffmilli = cal.getTimeInMillis() - cal_last.getTimeInMillis();
-        long diffday = diffmilli / (24 * 60 *60 * 1000);
+        long diffday   = diffmilli / (24 * 60 * 60 * 1000);
         Log.d("CHECK_DATE", "HEUTE: " + format.format(cal.getTime()));
-        Log.d("CHECK_DATE","Letztes eingetragendes Datum: "+ lastDate + "("+ format.format(cal_last.getTime())+") mit d:" + String.valueOf(diffday));
+        Log.d("CHECK_DATE", "Letztes eingetragendes Datum: " + lastDate + "(" + format.format(cal_last.getTime()) + ") mit d:" + String.valueOf(diffday));
         //System.out.println("Letztes eingetragendes Datum: "+ lastDate + "("+ format.format(cal_last.getTime())+") mit d:" + String.valueOf(diffday));
-        if(lastDate == null){
+        if (lastDate == null) {
             newDayInsert(formatted_date_today, db);//HEUTE WIRD EINGEFÜGT
             Log.d("CHECK_DATE", "Noch kein Tag vorhanden - heute als ersten tag eingetragen: " + formatted_date_today);
             //System.out.println("Noch kein Tag vorhanden - heute als ersten tag eingetragen " + formatted_date_today);
-        }else{
+        } else {
             Log.d("CONTROL_POINT_1", "diffday: " + String.valueOf(diffday));
-            if(diffday>1) {
-                int k = (int)diffday  ;
-                for (int i = 0; i <= (int)diffday; i++) {
+            if (diffday > 1) {
+                int k = (int) diffday;
+                for (int i = 0; i <= (int) diffday; i++) {
 
                     Calendar newCal = cal;
                     newCal.add(Calendar.DATE, k * (-1));
-                    SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd");
-                    String formatted_date_today2 = format2.format(newCal.getTime());
+                    SimpleDateFormat format2               = new SimpleDateFormat("yyyy-MM-dd");
+                    String           formatted_date_today2 = format2.format(newCal.getTime());
                     newDayInsert(formatted_date_today2, db);
                     //System.out.println("DAtum eingetragen: " + formatted_date_today2);
                     //System.out.println(String.valueOf(k));
@@ -113,16 +109,16 @@ public class TrackerMainFragment extends Fragment {
 
 
                 }
-            }else{
+            } else {
 
                 //Vergleich Heute und letzter Eintrag -> wenn >= 0 heute ist letzter Eintrag
                 //System.out.println("Datum ist aktuell: " + splitToday[0]+"-"+splitToday[1]+"-"+splitToday[2] + "("+ format.format(cal.getTime())+")");
-                if(cal.compareTo(cal_last) > 0){
+                if (cal.compareTo(cal_last) > 0) {
                     Log.d("CONTROL_POINT_2", "Compare: " + String.valueOf(cal.compareTo(cal_last)));
                     newDayInsert(formatted_date_today, db);
                     //System.out.println("Datum geändert zu: "+ formatted_date_today);
 
-                }else {
+                } else {
                     System.out.println("Keine Änderung");
                 }
             }
@@ -130,11 +126,14 @@ public class TrackerMainFragment extends Fragment {
 
         //Alle Tage mit RecyclerView anzeigen
         List<Day> dayList = db.dayDao().getAllDays();
-        dayListAdapter.setContext(getContext());
-        dayListAdapter.setDayList(dayList);
+
+        requireActivity().runOnUiThread(() -> {
+            dayListAdapter.setContext(getContext());
+            dayListAdapter.setDayList(dayList);
+        });
     }
 
-    public void newDayInsert(String newday, AppDatabase db){
+    public void newDayInsert(String newday, AppDatabase db) {
         Day day = new Day();
         day.progress = 75;
         day.date = newday;

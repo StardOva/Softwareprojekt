@@ -17,17 +17,18 @@ import com.example.fitforfit.ui.main.TrackerDayActivity;
 
 import java.util.List;
 
-public class DayListAdapter extends RecyclerView.Adapter<DayListAdapter.MyViewHolder>{
+public class DayListAdapter extends RecyclerView.Adapter<DayListAdapter.MyViewHolder> {
 
     private Context context;
     private Context mainActivity;
 
-    private List<Day> dayList;
+    private List<Day> dayList = null;
+
     public DayListAdapter(Context context) {
         this.context = context;
     }
 
-    public void setContext(Context mainActivity){
+    public void setContext(Context mainActivity) {
         this.mainActivity = mainActivity;
     }
 
@@ -35,7 +36,6 @@ public class DayListAdapter extends RecyclerView.Adapter<DayListAdapter.MyViewHo
         this.dayList = dayList;
         notifyDataSetChanged();
     }
-
 
 
     @NonNull
@@ -48,13 +48,13 @@ public class DayListAdapter extends RecyclerView.Adapter<DayListAdapter.MyViewHo
 
     @Override
     public void onBindViewHolder(@NonNull DayListAdapter.MyViewHolder holder, int position) {
-        String date = this.dayList.get(position).date;
-        String[] split = this.dayList.get(position).date.split("-");
-        String displayDate = split[2]+"."+split[1]+".";
+        String   date        = this.dayList.get(position).date;
+        String[] split       = this.dayList.get(position).date.split("-");
+        String   displayDate = split[2] + "." + split[1] + ".";
         holder.dayButton.setText(displayDate);
 
         holder.dayButton.setOnClickListener(v -> {
-            Log.d("DayButton", split[2]+"."+split[1]+".");
+            Log.d("DayButton", split[2] + "." + split[1] + ".");
 
             Intent intent = new Intent(mainActivity, TrackerDayActivity.class);
             intent.putExtra("date", date);
@@ -65,10 +65,14 @@ public class DayListAdapter extends RecyclerView.Adapter<DayListAdapter.MyViewHo
 
     @Override
     public int getItemCount() {
-        return  this.dayList.size();
+        if (this.dayList != null) {
+            return this.dayList.size();
+        }
+
+        return 0;
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder{
+    public class MyViewHolder extends RecyclerView.ViewHolder {
         /*TextView tvFirstName;
         TextView tvLastName;*/
         Button dayButton;
