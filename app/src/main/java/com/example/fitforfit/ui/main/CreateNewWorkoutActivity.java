@@ -25,6 +25,7 @@ public class CreateNewWorkoutActivity extends AppCompatActivity {
     private ActivityCreateNewWorkoutBinding binding;
     private Button saveButton;
     private AppDatabase db;
+    private List<Workout> workoutList = null;
 
     public static final int MAX_WORKOUT_NAME_LENGTH = 25;
 
@@ -44,7 +45,7 @@ public class CreateNewWorkoutActivity extends AppCompatActivity {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
 
         // Textfeld auf maximale Länge begrenzen
-        editText.setFilters(new InputFilter[] {new InputFilter.LengthFilter(MAX_WORKOUT_NAME_LENGTH)});
+        editText.setFilters(new InputFilter[]{new InputFilter.LengthFilter(MAX_WORKOUT_NAME_LENGTH)});
 
         // Button zum zurückgehen
         Button cancelButton = binding.btnCreateNewWorkoutCancel;
@@ -65,8 +66,7 @@ public class CreateNewWorkoutActivity extends AppCompatActivity {
             finish();
         });
 
-        // alle bisherigen Workouts einladen
-        List<Workout> workoutList = db.workoutDao().getAll();
+        loadWorkoutList();
 
         // Speichern soll nur möglich sein, wenn der Workoutname noch nicht existiert und nicht leer ist
         editText.addTextChangedListener(new TextWatcher() {
@@ -106,5 +106,14 @@ public class CreateNewWorkoutActivity extends AppCompatActivity {
         });
 
 
+    }
+
+    private void loadWorkoutList() {
+        AsyncTask.execute(() -> {
+            // alle bisherigen Workouts einladen
+            // TODO gefühlt laggt es mehr wenn die Workouts im separaten Thread geladen werden
+            // TODO muss mal schauen wie das vorher war als es noch im UI Thread geladen wurde
+            workoutList = db.workoutDao().getAll();
+        });
     }
 }

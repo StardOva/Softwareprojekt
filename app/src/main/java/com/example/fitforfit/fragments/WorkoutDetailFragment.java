@@ -3,14 +3,11 @@ package com.example.fitforfit.fragments;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewManager;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,7 +18,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.fitforfit.R;
 import com.example.fitforfit.adapter.WorkoutDetailAdapter;
 import com.example.fitforfit.database.AppDatabase;
-import com.example.fitforfit.databinding.FragmentMainBinding;
 import com.example.fitforfit.databinding.FragmentWorkoutDetailBinding;
 import com.example.fitforfit.entity.Exercise;
 import com.example.fitforfit.singleton.Database;
@@ -36,7 +32,7 @@ public class WorkoutDetailFragment extends Fragment {
 
     public FragmentWorkoutDetailBinding binding;
     private WorkoutDetailAdapter workoutDetailAdapter = null;
-    public int workoutId;
+    public int workoutId = 0;
 
     public WorkoutDetailFragment() {
         super(R.layout.fragment_workout_detail);
@@ -84,31 +80,33 @@ public class WorkoutDetailFragment extends Fragment {
     }
 
     private void initRecyclerView(View view) {
-        AsyncTask.execute(() -> {
-            RecyclerView recyclerView = view.findViewById(R.id.recyclerViewWorkoutExercises);
-            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        RecyclerView recyclerView = view.findViewById(R.id.recyclerViewWorkoutExercises);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-            this.workoutDetailAdapter = new WorkoutDetailAdapter(getContext());
-            recyclerView.setAdapter(this.workoutDetailAdapter);
-            loadExerciseList();
-            initViews(view);
-        });
+        this.workoutDetailAdapter = new WorkoutDetailAdapter(getContext());
+        recyclerView.setAdapter(this.workoutDetailAdapter);
+
+        initViews(view);
+        loadExerciseList();
     }
 
     private void loadExerciseList() {
-        AppDatabase    db           = Database.getInstance(getContext());
-        List<Exercise> exerciseList = db.workoutDao().getRelatedExercises(this.workoutId);
-        if (exerciseList != null && this.workoutDetailAdapter != null) {
-            this.workoutDetailAdapter.setExerciseList(exerciseList);
-        }
+        AsyncTask.execute(() -> {
+            AppDatabase    db           = Database.getInstance(getContext());
+            List<Exercise> exerciseList = db.workoutDao().getRelatedExercises(this.workoutId);
+            if (exerciseList != null) {
+                requireActivity().runOnUiThread(() -> {
+                    this.workoutDetailAdapter.setExerciseList(exerciseList);
+                    if (this.workoutDetailAdapter.getItemCount() == 0) {
+                        TextView textView = requireView().findViewById(R.id.workoutDetailTextView);
+                        textView.setText(R.string.workout_detail_no_exercises);
+                    }
+                });
+            }
+        });
     }
 
     private void initViews(View view) {
-        if (this.workoutDetailAdapter.getItemCount() == 0) {
-            TextView textView = view.findViewById(R.id.workoutDetailTextView);
-            textView.setText(R.string.workout_detail_no_exercises);
-        }
-
         Button addExerciseBtn = view.findViewById(R.id.btnAddExercise);
         addExerciseBtn.setOnClickListener(view1 -> {
             Intent intent = new Intent(getActivity(), AddExerciseToWorkoutActivity.class);
@@ -129,6 +127,5 @@ public class WorkoutDetailFragment extends Fragment {
             intent.putExtra("workoutId", workoutId);
             requireActivity().startActivity(intent);
         });
-
     }
 }

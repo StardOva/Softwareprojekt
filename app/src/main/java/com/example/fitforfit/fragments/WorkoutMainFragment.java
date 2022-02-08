@@ -64,15 +64,17 @@ public class WorkoutMainFragment extends Fragment {
 
         this.workoutListAdapter = new WorkoutListAdapter(getActivity());
         recyclerView.setAdapter(this.workoutListAdapter);
-        AsyncTask.execute(this::loadWorkoutList);
+        loadWorkoutList();
     }
 
     private void loadWorkoutList() {
-        AppDatabase   db          = Database.getInstance(getContext());
-        List<Workout> workoutList = db.workoutDao().getAll();
-        requireActivity().runOnUiThread(() -> {
-            workoutListAdapter.setContext(getContext());
-            workoutListAdapter.setWorkoutList(workoutList);
+        AsyncTask.execute(() -> {
+            AppDatabase   db          = Database.getInstance(getContext());
+            List<Workout> workoutList = db.workoutDao().getAll();
+            requireActivity().runOnUiThread(() -> {
+                workoutListAdapter.setContext(getContext());
+                workoutListAdapter.setWorkoutList(workoutList);
+            });
         });
     }
 
@@ -81,6 +83,6 @@ public class WorkoutMainFragment extends Fragment {
         super.onResume();
         // nach Anlegen eines neuen Workouts in der CreateNewWorkoutActivity
         // muss die Liste neu geladen werden, damit das neue Workout auch dargestellt wird
-        AsyncTask.execute(this::loadWorkoutList);
+        loadWorkoutList();
     }
 }

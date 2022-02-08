@@ -47,7 +47,11 @@ public class WorkoutDetailAdapter extends RecyclerView.Adapter<WorkoutDetailAdap
 
     @Override
     public int getItemCount() {
-        return this.exerciseList.size();
+        if (this.exerciseList != null){
+            return this.exerciseList.size();
+        }
+
+        return 0;
     }
 
     public static class WorkoutDetailViewHolder extends RecyclerView.ViewHolder{

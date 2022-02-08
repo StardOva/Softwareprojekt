@@ -23,7 +23,7 @@ public class ExerciseListAdapter extends RecyclerView.Adapter<ExerciseListAdapte
 
     private final Context context;
     private Context workoutDetailActivity;
-    private List<Exercise> exerciseList;
+    private List<Exercise> exerciseList = null;
     private final AddExerciseToWorkoutActivity parentActivity;
     private int workoutId;
 
@@ -78,7 +78,11 @@ public class ExerciseListAdapter extends RecyclerView.Adapter<ExerciseListAdapte
 
     @Override
     public int getItemCount() {
-        return this.exerciseList.size();
+        if(exerciseList != null){
+            return this.exerciseList.size();
+        }
+
+        return 0;
     }
 
     public static class ExerciseViewHolder extends RecyclerView.ViewHolder {
