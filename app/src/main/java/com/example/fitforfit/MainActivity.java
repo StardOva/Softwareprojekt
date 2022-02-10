@@ -1,15 +1,21 @@
 package com.example.fitforfit;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.example.fitforfit.database.AppDatabase;
 import com.example.fitforfit.databinding.ActivityMainBinding;
+import com.example.fitforfit.entity.Training;
+import com.example.fitforfit.singleton.Database;
 import com.example.fitforfit.ui.main.SectionsPagerAdapter;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;
+
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -24,6 +30,14 @@ public class MainActivity extends AppCompatActivity {
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        AppDatabase db  = Database.getInstance(getApplicationContext());
+        int[]       ids = db.trainingDao().getIdsByWorkoutAndExerciseId(1, 1);
+        for (int id : ids) {
+            Training training = db.trainingDao().getMaxSetForTrainingId(id);
+            Log.d("abcdef", "Gewicht: " + training.weight);
+        }
+        List<Training> trainingList = db.trainingDao().getMaxWeightSetsByWorkoutAndExerciseId(1, 1);
 
         SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(this);
         ViewPager2           viewPager            = binding.viewPager;

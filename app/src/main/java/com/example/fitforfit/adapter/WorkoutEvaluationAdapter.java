@@ -1,11 +1,13 @@
 package com.example.fitforfit.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fitforfit.R;
@@ -13,9 +15,11 @@ import com.example.fitforfit.database.AppDatabase;
 import com.example.fitforfit.entity.Exercise;
 import com.example.fitforfit.entity.Training;
 import com.example.fitforfit.singleton.Database;
+import com.example.fitforfit.utils.ColorUtils;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.LegendEntry;
+import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
@@ -27,9 +31,9 @@ import java.util.List;
 public class WorkoutEvaluationAdapter extends RecyclerView.Adapter<WorkoutEvaluationAdapter.WorkoutEvaluationViewHolder> {
 
     private List<Exercise> exerciseList = null;
-    private Context context;
-    private AppDatabase db;
-    private int workoutId;
+    private final Context context;
+    private final AppDatabase db;
+    private final int workoutId;
 
     public WorkoutEvaluationAdapter(Context context, int workoutId) {
         this.context = context;
@@ -55,6 +59,8 @@ public class WorkoutEvaluationAdapter extends RecyclerView.Adapter<WorkoutEvalua
         Exercise  exercise  = exerciseList.get(position);
         LineChart lineChart = holder.lineChart;
 
+        ColorUtils colorUtils = new ColorUtils(this.context);
+
         // Chart Einstellungen
         lineChart.setTouchEnabled(true);
         lineChart.setDragEnabled(true);
@@ -72,10 +78,21 @@ public class WorkoutEvaluationAdapter extends RecyclerView.Adapter<WorkoutEvalua
 
         List<Training> trainingList = db.trainingDao().getMaxWeightSetsByWorkoutAndExerciseId(workoutId, exercise.id);
 
-        int i = 0;
+        int   i         = 0;
+        float maxWeight = 0;
+        int   maxReps   = 0;
+
         for (Training training : trainingList) {
             weightList.add(new Entry(i, training.weight));
             repList.add(new Entry(i, training.reps));
+
+            if (training.weight > maxWeight) {
+                maxWeight = training.weight;
+            }
+
+            if (training.reps > maxReps) {
+                maxReps = training.reps;
+            }
 
             LegendEntry legendEntry = new LegendEntry();
             legendEntry.label = training.createdAt;
@@ -86,15 +103,37 @@ public class WorkoutEvaluationAdapter extends RecyclerView.Adapter<WorkoutEvalua
 
         LineDataSet weightSet = new LineDataSet(weightList, "Gewicht");
         weightSet.setAxisDependency(YAxis.AxisDependency.LEFT);
-
+        weightSet.setColor(colorUtils.getFitGreen());
+        weightSet.setCircleColor(colorUtils.getFitGreen());
+        weightSet.setValueTextSize(12f);
 
         LineDataSet repSet = new LineDataSet(repList, "Wiederholungen");
         repSet.setAxisDependency(YAxis.AxisDependency.RIGHT);
+        repSet.setColor(colorUtils.getFitOrangeDark());
+        repSet.setCircleColor(colorUtils.getFitOrangeDark());
+        repSet.setValueTextSize(12f);
 
         LineData lineData = new LineData(weightSet, repSet);
         lineChart.setData(lineData);
 
         lineChart.getLegend().setCustom(legendList);
+
+        XAxis xAxis = lineChart.getXAxis();
+        xAxis.setTextSize(12f);
+        xAxis.setAxisMinimum(0);
+        xAxis.setAxisMaximum(weightList.size() - 1);
+        xAxis.setGranularity(1f);
+
+        YAxis leftAxis = lineChart.getAxisLeft();
+        leftAxis.setTextSize(12f);
+        leftAxis.setAxisMinimum(0);
+        leftAxis.setAxisMaximum(maxWeight + 20);
+        leftAxis.setGranularity(1f);
+
+        YAxis rightAxis = lineChart.getAxisRight();
+        rightAxis.setTextSize(12f);
+        rightAxis.setAxisMaximum(maxReps + 10);
+        rightAxis.setGranularity(1f);
 
 
     }
