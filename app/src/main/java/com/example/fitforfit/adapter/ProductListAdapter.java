@@ -28,7 +28,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
     private Context parentActivity;
     int mealId;
 
-    private List<Product> productList;
+    private List<Product> productList = null;
 
     public ProductListAdapter(Context context) {
         this.context = context;
@@ -83,7 +83,12 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 
     @Override
     public int getItemCount() {
-        return  this.productList.size();
+        if (this.productList != null) {
+            return  this.productList.size();
+        }
+
+        return 0;
+
     }
 
 

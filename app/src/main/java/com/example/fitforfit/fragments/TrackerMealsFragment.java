@@ -102,8 +102,13 @@ public class TrackerMealsFragment extends Fragment {
 
         this.mealList = db.mealDao().getAllMealsOnDay(this.dayId);
         Log.d("DEBUG NULLPOINTER", "CHECKPOINT 1");
-        mealListAdapter.setContext(getActivity());
-        mealListAdapter.setMealList(this.mealList);
+        //mealListAdapter.setContext(getActivity());
+        //mealListAdapter.setMealList(this.mealList);
+
+        requireActivity().runOnUiThread(() -> {
+            mealListAdapter.setContext(getContext());
+            mealListAdapter.setMealList(mealList);
+        });
 
     }
 
@@ -118,8 +123,10 @@ public class TrackerMealsFragment extends Fragment {
 
         recyclerView.setAdapter(mealListAdapter);
 
-        //TODO not efficient - content of loadMeals()
+        AsyncTask.execute(this::loadMealList);
 
+        //TODO not efficient - content of loadMeals()
+        /*
         TrackerDayActivity dayActivity = (TrackerDayActivity) getActivity();
         this.dayId = dayActivity.getCurrentDayId();
 
@@ -128,7 +135,7 @@ public class TrackerMealsFragment extends Fragment {
         this.mealList = db.mealDao().getAllMealsOnDay(this.dayId);
         Log.d("DEBUG NULLPOINTER", "CHECKPOINT 1");
         mealListAdapter.setContext(getActivity());
-        mealListAdapter.setMealList(this.mealList);
+        mealListAdapter.setMealList(this.mealList);*/
 
     }
 

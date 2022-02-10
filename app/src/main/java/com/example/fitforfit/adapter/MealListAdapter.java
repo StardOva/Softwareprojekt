@@ -26,7 +26,7 @@ public class MealListAdapter extends RecyclerView.Adapter<MealListAdapter.MyView
     private Context context;
     private Context dayActivity;
 
-    private List<Meal> mealList;
+    private List<Meal> mealList = null;
 
     public MealListAdapter(Context context) {
         this.context = context;
@@ -76,7 +76,12 @@ public class MealListAdapter extends RecyclerView.Adapter<MealListAdapter.MyView
     @Override
     public int getItemCount() {
         Log.d("DEBUG NULLPOINTER", "CHECKPOINT 4");
-        return  this.mealList.size();
+        //return  this.mealList.size();
+        if (this.mealList != null) {
+            return this.mealList.size();
+        }
+
+        return 0;
     }
 
 

@@ -41,7 +41,7 @@ public class AddNewIngredientSearchProduct extends AppCompatActivity {
 
 
 
-    private void loadIngredientList(String search) {
+    private void loadProductList(String search) {
         AppDatabase db = Database.getInstance(this);
         if(search.equals("NO_SEARCH_INPUT")){
             productList = db.productDao().getAllProducts();
@@ -49,12 +49,15 @@ public class AddNewIngredientSearchProduct extends AppCompatActivity {
             productList = db.productDao().searchProductsByName(search);
         }
 
-        productListAdapter.setContext(this);
-        productListAdapter.setProductList(productList);
+
+        this.runOnUiThread(() -> {
+            productListAdapter.setContext(this);
+            productListAdapter.setProductList(productList);
+        });
     }
 
     private void initRecyclerView() {
-        AsyncTask.execute(() -> {
+
             RecyclerView recyclerViewMeals = findViewById(R.id.recyclerViewProduct);
             recyclerViewMeals.setLayoutManager(new LinearLayoutManager(this));
 
@@ -62,8 +65,11 @@ public class AddNewIngredientSearchProduct extends AppCompatActivity {
             recyclerViewMeals.addItemDecoration(dividerItemDecoration);
             productListAdapter = new ProductListAdapter(this, this.mealId);
             recyclerViewMeals.setAdapter(productListAdapter);
-            loadIngredientList("NO_SEARCH_INPUT");
-        });
+            loadProductList("NO_SEARCH_INPUT");
+
+            //AsyncTask.execute(this::loadProductList("NO_SEARCH_INPUT"));
+
+
     }
 
     private void initViews() {
@@ -83,7 +89,7 @@ public class AddNewIngredientSearchProduct extends AppCompatActivity {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 String textFieldString = charSequence.toString().trim();
                 String ingName = ingredientNameTextView.getText().toString();
-                loadIngredientList(ingName);
+                loadProductList(ingName);
 
 
             }
