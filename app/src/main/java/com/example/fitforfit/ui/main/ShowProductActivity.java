@@ -16,6 +16,7 @@ public class ShowProductActivity extends AppCompatActivity {
 
     Product prod;
     int prodId;
+    int mealId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +42,11 @@ public class ShowProductActivity extends AppCompatActivity {
     }
 
     private void initViews() {
+        if(getIntent().hasExtra("mealId") && getIntent().getStringExtra("mealId") != ""){
+            String mealIdS = getIntent().getStringExtra("mealId");
+            this.mealId = Integer.valueOf(mealIdS);
+        }
+
 
         TextView prodNameText = findViewById(R.id.DateValue);
         TextView ckalText = findViewById(R.id.ckalValue);
@@ -69,11 +75,17 @@ public class ShowProductActivity extends AppCompatActivity {
 
         addButton.setOnClickListener(view -> {
             AppDatabase db = Database.getInstance(this);
-            int mealId = db.mealDao().getLastMealId();
+            int mId = 0;
+            if(String.valueOf(this.mealId) != null && String.valueOf(this.mealId) != ""){
+                mId = this.mealId;
+            }else{
+                mId = db.mealDao().getLastMealId();
+            }
+
 
             Intent intent = new Intent(this, AddIngredientToMealActivity.class);
             intent.putExtra("prodId", String.valueOf(this.prod.id));
-            intent.putExtra("mealId", String.valueOf(mealId));
+            intent.putExtra("mealId", String.valueOf(mId));
             this.startActivity(intent);
             finish();
         });

@@ -45,6 +45,7 @@ public class AddNewIngredientScanProductActivity extends AppCompatActivity {
     String eanCode;
     Product product;
     String error;
+    int mealId;
 
     Handler mainHandler = new Handler();
     ProgressDialog progressDialog;
@@ -221,8 +222,15 @@ public class AddNewIngredientScanProductActivity extends AppCompatActivity {
         } catch (SQLiteConstraintException e) {
             id = db.productDao().findByManyName(product.product_name).id;
         }
+        if(getIntent().hasExtra("mealId")) {
+            String mealIdS = getIntent().getStringExtra("mealId");
+            this.mealId = Integer.valueOf(mealIdS);
+            Log.d("GET_MEAL_ID", String.valueOf(this.mealId));
+        }
+
         Intent intent = new Intent(this, ShowProductActivity.class);
         intent.putExtra("prodId", String.valueOf(id));
+        intent.putExtra("mealId", String.valueOf(mealId)); //TODO
 
         this.startActivity(intent);
         finish();

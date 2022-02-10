@@ -9,6 +9,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.widget.EditText;
 
 import com.example.fitforfit.R;
@@ -25,6 +26,7 @@ public class AddNewIngredientSearchProduct extends AppCompatActivity {
     ProductListAdapter productListAdapter;
     List<Product> productList;
     EditText ingredientNameTextView;
+    int mealId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,13 +60,18 @@ public class AddNewIngredientSearchProduct extends AppCompatActivity {
 
             DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
             recyclerViewMeals.addItemDecoration(dividerItemDecoration);
-            productListAdapter = new ProductListAdapter(this);
+            productListAdapter = new ProductListAdapter(this, this.mealId);
             recyclerViewMeals.setAdapter(productListAdapter);
             loadIngredientList("NO_SEARCH_INPUT");
         });
     }
 
     private void initViews() {
+        if(getIntent().hasExtra("mealId")) {
+            String mealIdS = getIntent().getStringExtra("mealId");
+            this.mealId = Integer.valueOf(mealIdS);
+            Log.d("GET_MEAL_ID", String.valueOf(this.mealId));
+        }
 
         this.ingredientNameTextView = findViewById(R.id.IngredientNameTextView);
         ingredientNameTextView.addTextChangedListener(new TextWatcher() {
