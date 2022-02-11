@@ -12,6 +12,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -19,6 +21,7 @@ import com.example.fitforfit.R;
 import com.example.fitforfit.adapter.WorkoutDetailAdapter;
 import com.example.fitforfit.database.AppDatabase;
 import com.example.fitforfit.databinding.FragmentWorkoutDetailBinding;
+import com.example.fitforfit.dragndrop.WorkoutDetailMoveCallback;
 import com.example.fitforfit.entity.Exercise;
 import com.example.fitforfit.singleton.Database;
 import com.example.fitforfit.ui.main.AddExerciseToWorkoutActivity;
@@ -83,7 +86,15 @@ public class WorkoutDetailFragment extends Fragment {
         RecyclerView recyclerView = view.findViewById(R.id.recyclerViewWorkoutExercises);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        this.workoutDetailAdapter = new WorkoutDetailAdapter(getContext());
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(requireActivity(), DividerItemDecoration.VERTICAL);
+        recyclerView.addItemDecoration(dividerItemDecoration);
+
+        this.workoutDetailAdapter = new WorkoutDetailAdapter(getContext(), this.workoutId);
+
+        ItemTouchHelper.Callback callback    = new WorkoutDetailMoveCallback(this.workoutDetailAdapter);
+        ItemTouchHelper          touchHelper = new ItemTouchHelper(callback);
+        touchHelper.attachToRecyclerView(recyclerView);
+
         recyclerView.setAdapter(this.workoutDetailAdapter);
 
         initViews(view);

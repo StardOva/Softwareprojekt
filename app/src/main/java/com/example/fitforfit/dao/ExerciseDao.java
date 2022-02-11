@@ -16,6 +16,10 @@ public interface ExerciseDao {
     @Query("SELECT * FROM exercise ORDER BY name")
     List<Exercise> getAll();
 
+    @Query("SELECT e.* FROM exercise e LEFT JOIN workoutexercise we ON e.exercise_id = we.exercise_id WHERE " +
+            "(we.workout_id IS NULL OR we.workout_id != :workoutId)")
+    List<Exercise> getUnusedExercisesForThisWorkout(int workoutId);
+
     @Query("SELECT * FROM exercise WHERE exercise_id IN (:ids) ORDER BY exercise_id DESC")
     List<Exercise> loadAllByIds(int[] ids);
 

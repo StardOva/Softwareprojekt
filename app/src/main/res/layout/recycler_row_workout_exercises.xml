@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<Button android:id="@+id/buttonExercise"
-    style="@android:style/Widget.Material.Button"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="77dp"
-    android:text="Button"
-    android:textAllCaps="false"
-    android:textSize="26sp"
-    xmlns:android="http://schemas.android.com/apk/res/android" />
+    android:layout_height="77dp">
+
+    <TextView
+        android:id="@+id/exerciseName"
+        android:layout_width="match_parent"
+        android:layout_height="77dp"
+        android:gravity="center_vertical"
+        android:text="Text"
+        android:textAllCaps="false"
+        android:textSize="26sp"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"/>
+</LinearLayout>

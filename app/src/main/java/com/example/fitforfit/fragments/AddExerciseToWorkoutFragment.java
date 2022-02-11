@@ -91,7 +91,7 @@ public class AddExerciseToWorkoutFragment extends Fragment {
     private void loadExerciseList() {
         AsyncTask.execute(() -> {
             AppDatabase    db           = Database.getInstance(getContext());
-            List<Exercise> exerciseList = db.exerciseDao().getAll();
+            List<Exercise> exerciseList = db.exerciseDao().getUnusedExercisesForThisWorkout(this.workoutId);
             if (exerciseList != null) {
                 requireActivity().runOnUiThread(() -> {
                     this.exerciseListAdapter.setExerciseList(exerciseList);

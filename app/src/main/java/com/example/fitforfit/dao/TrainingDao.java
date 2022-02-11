@@ -29,26 +29,18 @@ public interface TrainingDao {
     @Query("SELECT DISTINCT id FROM training WHERE workout_id = :workoutId ORDER BY ID DESC")
     int[] getAllIds(int workoutId);
 
-    @Query("SELECT DISTINCT id FROM training WHERE workout_id = :workoutId AND exercise_id = :exerciseId ORDER BY ID ASC")
-    int[] getIdsByWorkoutAndExerciseId(int workoutId, int exerciseId);
-
     @Query("SELECT created_at from training WHERE id = :id")
     String getCreatedAt(int id);
 
     @Query("SELECT * FROM training WHERE workout_id = :workoutId AND id = :trainingId AND exercise_id = :exerciseId ORDER BY `set` ASC")
     List<Training> getAllSetsByWorkoutAndTrainingAndExerciseId(int workoutId, int trainingId, int exerciseId);
 
-    @Query("SELECT t1.* FROM training t1 INNER JOIN (" +
-            "SELECT id, MAX(weight) AS weight FROM training GROUP BY id ORDER BY reps DESC LIMIT 1" +
-            ") t2 ON t1.id = t2.id AND t1.weight = t2.weight WHERE t1.id = :id")
-    Training getMaxSetForTrainingId(int id);
 
     @Query("SELECT t1.*" +
             " FROM training t1 INNER JOIN (" +
-            "SELECT id, MAX(weight) AS weight FROM training GROUP BY id" +
+            "SELECT id, MAX(weight) weight FROM training GROUP BY id" +
             ") t2 ON t1.id = t2.id AND t1.weight = t2.weight" +
-            " WHERE workout_id = :workoutId AND exercise_id = :exerciseId AND t1.id IN " +
-            "(SELECT id FROM (SELECT id, MAX(weight) weight FROM training GROUP BY id ORDER BY reps DESC LIMIT 1))" +
+            " WHERE workout_id = :workoutId AND exercise_id = :exerciseId " +
             "ORDER BY t1.id ASC")
     List<Training> getMaxWeightSetsByWorkoutAndExerciseId(int workoutId, int exerciseId);
 

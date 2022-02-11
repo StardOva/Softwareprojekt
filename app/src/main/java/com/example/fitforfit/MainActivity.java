@@ -31,13 +31,7 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        AppDatabase db  = Database.getInstance(getApplicationContext());
-        int[]       ids = db.trainingDao().getIdsByWorkoutAndExerciseId(1, 1);
-        for (int id : ids) {
-            Training training = db.trainingDao().getMaxSetForTrainingId(id);
-            Log.d("abcdef", "Gewicht: " + training.weight);
-        }
-        List<Training> trainingList = db.trainingDao().getMaxWeightSetsByWorkoutAndExerciseId(1, 1);
+        AppDatabase db = Database.getInstance(getApplicationContext());
 
         SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(this);
         ViewPager2           viewPager            = binding.viewPager;
