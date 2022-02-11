@@ -66,6 +66,9 @@ public class DayListAdapter extends RecyclerView.Adapter<DayListAdapter.MyViewHo
     @Override
     public int getItemCount() {
         if (this.dayList != null) {
+            if(this.dayList.size() > 7){
+                return 7;
+            }
             return this.dayList.size();
         }
 
