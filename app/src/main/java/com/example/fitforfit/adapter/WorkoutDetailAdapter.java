@@ -2,6 +2,7 @@ package com.example.fitforfit.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.view.LayoutInflater;
@@ -22,6 +23,7 @@ import com.example.fitforfit.entity.Exercise;
 import com.example.fitforfit.entity.WorkoutExercise;
 import com.example.fitforfit.fragments.WorkoutDetailFragment;
 import com.example.fitforfit.singleton.Database;
+import com.example.fitforfit.ui.main.CreateNewExerciseActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.Collections;
@@ -79,7 +81,9 @@ public class WorkoutDetailAdapter extends RecyclerView.Adapter<WorkoutDetailAdap
 
                 switch (menuItem.getItemId()) {
                     case R.id.renameExercise:
-                        // TODO rename exercise
+                        Intent intent = new Intent(workoutDetailFragment.requireActivity(), CreateNewExerciseActivity.class);
+                        intent.putExtra("exerciseId", exerciseList.get(pos).id);
+                        workoutDetailFragment.startActivity(intent);
                         return true;
                     case R.id.deleteAssignment:
                         new AlertDialog.Builder(context)
@@ -126,7 +130,7 @@ public class WorkoutDetailAdapter extends RecyclerView.Adapter<WorkoutDetailAdap
         workoutDetailFragment.requireActivity().runOnUiThread(() -> {
             notifyItemRemoved(pos);
             // Training kann nicht gestartet werden, wenn es keine Übungen gibt
-            if (exerciseList.size() == 0){
+            if (exerciseList.size() == 0) {
                 workoutDetailFragment.getFab().setVisibility(View.GONE);
             }
         });
