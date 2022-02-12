@@ -3,26 +3,25 @@ package com.example.fitforfit.fragments;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewManager;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fitforfit.R;
 import com.example.fitforfit.adapter.WorkoutDetailAdapter;
 import com.example.fitforfit.database.AppDatabase;
-import com.example.fitforfit.databinding.FragmentMainBinding;
 import com.example.fitforfit.databinding.FragmentWorkoutDetailBinding;
+import com.example.fitforfit.dragndrop.WorkoutDetailMoveCallback;
 import com.example.fitforfit.entity.Exercise;
 import com.example.fitforfit.singleton.Database;
 import com.example.fitforfit.ui.main.AddExerciseToWorkoutActivity;
@@ -36,7 +35,8 @@ public class WorkoutDetailFragment extends Fragment {
 
     public FragmentWorkoutDetailBinding binding;
     private WorkoutDetailAdapter workoutDetailAdapter = null;
-    public int workoutId;
+    public int workoutId = 0;
+    private FloatingActionButton fab = null;
 
     public WorkoutDetailFragment() {
         super(R.layout.fragment_workout_detail);
@@ -79,36 +79,50 @@ public class WorkoutDetailFragment extends Fragment {
                 textView.setText(R.string.workout_detail_no_exercises);
             } else {
                 textView.setVisibility(View.GONE);
+                if (fab != null){
+                    fab.setVisibility(View.VISIBLE);
+                }
             }
         }
     }
 
     private void initRecyclerView(View view) {
-        AsyncTask.execute(() -> {
-            RecyclerView recyclerView = view.findViewById(R.id.recyclerViewWorkoutExercises);
-            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        initViews(view);
 
-            this.workoutDetailAdapter = new WorkoutDetailAdapter(getContext());
-            recyclerView.setAdapter(this.workoutDetailAdapter);
-            loadExerciseList();
-            initViews(view);
-        });
+        RecyclerView recyclerView = view.findViewById(R.id.recyclerViewWorkoutExercises);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(requireActivity(), DividerItemDecoration.VERTICAL);
+        recyclerView.addItemDecoration(dividerItemDecoration);
+
+        this.workoutDetailAdapter = new WorkoutDetailAdapter(getContext(), this.workoutId, this);
+
+        ItemTouchHelper.Callback callback    = new WorkoutDetailMoveCallback(this.workoutDetailAdapter);
+        ItemTouchHelper          touchHelper = new ItemTouchHelper(callback);
+        touchHelper.attachToRecyclerView(recyclerView);
+
+        recyclerView.setAdapter(this.workoutDetailAdapter);
+
+        loadExerciseList();
     }
 
     private void loadExerciseList() {
-        AppDatabase    db           = Database.getInstance(getContext());
-        List<Exercise> exerciseList = db.workoutDao().getRelatedExercises(this.workoutId);
-        if (exerciseList != null && this.workoutDetailAdapter != null) {
-            this.workoutDetailAdapter.setExerciseList(exerciseList);
-        }
+        AsyncTask.execute(() -> {
+            AppDatabase    db           = Database.getInstance(getContext());
+            List<Exercise> exerciseList = db.workoutDao().getRelatedExercises(this.workoutId);
+            if (exerciseList != null) {
+                requireActivity().runOnUiThread(() -> {
+                    this.workoutDetailAdapter.setExerciseList(exerciseList);
+                    if (this.workoutDetailAdapter.getItemCount() == 0) {
+                        TextView textView = requireView().findViewById(R.id.workoutDetailTextView);
+                        textView.setText(R.string.workout_detail_no_exercises);
+                    }
+                });
+            }
+        });
     }
 
     private void initViews(View view) {
-        if (this.workoutDetailAdapter.getItemCount() == 0) {
-            TextView textView = view.findViewById(R.id.workoutDetailTextView);
-            textView.setText(R.string.workout_detail_no_exercises);
-        }
-
         Button addExerciseBtn = view.findViewById(R.id.btnAddExercise);
         addExerciseBtn.setOnClickListener(view1 -> {
             Intent intent = new Intent(getActivity(), AddExerciseToWorkoutActivity.class);
@@ -123,12 +137,15 @@ public class WorkoutDetailFragment extends Fragment {
             requireActivity().startActivity(intent);
         });
 
-        FloatingActionButton fab = view.findViewById(R.id.fabStartTraining);
+        fab = view.findViewById(R.id.fabStartTraining);
         fab.setOnClickListener(view1 -> {
             Intent intent = new Intent(getActivity(), TrainingActivity.class);
             intent.putExtra("workoutId", workoutId);
             requireActivity().startActivity(intent);
         });
+    }
 
+    public FloatingActionButton getFab(){
+        return this.fab;
     }
 }

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/renameExercise"
+        android:title="@string/exercise_option_rename" />
+    <item
+        android:id="@+id/deleteAssignment"
+        android:title="@string/exercise_option_delete_assignment" />
+    <item
+        android:id="@+id/deleteExercise"
+        android:title="@string/exercise_option_delete" />
+</menu>

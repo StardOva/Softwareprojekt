@@ -28,6 +28,7 @@ import com.example.fitforfit.entity.Meal;
 import com.example.fitforfit.entity.Product;
 import com.example.fitforfit.singleton.Database;
 import com.example.fitforfit.ui.main.TrackerDayActivity;
+import com.example.fitforfit.utils.ColorUtils;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Description;
@@ -82,7 +83,7 @@ public class TrackerStatsFragment extends Fragment {
 
     AppDatabase db = Database.getInstance(getActivity());
 
-    float gewicht = 70;//in kg
+    int gewicht = 80;//in kg
     int groesse = 180;//in cm
     int alter = 21;
     int alltag = 500; //in kcal
@@ -310,7 +311,7 @@ public class TrackerStatsFragment extends Fragment {
         TrackerDayActivity dayActivity = (TrackerDayActivity) getActivity();
         this.dayId = dayActivity.getCurrentDayId();
         Log.d("GET_DATA", "DayID: "+ String.valueOf(this.dayId));
-        this.gewicht = db.dayDao().getWeightById(this.dayId);
+
 
         this.meals = db.mealDao().getAllMealsOnDay(this.dayId);
         try {
