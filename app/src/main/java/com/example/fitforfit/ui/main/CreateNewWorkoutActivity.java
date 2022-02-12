@@ -28,7 +28,13 @@ public class CreateNewWorkoutActivity extends AppCompatActivity {
     private AppDatabase db;
     private List<Workout> workoutList = null;
 
+    private int context;
+    private int workoutId;
+    private Workout workout;
+
     public static final int MAX_WORKOUT_NAME_LENGTH = 25;
+    public static final int CONTEXT_ADD = 0;
+    public static final int CONTEXT_EDIT = 1;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -40,8 +46,23 @@ public class CreateNewWorkoutActivity extends AppCompatActivity {
 
         db = Database.getInstance(getApplicationContext());
 
-        // zeige Tastatur an bei Start der Activity
+        context = CONTEXT_ADD;
+
+        if (getIntent().getIntExtra("workoutId", 0) != 0){
+            workoutId = getIntent().getIntExtra("workoutId", 0);
+            // zeigt an, dass das Workout geändert und nicht hinzugefügt werden soll
+            context = CONTEXT_EDIT;
+            // Übung einladen
+            workout = db.workoutDao().getById(workoutId);
+        }
+
         EditText editText = binding.textViewWorkoutName;
+
+        if (context == CONTEXT_EDIT && workout != null){
+            editText.setText(workout.name);
+        }
+
+        // zeige Tastatur an bei Start der Activity
         editText.requestFocus();
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
 
@@ -60,7 +81,13 @@ public class CreateNewWorkoutActivity extends AppCompatActivity {
             Workout workout = new Workout();
             workout.name = editText.getText().toString();
             AsyncTask.execute(() -> {
-                db.workoutDao().insert(workout);
+                if (context == CONTEXT_ADD){
+                    db.workoutDao().insert(workout);
+                }
+                else {
+                    workout.id = workoutId;
+                    db.workoutDao().update(workout);
+                }
             });
 
             // zurück zur Main Activity

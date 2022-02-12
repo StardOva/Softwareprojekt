@@ -13,6 +13,7 @@ import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -62,7 +63,10 @@ public class WorkoutMainFragment extends Fragment {
         RecyclerView recyclerView = view.findViewById(R.id.recyclerViewWorkouts);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        this.workoutListAdapter = new WorkoutListAdapter(getActivity());
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(requireActivity(), DividerItemDecoration.VERTICAL);
+        recyclerView.addItemDecoration(dividerItemDecoration);
+
+        this.workoutListAdapter = new WorkoutListAdapter(this);
         recyclerView.setAdapter(this.workoutListAdapter);
         loadWorkoutList();
     }

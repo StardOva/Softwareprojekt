@@ -39,5 +39,8 @@
     <string name="exercise_option_rename">Umbenennen</string>
     <string name="exercise_option_delete_assignment">Aus Workout entfernen</string>
     <string name="exercise_option_delete">Löschen</string>
+    <string name="tripleDots">⋮</string>
+    <string name="renameWorkout">Umbenennen</string>
+    <string name="deleteWorkout">Löschen</string>
 
 </resources>
