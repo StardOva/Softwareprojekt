@@ -8,6 +8,7 @@ import android.text.TextWatcher;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -84,11 +85,10 @@ public class CreateNewExerciseActivity extends AppCompatActivity {
                 }
 
                 // prüfe, ob die Übung bereits existiert
-                // TODO Hinweis an den Nutzer geben, irgendeine Art von Fehlermeldung,
-                // TODO damit er weiß warum er den Button nicht drücken kann
                 for (Exercise exercise : exerciseList) {
                     if (textFieldString.equalsIgnoreCase(exercise.name)) {
                         saveButton.setEnabled(false);
+                        Toast.makeText(getApplicationContext(), "Diese Übung existiert bereits", Toast.LENGTH_SHORT).show();
                         return;
                     }
                 }
