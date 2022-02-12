@@ -20,6 +20,9 @@ public interface WorkoutExerciseDao {
     @Update
     void update(WorkoutExercise workoutExercise);
 
+    @Query("DELETE FROM workoutexercise WHERE workout_id = :workoutId AND exercise_id = :exerciseId")
+    void deleteByWorkoutAndExerciseId(int workoutId, int exerciseId);
+
     @Query("SELECT MAX(pos) FROM workoutexercise WHERE workout_id = :workoutId")
     int getLastPosByWorkoutId(int workoutId);
 }

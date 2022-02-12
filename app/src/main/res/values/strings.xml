@@ -36,5 +36,8 @@
     <string name="workout_stats_tab1">Auswertung</string>
     <string name="workout_stats_tab2">Verlauf</string>
     <string name="stats">Statistiken</string>
+    <string name="exercise_option_rename">Umbenennen</string>
+    <string name="exercise_option_delete_assignment">Aus Workout entfernen</string>
+    <string name="exercise_option_delete">Löschen</string>
 
 </resources>

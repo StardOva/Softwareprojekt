@@ -36,6 +36,7 @@ public class WorkoutDetailFragment extends Fragment {
     public FragmentWorkoutDetailBinding binding;
     private WorkoutDetailAdapter workoutDetailAdapter = null;
     public int workoutId = 0;
+    private FloatingActionButton fab = null;
 
     public WorkoutDetailFragment() {
         super(R.layout.fragment_workout_detail);
@@ -78,18 +79,23 @@ public class WorkoutDetailFragment extends Fragment {
                 textView.setText(R.string.workout_detail_no_exercises);
             } else {
                 textView.setVisibility(View.GONE);
+                if (fab != null){
+                    fab.setVisibility(View.VISIBLE);
+                }
             }
         }
     }
 
     private void initRecyclerView(View view) {
+        initViews(view);
+
         RecyclerView recyclerView = view.findViewById(R.id.recyclerViewWorkoutExercises);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(requireActivity(), DividerItemDecoration.VERTICAL);
         recyclerView.addItemDecoration(dividerItemDecoration);
 
-        this.workoutDetailAdapter = new WorkoutDetailAdapter(getContext(), this.workoutId);
+        this.workoutDetailAdapter = new WorkoutDetailAdapter(getContext(), this.workoutId, this);
 
         ItemTouchHelper.Callback callback    = new WorkoutDetailMoveCallback(this.workoutDetailAdapter);
         ItemTouchHelper          touchHelper = new ItemTouchHelper(callback);
@@ -97,7 +103,6 @@ public class WorkoutDetailFragment extends Fragment {
 
         recyclerView.setAdapter(this.workoutDetailAdapter);
 
-        initViews(view);
         loadExerciseList();
     }
 
@@ -132,11 +137,15 @@ public class WorkoutDetailFragment extends Fragment {
             requireActivity().startActivity(intent);
         });
 
-        FloatingActionButton fab = view.findViewById(R.id.fabStartTraining);
+        fab = view.findViewById(R.id.fabStartTraining);
         fab.setOnClickListener(view1 -> {
             Intent intent = new Intent(getActivity(), TrainingActivity.class);
             intent.putExtra("workoutId", workoutId);
             requireActivity().startActivity(intent);
         });
+    }
+
+    public FloatingActionButton getFab(){
+        return this.fab;
     }
 }

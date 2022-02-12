@@ -20,6 +20,9 @@ public interface TrainingDao {
     @Delete
     void delete(Training training);
 
+    @Query("DELETE FROM training WHERE workout_id = :workoutId AND exercise_id = :exerciseId")
+    void deleteByWorkoutAndExerciseId(int workoutId, int exerciseId);
+
     @Update
     void update(Training training);
 
