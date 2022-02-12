@@ -13,6 +13,7 @@ import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -62,17 +63,22 @@ public class WorkoutMainFragment extends Fragment {
         RecyclerView recyclerView = view.findViewById(R.id.recyclerViewWorkouts);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        this.workoutListAdapter = new WorkoutListAdapter(getActivity());
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(requireActivity(), DividerItemDecoration.VERTICAL);
+        recyclerView.addItemDecoration(dividerItemDecoration);
+
+        this.workoutListAdapter = new WorkoutListAdapter(this);
         recyclerView.setAdapter(this.workoutListAdapter);
-        AsyncTask.execute(this::loadWorkoutList);
+        loadWorkoutList();
     }
 
     private void loadWorkoutList() {
-        AppDatabase   db          = Database.getInstance(getContext());
-        List<Workout> workoutList = db.workoutDao().getAll();
-        requireActivity().runOnUiThread(() -> {
-            workoutListAdapter.setContext(getContext());
-            workoutListAdapter.setWorkoutList(workoutList);
+        AsyncTask.execute(() -> {
+            AppDatabase   db          = Database.getInstance(getContext());
+            List<Workout> workoutList = db.workoutDao().getAll();
+            requireActivity().runOnUiThread(() -> {
+                workoutListAdapter.setContext(getContext());
+                workoutListAdapter.setWorkoutList(workoutList);
+            });
         });
     }
 
@@ -81,6 +87,6 @@ public class WorkoutMainFragment extends Fragment {
         super.onResume();
         // nach Anlegen eines neuen Workouts in der CreateNewWorkoutActivity
         // muss die Liste neu geladen werden, damit das neue Workout auch dargestellt wird
-        AsyncTask.execute(this::loadWorkoutList);
+        loadWorkoutList();
     }
 }

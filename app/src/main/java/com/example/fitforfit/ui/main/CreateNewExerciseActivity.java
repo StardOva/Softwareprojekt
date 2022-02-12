@@ -8,6 +8,7 @@ import android.text.TextWatcher;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,8 +27,13 @@ public class CreateNewExerciseActivity extends AppCompatActivity {
     private ActivityCreateNewExerciseBinding binding;
     private Button saveButton;
     private AppDatabase db;
+    private int exerciseId = 0;
+    private int context;
+    private Exercise exercise = null;
 
     public static final int MAX_EXERCISE_NAME_LENGTH = 25;
+    public static final int CONTEXT_ADD = 0;
+    public static final int CONTEXT_EDIT = 1;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -39,13 +45,29 @@ public class CreateNewExerciseActivity extends AppCompatActivity {
 
         db = Database.getInstance(getApplicationContext());
 
-        // zeige Tastatur an bei Start der Activity
+        context = CONTEXT_ADD;
+
+        if (getIntent().getIntExtra("exerciseId", 0) != 0) {
+            exerciseId = getIntent().getIntExtra("exerciseId", 0);
+            // zeigt an, dass die Übung geändert und nicht hinzugefügt werden soll
+            context = CONTEXT_EDIT;
+            // Übung einladen
+            exercise = db.exerciseDao().getById(exerciseId);
+        }
+
         EditText editText = binding.textViewExerciseName;
+
+        // falls die Übung bearbeitet wird, schreibe den bisherigen Namen rein
+        if (context == CONTEXT_EDIT && exercise != null) {
+            editText.setText(exercise.name);
+        }
+
+        // zeige Tastatur an bei Start der Activity
         editText.requestFocus();
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
 
         // Textfeld auf maximale Länge begrenzen
-        editText.setFilters(new InputFilter[] {new InputFilter.LengthFilter(MAX_EXERCISE_NAME_LENGTH)});
+        editText.setFilters(new InputFilter[]{new InputFilter.LengthFilter(MAX_EXERCISE_NAME_LENGTH)});
 
         // Button zum zurückgehen
         Button cancelButton = binding.btnCreateNewExerciseCancel;
@@ -57,7 +79,13 @@ public class CreateNewExerciseActivity extends AppCompatActivity {
             Exercise exercise = new Exercise();
             exercise.name = editText.getText().toString();
             AsyncTask.execute(() -> {
-                db.exerciseDao().insert(exercise);
+                if (context == CONTEXT_ADD) {
+                    db.exerciseDao().insert(exercise);
+                } else {
+                    // Name ändern und updaten
+                    exercise.id = exerciseId;
+                    db.exerciseDao().update(exercise);
+                }
             });
 
             finish();
@@ -84,11 +112,10 @@ public class CreateNewExerciseActivity extends AppCompatActivity {
                 }
 
                 // prüfe, ob die Übung bereits existiert
-                // TODO Hinweis an den Nutzer geben, irgendeine Art von Fehlermeldung,
-                // TODO damit er weiß warum er den Button nicht drücken kann
                 for (Exercise exercise : exerciseList) {
                     if (textFieldString.equalsIgnoreCase(exercise.name)) {
                         saveButton.setEnabled(false);
+                        Toast.makeText(getApplicationContext(), "Diese Übung existiert bereits", Toast.LENGTH_SHORT).show();
                         return;
                     }
                 }

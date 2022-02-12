@@ -99,7 +99,6 @@ public class TrainingActivity extends AppCompatActivity {
             workoutNameTextView.setText(workout.name);
 
             currentExercisePos = 0;
-            // TODO die exercise ID ist momentan nicht eindeutig, da ein Workout mehrmals dieselbe Übung enthalten kann
             currentExerciseId = exerciseList.get(currentExercisePos).id;
             updateTextOfExerciseTextView();
 

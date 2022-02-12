@@ -22,12 +22,12 @@ public class WorkoutStatsStateAdapter extends FragmentStateAdapter {
     public Fragment createFragment(int position) {
         switch (position) {
             case 0:
-                return new WorkoutEvaluationFragment();
+                return new WorkoutEvaluationFragment(workoutId);
             case 1:
                 return new WorkoutProgressFragment(workoutId);
         }
 
-        return new WorkoutEvaluationFragment();
+        return new WorkoutEvaluationFragment(workoutId);
     }
 
     @Override

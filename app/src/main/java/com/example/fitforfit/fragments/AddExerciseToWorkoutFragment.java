@@ -77,32 +77,34 @@ public class AddExerciseToWorkoutFragment extends Fragment {
     }
 
     private void initRecyclerView(View view) {
-        AsyncTask.execute(() -> {
-            RecyclerView recyclerView = view.findViewById(R.id.recyclerViewExercises);
-            recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        RecyclerView recyclerView = view.findViewById(R.id.recyclerViewExercises);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-            this.exerciseListAdapter = new ExerciseListAdapter(getContext(), this.parentActivity);
-            this.exerciseListAdapter.setWorkoutId(this.workoutId);
-            recyclerView.setAdapter(this.exerciseListAdapter);
-            loadExerciseList();
-            initViews(view);
-        });
+        this.exerciseListAdapter = new ExerciseListAdapter(getContext(), this.parentActivity);
+        this.exerciseListAdapter.setWorkoutId(this.workoutId);
+        recyclerView.setAdapter(this.exerciseListAdapter);
+
+        initViews(view);
+        loadExerciseList();
     }
 
     private void loadExerciseList() {
-        AppDatabase    db           = Database.getInstance(getContext());
-        List<Exercise> exerciseList = db.exerciseDao().getAll();
-        if (exerciseList != null && this.exerciseListAdapter != null) {
-            this.exerciseListAdapter.setExerciseList(exerciseList);
-        }
+        AsyncTask.execute(() -> {
+            AppDatabase    db           = Database.getInstance(getContext());
+            List<Exercise> exerciseList = db.exerciseDao().getUnusedExercisesForThisWorkout(this.workoutId);
+            if (exerciseList != null) {
+                requireActivity().runOnUiThread(() -> {
+                    this.exerciseListAdapter.setExerciseList(exerciseList);
+                    if (this.exerciseListAdapter.getItemCount() == 0) {
+                        TextView textView = requireView().findViewById(R.id.addExerciseToWorkoutTextView);
+                        textView.setText(R.string.add_exercise_to_workout_no_exercises);
+                    }
+                });
+            }
+        });
     }
 
     private void initViews(View view) {
-        if (this.exerciseListAdapter.getItemCount() == 0) {
-            TextView textView = view.findViewById(R.id.addExerciseToWorkoutTextView);
-            textView.setText(R.string.add_exercise_to_workout_no_exercises);
-        }
-
         Button btnCreateNewExercise = view.findViewById(R.id.btnCreateNewExercise);
         btnCreateNewExercise.setOnClickListener(view1 -> {
             Intent intent = new Intent(this.parentActivity, CreateNewExerciseActivity.class);

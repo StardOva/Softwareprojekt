@@ -8,6 +8,7 @@ import android.text.TextWatcher;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,8 +26,15 @@ public class CreateNewWorkoutActivity extends AppCompatActivity {
     private ActivityCreateNewWorkoutBinding binding;
     private Button saveButton;
     private AppDatabase db;
+    private List<Workout> workoutList = null;
+
+    private int context;
+    private int workoutId;
+    private Workout workout;
 
     public static final int MAX_WORKOUT_NAME_LENGTH = 25;
+    public static final int CONTEXT_ADD = 0;
+    public static final int CONTEXT_EDIT = 1;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -38,13 +46,28 @@ public class CreateNewWorkoutActivity extends AppCompatActivity {
 
         db = Database.getInstance(getApplicationContext());
 
-        // zeige Tastatur an bei Start der Activity
+        context = CONTEXT_ADD;
+
+        if (getIntent().getIntExtra("workoutId", 0) != 0){
+            workoutId = getIntent().getIntExtra("workoutId", 0);
+            // zeigt an, dass das Workout geändert und nicht hinzugefügt werden soll
+            context = CONTEXT_EDIT;
+            // Übung einladen
+            workout = db.workoutDao().getById(workoutId);
+        }
+
         EditText editText = binding.textViewWorkoutName;
+
+        if (context == CONTEXT_EDIT && workout != null){
+            editText.setText(workout.name);
+        }
+
+        // zeige Tastatur an bei Start der Activity
         editText.requestFocus();
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
 
         // Textfeld auf maximale Länge begrenzen
-        editText.setFilters(new InputFilter[] {new InputFilter.LengthFilter(MAX_WORKOUT_NAME_LENGTH)});
+        editText.setFilters(new InputFilter[]{new InputFilter.LengthFilter(MAX_WORKOUT_NAME_LENGTH)});
 
         // Button zum zurückgehen
         Button cancelButton = binding.btnCreateNewWorkoutCancel;
@@ -58,15 +81,20 @@ public class CreateNewWorkoutActivity extends AppCompatActivity {
             Workout workout = new Workout();
             workout.name = editText.getText().toString();
             AsyncTask.execute(() -> {
-                db.workoutDao().insert(workout);
+                if (context == CONTEXT_ADD){
+                    db.workoutDao().insert(workout);
+                }
+                else {
+                    workout.id = workoutId;
+                    db.workoutDao().update(workout);
+                }
             });
 
             // zurück zur Main Activity
             finish();
         });
 
-        // alle bisherigen Workouts einladen
-        List<Workout> workoutList = db.workoutDao().getAll();
+        loadWorkoutList();
 
         // Speichern soll nur möglich sein, wenn der Workoutname noch nicht existiert und nicht leer ist
         editText.addTextChangedListener(new TextWatcher() {
@@ -86,11 +114,10 @@ public class CreateNewWorkoutActivity extends AppCompatActivity {
                 }
 
                 // prüfe, ob das Workout bereits existiert
-                // TODO Hinweis an den Nutzer geben, irgendeine Art von Fehlermeldung,
-                // TODO damit er weiß warum er den Button nicht drücken kann
                 for (Workout workout : workoutList) {
                     if (textFieldString.equalsIgnoreCase(workout.name)) {
                         saveButton.setEnabled(false);
+                        Toast.makeText(getApplicationContext(), "Dieses Workout existiert bereits", Toast.LENGTH_SHORT).show();
                         return;
                     }
                 }
@@ -106,5 +133,14 @@ public class CreateNewWorkoutActivity extends AppCompatActivity {
         });
 
 
+    }
+
+    private void loadWorkoutList() {
+        AsyncTask.execute(() -> {
+            // alle bisherigen Workouts einladen
+            // TODO gefühlt laggt es mehr wenn die Workouts im separaten Thread geladen werden
+            // TODO muss mal schauen wie das vorher war als es noch im UI Thread geladen wurde
+            workoutList = db.workoutDao().getAll();
+        });
     }
 }

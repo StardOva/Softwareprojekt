@@ -30,6 +30,7 @@ public class WorkoutStatsActivity extends AppCompatActivity {
 
         WorkoutStatsStateAdapter adapter   = new WorkoutStatsStateAdapter(this, workoutId);
         ViewPager2               viewPager = binding.workoutStatsViewPager;
+        viewPager.setUserInputEnabled(false);
         viewPager.setAdapter(adapter);
 
         TabLayout tabLayout = binding.workoutStatsTabs;
