@@ -29,9 +29,24 @@ public interface DayDao {
     @Query("SELECT date FROM day WHERE date IS NOT NULL ORDER BY day_id DESC LIMIT 1")
     String getLastDate();
 
+    @Query("SELECT day_id FROM day WHERE date IS NOT NULL ORDER BY day_id DESC LIMIT 1")
+    int getLastDayId();
+
     @Query("SELECT day_id FROM day WHERE date = :date LIMIT 1")
     int getIdByDate(String date);
 
     @Query("SELECT date FROM day WHERE day_id = :id LIMIT 1")
     String getDateById(int id);
+
+    @Query("UPDATE day SET weight = :weight WHERE day_id = :id")
+    void updateWeightById(float weight, int id);
+
+    @Query("SELECT weight FROM day WHERE day_id = :id")
+    float getWeightById(int id);
+
+    @Query("SELECT COUNT(day_id) FROM day")
+    int getDayIdCount();
+
+    @Query("SELECT weight FROM day WHERE day_id = (SELECT MAX(day_id) FROM day)")
+    float getLastWeight();
 }

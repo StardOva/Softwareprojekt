@@ -108,7 +108,7 @@ public class CalendarActivity extends AppCompatActivity implements CalendarAdapt
         String date = selectedDate.getYear() + "-" + m + "-" + d;
         Log.d("TEST", date);
 
-        //TODO CEHCK IF DATE IN DB
+
         try {
             AppDatabase db = Database.getInstance(this);
             int id = db.dayDao().getIdByDate(date);

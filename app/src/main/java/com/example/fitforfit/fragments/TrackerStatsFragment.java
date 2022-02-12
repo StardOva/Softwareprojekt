@@ -82,7 +82,7 @@ public class TrackerStatsFragment extends Fragment {
 
     AppDatabase db = Database.getInstance(getActivity());
 
-    int gewicht = 80;//in kg
+    float gewicht = 70;//in kg
     int groesse = 180;//in cm
     int alter = 21;
     int alltag = 500; //in kcal
@@ -310,7 +310,7 @@ public class TrackerStatsFragment extends Fragment {
         TrackerDayActivity dayActivity = (TrackerDayActivity) getActivity();
         this.dayId = dayActivity.getCurrentDayId();
         Log.d("GET_DATA", "DayID: "+ String.valueOf(this.dayId));
-
+        this.gewicht = db.dayDao().getWeightById(this.dayId);
 
         this.meals = db.mealDao().getAllMealsOnDay(this.dayId);
         try {

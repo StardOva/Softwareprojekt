@@ -7,13 +7,30 @@
     android:orientation="vertical"
     android:paddingTop="70dp">
 
-    <Button
-        android:id="@+id/calendarBtn"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Kalender"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/goalBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Ziel/Gewicht"
+            android:layout_weight="1"
+            
 
-         />
+
+            />
+        <Button
+            android:id="@+id/calendarBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Kalender"
+            android:layout_weight="1"
+
+            />
+    </LinearLayout>
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewTrackerMain"

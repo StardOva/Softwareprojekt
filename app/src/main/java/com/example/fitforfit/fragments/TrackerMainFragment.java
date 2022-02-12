@@ -25,6 +25,7 @@ import com.example.fitforfit.databinding.FragmentMainBinding;
 import com.example.fitforfit.entity.Day;
 import com.example.fitforfit.singleton.Database;
 import com.example.fitforfit.ui.main.CalendarActivity;
+import com.example.fitforfit.ui.main.GoalActivity;
 import com.example.fitforfit.ui.main.TrackerDayActivity;
 
 import java.text.SimpleDateFormat;
@@ -56,6 +57,12 @@ public class TrackerMainFragment extends Fragment {
         Button cBtn = view.findViewById(R.id.calendarBtn);
         cBtn.setOnClickListener(view1 -> {
             Intent intent = new Intent(getContext(), CalendarActivity.class);
+            //intent.putExtra("date", date);
+            this.startActivity(intent);
+        });
+        Button gBtn = view.findViewById(R.id.goalBtn);
+        gBtn.setOnClickListener(view1 -> {
+            Intent intent = new Intent(getContext(), GoalActivity.class);
             //intent.putExtra("date", date);
             this.startActivity(intent);
         });
@@ -148,6 +155,12 @@ public class TrackerMainFragment extends Fragment {
         Day day = new Day();
         day.progress = 75;
         day.date = newday;
+        if(db.dayDao().getDayIdCount() < 1){
+            day.weight = 70;
+        }else{
+            day.weight = db.dayDao().getLastWeight();
+        }
+
         db.dayDao().insert(day);
     }
 }
