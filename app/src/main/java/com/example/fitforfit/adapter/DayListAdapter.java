@@ -54,20 +54,18 @@ public class DayListAdapter extends RecyclerView.Adapter<DayListAdapter.MyViewHo
 
         Calendar c = Calendar.getInstance(); //neue Kalender Instanz
         //String[] split = date.split("-");   //String Array der Werte Jahr-Monat-Tag des letzten Date Eintrags
-        c.set(Integer.valueOf(split[0]),Integer.valueOf(split[1])+1,Integer.valueOf(split[2])); //erzeugen Kalender Objekt#
+        c.set(Integer.valueOf(split[0]),Integer.valueOf(split[1]),Integer.valueOf(split[2])); //erzeugen Kalender Objekt#
         String weekDay = "";
         int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
         Log.d("WEEK_DAY", String.valueOf(dayOfWeek));
         if(dayOfWeek == 0){
-            weekDay = "";
-        }else if(dayOfWeek == 9){weekDay = "Montag";}
-        else if(dayOfWeek == 1){weekDay = "Dienstag";}
-        else if(dayOfWeek == 2){weekDay = "Mittwoch";}
-        else if(dayOfWeek == 3){weekDay = "Donnerstag";}
-        else if(dayOfWeek == 4){weekDay = "Freitag";}
-        else if(dayOfWeek == 5){weekDay = "Samstag";}
-        else if(dayOfWeek == 6){weekDay = "Sonntag";}
-        else if(dayOfWeek == 7){weekDay = "Montag";}
+            weekDay = "Samstag";
+        }else if(dayOfWeek == 1){weekDay = "Sonntag";}
+        else if(dayOfWeek == 2){weekDay = "Montag";}
+        else if(dayOfWeek == 3){weekDay = "Dienstag";}
+        else if(dayOfWeek == 4){weekDay = "Mittwoch";}
+        else if(dayOfWeek == 5){weekDay = "Donnserstag";}
+        else if(dayOfWeek == 6){weekDay = "Freitag";}
         //Log.d("TEST", String.valueOf(dayOfWeek));
 
         String   displayDate = weekDay + " " + split[2] + "." + split[1] + ".";

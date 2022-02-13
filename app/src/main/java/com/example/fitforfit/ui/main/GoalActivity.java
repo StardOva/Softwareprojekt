@@ -84,11 +84,20 @@ public class GoalActivity extends AppCompatActivity {
         Button showBtn = findViewById(R.id.showOldWeightBtn);
         Button changeOldBtn = findViewById(R.id.changeOldWeightBtn);
 
-        Day lastDay = db.dayDao().getLastWeightDay(db.dayDao().getWeightById(this.dayId));
-        oldWeightText.setText(String.valueOf(lastDay.weight));
-        yearEdit.setText(lastDay.date.substring(0, 4));
-        monthText.setText(lastDay.date.substring(5,7));
-        dayText.setText(lastDay.date.substring(8,10));
+        try {
+            Day lastDay = db.dayDao().getLastWeightDay(db.dayDao().getWeightById(this.dayId));
+            oldWeightText.setText(String.valueOf(lastDay.weight));
+            yearEdit.setText(lastDay.date.substring(0, 4));
+            monthText.setText(lastDay.date.substring(5,7));
+            dayText.setText(lastDay.date.substring(8,10));
+        }catch (SQLiteException | NumberFormatException | NullPointerException e){
+            Day lastDay = db.dayDao().getLastDay();
+            oldWeightText.setText(String.valueOf(lastDay.weight));
+            yearEdit.setText(lastDay.date.substring(0, 4));
+            monthText.setText(lastDay.date.substring(5,7));
+            dayText.setText(lastDay.date.substring(8,10));
+        }
+
 
         showBtn.setOnClickListener(view -> {
             try {
