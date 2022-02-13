@@ -29,6 +29,9 @@ public interface DayDao {
     @Query("SELECT date FROM day WHERE date IS NOT NULL ORDER BY day_id DESC LIMIT 1")
     String getLastDate();
 
+    @Query("SELECT * FROM day WHERE date IS NOT NULL ORDER BY day_id DESC LIMIT 1")
+    Day getLastDay();
+
     @Query("SELECT day_id FROM day WHERE date IS NOT NULL ORDER BY day_id DESC LIMIT 1")
     int getLastDayId();
 
@@ -50,6 +53,12 @@ public interface DayDao {
     @Query("SELECT weight FROM day WHERE day_id = (SELECT MAX(day_id) FROM day)")
     float getLastWeight();
 
+    @Query("SELECT * FROM day WHERE day_id = :id LIMIT 1")
+    Day getDayById(int id);
+
     @Query("SELECT * FROM day ORDER BY day_id DESC LIMIT 28")
     List<Day> getDaysOfLastMonth();
+
+    @Query("SELECT * FROM day WHERE weight <> :currentWeight ORDER BY day_id DESC LIMIT 1")
+    Day getLastWeightDay(float currentWeight);
 }

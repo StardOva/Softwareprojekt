@@ -6,6 +6,7 @@ import com.example.fitforfit.database.AppDatabase;
 import com.example.fitforfit.singleton.Database;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -19,7 +20,9 @@ public class ChangeWeightActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_weight);
+
         initData();
+
         EditText weightText = findViewById(R.id.weightEditText);
         Button changeBtn = findViewById(R.id.saveWeightBtn);
 
@@ -39,6 +42,11 @@ public class ChangeWeightActivity extends AppCompatActivity {
     }
 
     private void initData() {
-        this.dayId = db.dayDao().getLastDayId();
+        if(getIntent().hasExtra("dayId") && getIntent().getStringExtra("dayId") != null && getIntent().getStringExtra("dayId") != ""){
+            this.dayId = Integer.parseInt(getIntent().getStringExtra("dayId"));
+            Log.d("TEST", String.valueOf(dayId));
+        }else {
+            this.dayId = db.dayDao().getLastDayId();
+        }
     }
 }

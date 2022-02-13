@@ -19,6 +19,7 @@ import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 
 import android.content.Intent;
+import android.database.sqlite.SQLiteException;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -67,11 +68,78 @@ public class GoalActivity extends AppCompatActivity {
             this.startActivity(intent);
         });
 
-
         initLineCart();
+        initOldWeight();
 
 
 
+    }
+
+    private void initOldWeight() {
+
+        TextView oldWeightText = findViewById(R.id.weightOldText);
+        EditText yearEdit = findViewById(R.id.yearText);
+        EditText monthText = findViewById(R.id.monthText);
+        EditText dayText = findViewById(R.id.dayText);
+        Button showBtn = findViewById(R.id.showOldWeightBtn);
+        Button changeOldBtn = findViewById(R.id.changeOldWeightBtn);
+
+        Day lastDay = db.dayDao().getLastWeightDay(db.dayDao().getWeightById(this.dayId));
+        oldWeightText.setText(String.valueOf(lastDay.weight));
+        yearEdit.setText(lastDay.date.substring(0, 4));
+        monthText.setText(lastDay.date.substring(5,7));
+        dayText.setText(lastDay.date.substring(8,10));
+
+        showBtn.setOnClickListener(view -> {
+            try {
+                String month = String.valueOf(monthText.getText());
+                String day = String.valueOf(dayText.getText());
+
+                if(Integer.parseInt(month)<10 && !month.contains("0")){
+                    month = "0" + month;
+                }
+                if(Integer.parseInt(day)<10 && !day.contains("0")){
+                    day = "0" + day;
+                }
+                String date = yearEdit.getText()+ "-" + month + "-" + day;
+                Log.d("TEST", date);
+                int id = db.dayDao().getIdByDate(date);
+                Day oldDay = db.dayDao().getDayById(id);
+
+                oldWeightText.setText(String.valueOf(oldDay.weight));
+                yearEdit.setText(oldDay.date.substring(0, 4));
+                monthText.setText(oldDay.date.substring(5,7));
+                dayText.setText(oldDay.date.substring(8,10));
+            }catch (SQLiteException | NumberFormatException | NullPointerException e){
+                String message = "Keine Daten vorhanden";
+                Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+            }
+        });
+
+        changeOldBtn.setOnClickListener(view -> {
+            try {
+                String month = String.valueOf(monthText.getText());
+                String day = String.valueOf(dayText.getText());
+                if(Integer.parseInt(month)<10  && !month.contains("0")){
+                    month = "0" + month;
+                }
+                if(Integer.parseInt(day)<10 && !day.contains("0")){
+                    day = "0" + day;
+                }
+                String date = yearEdit.getText()+ "-" + month + "-" + day;
+                int id = db.dayDao().getIdByDate(date);
+
+                Intent intent = new Intent(getBaseContext(), ChangeWeightActivity.class);
+                intent.putExtra("dayId", String.valueOf(id));
+                this.startActivity(intent);
+
+            }catch (SQLiteException | NumberFormatException | NullPointerException e){
+                String message = "Keine Daten vorhanden";
+                Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+            }
+
+
+        });
     }
 
     private void initLineCart() {
@@ -110,12 +178,12 @@ public class GoalActivity extends AppCompatActivity {
         XAxis xAxis = lineChart.getXAxis();
         xAxis.setTextSize(12f);
         xAxis.setAxisMinimum(0);
-        xAxis.setAxisMaximum(days.size() - 1);
+        xAxis.setAxisMaximum(days.size());
         xAxis.setGranularity(1f);
         //XAxis.XAxisPosition position = XAxis.XAxisPosition.BOTTOM;
         //xAxis.setPosition(position);
 
-
+        //xAxis.setLabelCount(days.size(), true);
 
         YAxis leftAxis = lineChart.getAxisLeft();
         leftAxis.setTextSize(12f);
@@ -132,13 +200,13 @@ public class GoalActivity extends AppCompatActivity {
         this.data = new ArrayList<Entry>();
         this.legendList = new ArrayList<>();
         this.days = db.dayDao().getDaysOfLastMonth();
-        //int i = 0;
+        int i = 1;
 
-        Log.d("TEST", days.get(days.size() - 1).date);
+        //Log.d("TEST", days.get(days.size() - 1).date);
 
-        for (int i = 1; i <= days.size(); i++){
+        for (i = 1; i <= days.size(); i++){
             this.data.add(new Entry(i, days.get(days.size() - i).weight));
-
+            //Log.d("TEST", String.valueOf(i) + "/" +String.valueOf(days.get(days.size() - i).weight));
             if(i == 1){
                 insertLegendEntry(i);
             }else if(i == days.size()){
@@ -161,7 +229,7 @@ public class GoalActivity extends AppCompatActivity {
 
 
         }
-
+        this.data.add(new Entry(i+1, 50));
         return data;
     }
 
@@ -186,6 +254,7 @@ public class GoalActivity extends AppCompatActivity {
         super.onResume();
         this.weightText.setText(String.valueOf(db.dayDao().getWeightById(this.dayId)));
         initLineCart();
+        initOldWeight();
     }
 
     //TODO

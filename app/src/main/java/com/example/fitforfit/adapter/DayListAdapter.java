@@ -15,6 +15,7 @@ import com.example.fitforfit.R;
 import com.example.fitforfit.entity.Day;
 import com.example.fitforfit.ui.main.TrackerDayActivity;
 
+import java.util.Calendar;
 import java.util.List;
 
 public class DayListAdapter extends RecyclerView.Adapter<DayListAdapter.MyViewHolder> {
@@ -50,7 +51,26 @@ public class DayListAdapter extends RecyclerView.Adapter<DayListAdapter.MyViewHo
     public void onBindViewHolder(@NonNull DayListAdapter.MyViewHolder holder, int position) {
         String   date        = this.dayList.get(position).date;
         String[] split       = this.dayList.get(position).date.split("-");
-        String   displayDate = split[2] + "." + split[1] + ".";
+
+        Calendar c = Calendar.getInstance(); //neue Kalender Instanz
+        //String[] split = date.split("-");   //String Array der Werte Jahr-Monat-Tag des letzten Date Eintrags
+        c.set(Integer.valueOf(split[0]),Integer.valueOf(split[1])+1,Integer.valueOf(split[2])); //erzeugen Kalender Objekt#
+        String weekDay = "";
+        int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
+        Log.d("WEEK_DAY", String.valueOf(dayOfWeek));
+        if(dayOfWeek == 0){
+            weekDay = "";
+        }else if(dayOfWeek == 9){weekDay = "Montag";}
+        else if(dayOfWeek == 1){weekDay = "Dienstag";}
+        else if(dayOfWeek == 2){weekDay = "Mittwoch";}
+        else if(dayOfWeek == 3){weekDay = "Donnerstag";}
+        else if(dayOfWeek == 4){weekDay = "Freitag";}
+        else if(dayOfWeek == 5){weekDay = "Samstag";}
+        else if(dayOfWeek == 6){weekDay = "Sonntag";}
+        else if(dayOfWeek == 7){weekDay = "Montag";}
+        //Log.d("TEST", String.valueOf(dayOfWeek));
+
+        String   displayDate = weekDay + " " + split[2] + "." + split[1] + ".";
         holder.dayButton.setText(displayDate);
 
         holder.dayButton.setOnClickListener(v -> {
