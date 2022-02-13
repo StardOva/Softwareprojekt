@@ -86,7 +86,7 @@ public class TrackerMainFragment extends Fragment {
 
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");//FORMAT
         Calendar         cal    = Calendar.getInstance();//HEUTE
-        //cal.add(Calendar.DATE, 12);
+        //cal.add(Calendar.DATE, 30);
         String   formatted_date_today = format.format(cal.getTime());//HEUTE STRING
         String[] splitToday           = formatted_date_today.split("-");
         cal.set(Integer.valueOf(splitToday[0]), Integer.valueOf(splitToday[1]) - 1, Integer.valueOf(splitToday[2]));//HEUTE ALS CAL

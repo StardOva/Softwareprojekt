@@ -49,4 +49,7 @@ public interface DayDao {
 
     @Query("SELECT weight FROM day WHERE day_id = (SELECT MAX(day_id) FROM day)")
     float getLastWeight();
+
+    @Query("SELECT * FROM day ORDER BY day_id DESC LIMIT 28")
+    List<Day> getDaysOfLastMonth();
 }
