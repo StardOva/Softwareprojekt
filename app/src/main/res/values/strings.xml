@@ -42,5 +42,6 @@
     <string name="tripleDots">⋮</string>
     <string name="renameWorkout">Umbenennen</string>
     <string name="deleteWorkout">Löschen</string>
+    <string name="removeTrainingSet">Entfernen</string>
 
 </resources>

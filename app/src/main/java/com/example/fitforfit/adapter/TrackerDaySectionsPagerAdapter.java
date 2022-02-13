@@ -1,4 +1,4 @@
-package com.example.fitforfit.ui.main;
+package com.example.fitforfit.adapter;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;

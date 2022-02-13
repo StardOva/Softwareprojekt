@@ -63,6 +63,8 @@ public class TrainingActivity extends AppCompatActivity {
 
     private String dateString;
 
+    boolean editSession;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,7 +79,7 @@ public class TrainingActivity extends AppCompatActivity {
         // wenn die trainingId mitgeliefert wurde, dann nimm diese (wenn eine Session später nochmal bearbeitet wird)
         trainingId = getIntent().getIntExtra("trainingId", 0);
         // wird die Session gerade bearbeitet oder ist es eine neue
-        boolean editSession = true;
+        editSession = true;
 
         if (trainingId == 0) {
             trainingId = db.trainingDao().getLastId() + 1;
@@ -118,7 +120,7 @@ public class TrainingActivity extends AppCompatActivity {
                     List<Training> dbTrainingList = db.trainingDao().getAllSetsByWorkoutAndTrainingAndExerciseId(workoutId, trainingId, exercise.id);
 
                     // beim ersten Durchlauf gleich noch die Variable currentTrainingList setzen
-                    if (firstRun){
+                    if (firstRun) {
                         currentTrainingList = (ArrayList<Training>) dbTrainingList;
                         firstRun = false;
                     }
@@ -160,11 +162,14 @@ public class TrainingActivity extends AppCompatActivity {
         training.exerciseId = currentExerciseId;
         training.set = set;
         training.createdAt = dateString;
+        training.reps = 0;
+        training.weight = 0;
         return training;
     }
 
     private void initRecyclerView() {
         recyclerView = binding.trainingSets;
+        recyclerView.setItemViewCacheSize(100);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
 
@@ -189,9 +194,9 @@ public class TrainingActivity extends AppCompatActivity {
 
         Button addSetButton = binding.buttonAddSet;
         addSetButton.setOnClickListener(view -> {
+            currentTrainingList = currentSetListAdapter.getTrainingList();
             Training training = getNewTrainingInstance(currentTrainingList.size());
-            currentTrainingList.add(training);
-            currentSetListAdapter.setTrainingList(currentTrainingList);
+            currentSetListAdapter.addTrainingToList(training);
         });
     }
 
@@ -248,6 +253,18 @@ public class TrainingActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+
+        // vor dem Speichern noch die aktuelle Liste laden
+        currentTrainingList = currentSetListAdapter.getTrainingList();
+
+        // Liste der Sätze der aktuellen Übung (vor dem Wechsel der Übung) speichern
+        exerciseTrainingList.put(currentExerciseId, currentTrainingList);
+
+        // wenn das Workout bearbeitet wird, vor dem Speichern noch alle bisherigen Einträge aus der DB löschen
+        if (editSession) {
+            db.trainingDao().deleteByTrainingId(trainingId);
+        }
+
         // alle Werte speichern
         for (ArrayList<Training> trainingList : exerciseTrainingList.values()) {
             for (Training training : trainingList) {
