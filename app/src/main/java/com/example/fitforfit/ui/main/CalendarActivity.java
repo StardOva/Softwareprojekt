@@ -29,7 +29,7 @@ import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
-public class CalendarActivity extends AppCompatActivity implements CalendarAdapter.OnItemListener{
+public class CalendarActivity extends AppCompatActivity implements CalendarAdapter.OnItemListener {
 
     private TextView textView;
     private RecyclerView calendarRecyclerView;
@@ -49,24 +49,24 @@ public class CalendarActivity extends AppCompatActivity implements CalendarAdapt
         textView.setText(monthYearFromDate(selectedDate));
         ArrayList<String> daysInMonth = daysInMonthArray(selectedDate);
 
-        CalendarAdapter calendarAdapter = new CalendarAdapter(daysInMonth, this);
-        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getApplicationContext(), 7);
+        CalendarAdapter            calendarAdapter = new CalendarAdapter(daysInMonth, this);
+        RecyclerView.LayoutManager layoutManager   = new GridLayoutManager(getApplicationContext(), 7);
         calendarRecyclerView.setLayoutManager(layoutManager);
         calendarRecyclerView.setAdapter(calendarAdapter);
     }
 
     private ArrayList<String> daysInMonthArray(LocalDate date) {
         ArrayList<String> daysInMonthArray = new ArrayList<>();
-        YearMonth yearMonth = YearMonth.from(date);
+        YearMonth         yearMonth        = YearMonth.from(date);
 
-        int daysInMonth = yearMonth.lengthOfMonth();
+        int       daysInMonth  = yearMonth.lengthOfMonth();
         LocalDate firstOfMonth = selectedDate.withDayOfMonth(1);
-        int dayOfWeek = firstOfMonth.getDayOfWeek().getValue();
+        int       dayOfWeek    = firstOfMonth.getDayOfWeek().getValue();
 
-        for(int i = 1; i <= 42; i++){
-            if(i <= dayOfWeek || i > daysInMonth + dayOfWeek){
+        for (int i = 1; i <= 42; i++) {
+            if (i <= dayOfWeek || i > daysInMonth + dayOfWeek) {
                 daysInMonthArray.add("");
-            }else{
+            } else {
                 daysInMonthArray.add(String.valueOf(i - dayOfWeek));
             }
         }
@@ -85,7 +85,7 @@ public class CalendarActivity extends AppCompatActivity implements CalendarAdapt
 
     }
 
-    private String monthYearFromDate(LocalDate date){
+    private String monthYearFromDate(LocalDate date) {
         //API Level min26 in gradle
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM yyyy");
         return date.format(formatter);
@@ -95,14 +95,14 @@ public class CalendarActivity extends AppCompatActivity implements CalendarAdapt
     public void onItemClick(int position, String dayText) {
         String m = "";
         String d = "";
-        if(selectedDate.getMonthValue() < 10){
+        if (selectedDate.getMonthValue() < 10) {
             m = "0" + String.valueOf(selectedDate.getMonthValue());
-        }else{
+        } else {
             m = String.valueOf(selectedDate.getMonthValue());
         }
-        if(Integer.parseInt(dayText) < 10){
+        if (!dayText.isEmpty() && Integer.parseInt(dayText) < 10) {
             d = "0" + dayText;
-        }else{
+        } else {
             d = dayText;
         }
         String date = selectedDate.getYear() + "-" + m + "-" + d;
@@ -111,22 +111,22 @@ public class CalendarActivity extends AppCompatActivity implements CalendarAdapt
 
         try {
             AppDatabase db = Database.getInstance(this);
-            int id = db.dayDao().getIdByDate(date);
-            if(id > 0){
+            int         id = db.dayDao().getIdByDate(date);
+            if (id > 0) {
                 Intent intent = new Intent(getBaseContext(), TrackerDayActivity.class);
                 intent.putExtra("date", date);
                 this.startActivity(intent);
-                Log.d("TEST" , String.valueOf(id));
-            }else{
-                if(!dayText.equals("")){
+                Log.d("TEST", String.valueOf(id));
+            } else {
+                if (!dayText.equals("")) {
                     String message = "Keine Daten für " + dayText + " " + monthYearFromDate(selectedDate);
                     Toast.makeText(this, message, Toast.LENGTH_LONG).show();
                     Log.d("TEST2", dayText + " " + monthYearFromDate(selectedDate));
                 }
             }
 
-        }catch (SQLiteException e){
-            if(!dayText.equals("")){
+        } catch (SQLiteException e) {
+            if (!dayText.equals("")) {
                 String message = dayText + " " + monthYearFromDate(selectedDate);
                 Toast.makeText(this, message, Toast.LENGTH_LONG).show();
                 Log.d("TEST2", dayText + " " + monthYearFromDate(selectedDate));
@@ -135,12 +135,12 @@ public class CalendarActivity extends AppCompatActivity implements CalendarAdapt
 
     }
 
-    public void previousMonthAction(View view){
+    public void previousMonthAction(View view) {
         selectedDate = selectedDate.plusMonths(1);
         setMonthView();
     }
 
-    public void nextMonthAction(View view){
+    public void nextMonthAction(View view) {
         selectedDate = selectedDate.minusMonths(1);
         setMonthView();
     }
