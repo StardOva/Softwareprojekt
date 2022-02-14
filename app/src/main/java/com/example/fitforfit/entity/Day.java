@@ -16,4 +16,7 @@ public class Day {
 
     @ColumnInfo(name = "progress")
     public int progress; //in %
+
+    @ColumnInfo(name = "weight")
+    public float weight; //in kg
 }

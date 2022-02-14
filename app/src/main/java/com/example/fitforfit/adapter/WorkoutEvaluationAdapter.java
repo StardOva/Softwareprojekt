@@ -136,6 +136,7 @@ public class WorkoutEvaluationAdapter extends RecyclerView.Adapter<WorkoutEvalua
         rightAxis.setGranularity(1f);
 
 
+
     }
 
     @Override

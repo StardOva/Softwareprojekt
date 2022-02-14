@@ -128,12 +128,14 @@ public class AddIngredientToMealActivity extends AppCompatActivity {
         this.scanButton = findViewById(R.id.scanButton);
         this.scanButton.setOnClickListener(view -> {
             Intent intent = new Intent(this, AddNewIngredientScanProductActivity.class);
+            intent.putExtra("mealId", String.valueOf(mealId)); //TODO
             this.startActivity(intent);
-            //TODO ERROR WEIL CAMERA CONNTECT FEHLSCHLÄGT
+
         });
         this.searchButton = findViewById(R.id.searchButton);
         searchButton.setOnClickListener(view -> {
             Intent intent = new Intent(this, AddNewIngredientSearchProduct.class);
+            intent.putExtra("mealId", String.valueOf(mealId)); //TODO
             this.startActivity(intent);
 
         });

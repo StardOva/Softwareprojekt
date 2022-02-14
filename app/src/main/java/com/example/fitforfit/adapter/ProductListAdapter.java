@@ -26,11 +26,17 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 
     private Context context;
     private Context parentActivity;
+    int mealId;
 
-    private List<Product> productList;
+    private List<Product> productList = null;
 
     public ProductListAdapter(Context context) {
         this.context = context;
+    }
+
+    public ProductListAdapter(Context context, int mid) {
+        this.context = context;
+        this.mealId = mid;
     }
 
     public void setContext(Context parentActivity){
@@ -64,6 +70,9 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 
             Intent intent = new Intent(parentActivity, ShowProductActivity.class);
             intent.putExtra("prodId", String.valueOf(productList.get(position).id));
+            if(String.valueOf(this.mealId) != null && String.valueOf(this.mealId) != ""){
+                intent.putExtra("mealId", String.valueOf(this.mealId));
+            }
 
             parentActivity.startActivity(intent);
 
@@ -74,7 +83,12 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 
     @Override
     public int getItemCount() {
-        return  this.productList.size();
+        if (this.productList != null) {
+            return  this.productList.size();
+        }
+
+        return 0;
+
     }
 
 

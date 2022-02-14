@@ -1,12 +1,14 @@
 package com.example.fitforfit.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,11 +18,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fitforfit.R;
+import com.example.fitforfit.adapter.CalendarAdapter;
 import com.example.fitforfit.adapter.DayListAdapter;
 import com.example.fitforfit.database.AppDatabase;
 import com.example.fitforfit.databinding.FragmentMainBinding;
 import com.example.fitforfit.entity.Day;
 import com.example.fitforfit.singleton.Database;
+import com.example.fitforfit.ui.main.CalendarActivity;
+import com.example.fitforfit.ui.main.GoalActivity;
+import com.example.fitforfit.ui.main.TrackerDayActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -48,6 +54,18 @@ public class TrackerMainFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        Button cBtn = view.findViewById(R.id.calendarBtn);
+        cBtn.setOnClickListener(view1 -> {
+            Intent intent = new Intent(getContext(), CalendarActivity.class);
+            //intent.putExtra("date", date);
+            this.startActivity(intent);
+        });
+        Button gBtn = view.findViewById(R.id.goalBtn);
+        gBtn.setOnClickListener(view1 -> {
+            Intent intent = new Intent(getContext(), GoalActivity.class);
+            //intent.putExtra("date", date);
+            this.startActivity(intent);
+        });
         initRecyclerView(view);
     }
 
@@ -68,7 +86,7 @@ public class TrackerMainFragment extends Fragment {
 
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");//FORMAT
         Calendar         cal    = Calendar.getInstance();//HEUTE
-        //cal.add(Calendar.DATE, 12);
+        //cal.add(Calendar.DATE, 30);
         String   formatted_date_today = format.format(cal.getTime());//HEUTE STRING
         String[] splitToday           = formatted_date_today.split("-");
         cal.set(Integer.valueOf(splitToday[0]), Integer.valueOf(splitToday[1]) - 1, Integer.valueOf(splitToday[2]));//HEUTE ALS CAL
@@ -137,6 +155,12 @@ public class TrackerMainFragment extends Fragment {
         Day day = new Day();
         day.progress = 75;
         day.date = newday;
+        if(db.dayDao().getDayIdCount() < 1){
+            day.weight = 70;
+        }else{
+            day.weight = db.dayDao().getLastWeight();
+        }
+
         db.dayDao().insert(day);
     }
 }
