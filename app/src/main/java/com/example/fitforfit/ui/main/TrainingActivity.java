@@ -1,12 +1,21 @@
 package com.example.fitforfit.ui.main;
 
+import android.content.Context;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,6 +29,8 @@ import com.example.fitforfit.entity.Training;
 import com.example.fitforfit.entity.Workout;
 import com.example.fitforfit.singleton.Database;
 import com.example.fitforfit.utils.DateUtils;
+import com.example.fitforfit.utils.FABUtils;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -197,6 +208,41 @@ public class TrainingActivity extends AppCompatActivity {
             currentTrainingList = currentSetListAdapter.getTrainingList();
             Training training = getNewTrainingInstance(currentTrainingList.size());
             currentSetListAdapter.addTrainingToList(training);
+        });
+
+        FloatingActionButton fab = binding.fabStartTimer;
+
+        fab.setOnClickListener(view -> {
+            fab.setClickable(false);
+            Toast.makeText(getApplicationContext(), "Timer gestartet", Toast.LENGTH_SHORT).show();
+
+            // TODO die Zeit aus den Shared Preferences auslesen
+            int countDown = 10 * 1000; // in Millisekunden
+
+            new CountDownTimer(countDown, 1000) {
+                @Override
+                public void onTick(long millisUntilFinished) {
+                    String timeLeft = Math.round(millisUntilFinished / 1000f) + "s";
+                    fab.setImageBitmap(FABUtils.textAsBitmap(timeLeft, 34, Color.BLACK));
+                }
+
+                @Override
+                public void onFinish() {
+                    fab.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.timer));
+                    fab.setClickable(true);
+                    Toast.makeText(getApplicationContext(), "Timer gestoppt", Toast.LENGTH_LONG).show();
+
+                    // das isses
+                    Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+
+                    // Pause, Vibration, Pause, Vibration, Pause, Vibration usw.
+                    long[] pattern = {0, 500, 500, 500, 500, 500, 500};
+                    // -1 = keine Wiederholung des Patterns
+                    VibrationEffect effect = VibrationEffect.createWaveform(pattern, -1);
+                    vibrator.vibrate(effect);
+                }
+            }.start();
+
         });
     }
 
