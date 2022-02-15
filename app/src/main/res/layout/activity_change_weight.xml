@@ -4,38 +4,40 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    tools:context=".ui.main.ChangeWeightActivity"
     android:orientation="vertical"
-    android:paddingTop="70dp">
+    android:paddingTop="60dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
-        <Button
-            android:id="@+id/goalBtn"
+
+        <TextView
+            android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Ziel/Gewicht"
+            android:text="Neues Gewicht:">
+
+        </TextView>
+        <EditText
             android:layout_weight="1"
-            
-
-
-            />
-        <Button
-            android:id="@+id/calendarBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Kalender"
-            android:layout_weight="1"
+            android:id="@+id/weightEditText"
+            android:inputType="numberDecimal"
+            android:hint="Gewicht in kg">
 
-            />
+        </EditText>
+
     </LinearLayout>
 
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewTrackerMain"
+    <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:text="@string/save"
+        android:id="@+id/saveWeightBtn">
 
-         />
+    </Button>
+
 </LinearLayout>

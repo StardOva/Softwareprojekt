@@ -85,7 +85,7 @@ public class IngredientActivity extends AppCompatActivity {
         TextView prodsaltText = findViewById(R.id.saltValue);
         TextView prodinfoText = findViewById(R.id.infoValue);
 
-        prodNameText.setText(round.format(this.prod.product_name));
+        prodNameText.setText(String.valueOf(this.prod.product_name));
         prodckalText.setText(String.valueOf(round.format(this.prod.ckal)));
         prodfatText.setText(String.valueOf(round.format(this.prod.fat)));
         prodsatfatText.setText(String.valueOf(round.format(this.prod.saturated_fat)));
@@ -94,7 +94,7 @@ public class IngredientActivity extends AppCompatActivity {
         prodfiberText.setText(String.valueOf(round.format(this.prod.fiber)));
         prodproteinText.setText(String.valueOf(round.format(this.prod.protein)));
         prodsaltText.setText(String.valueOf(round.format(this.prod.salt)));
-        prodinfoText.setText(round.format(this.prod.info));
+        prodinfoText.setText(String.valueOf(this.prod.info));
 
 
         Button removeBtn = findViewById(R.id.RemoveIngredientButton);

@@ -13,6 +13,23 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FitforFit">
         <activity
+            android:name=".ui.main.ChangeWeightActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.main.GoalActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+        <activity
+            android:name=".ui.main.CalendarActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+        <activity
             android:name=".ui.main.ChangeIngredientActivity"
             android:exported="false" />
         <activity

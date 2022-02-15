@@ -21,7 +21,7 @@ public class IngredientListAdapter extends RecyclerView.Adapter<IngredientListAd
     private Context context;
     private Context parentActivity;
 
-    private List<Ingredient> ingredientList;
+    private List<Ingredient> ingredientList = null;
 
     public IngredientListAdapter(Context context) {
         this.context = context;
@@ -68,7 +68,12 @@ public class IngredientListAdapter extends RecyclerView.Adapter<IngredientListAd
 
     @Override
     public int getItemCount() {
-        return  this.ingredientList.size();
+        if (this.ingredientList != null) {
+            return  this.ingredientList.size();
+        }
+
+        return 0;
+
     }
 
 

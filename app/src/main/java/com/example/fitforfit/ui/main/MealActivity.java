@@ -48,8 +48,12 @@ public class MealActivity extends AppCompatActivity {
         AppDatabase db = Database.getInstance(this);
 
         List<Ingredient> ingredientList = db.ingredientDao().getAllIngredientsOnMeal(this.mealId);
-        ingListAdapter.setContext(this);
-        ingListAdapter.setIngredientList(ingredientList);
+        //ingListAdapter.setContext(this);
+        //ingListAdapter.setIngredientList(ingredientList);
+        this.runOnUiThread(() -> {
+            ingListAdapter.setContext(this);
+            ingListAdapter.setIngredientList(ingredientList);
+        });
     }
 
     private void initRecyclerView() {
@@ -62,13 +66,15 @@ public class MealActivity extends AppCompatActivity {
             ingListAdapter = new IngredientListAdapter(this);
             recyclerViewMeals.setAdapter(ingListAdapter);
 
+            AsyncTask.execute(this::loadIngredientList);
             //TODO not efficient - content of loadIngredients()
+        /*
             AppDatabase db = Database.getInstance(this);
 
             List<Ingredient> ingredientList = db.ingredientDao().getAllIngredientsOnMeal(this.mealId);
             ingListAdapter.setContext(this);
             ingListAdapter.setIngredientList(ingredientList);
-            Log.d("CHECKPOINT", "1");
+            Log.d("CHECKPOINT", "1");*/
        // });
     }
 

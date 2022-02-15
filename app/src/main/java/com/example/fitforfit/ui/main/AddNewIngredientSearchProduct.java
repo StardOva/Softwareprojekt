@@ -9,6 +9,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.widget.EditText;
 
 import com.example.fitforfit.R;
@@ -25,6 +26,7 @@ public class AddNewIngredientSearchProduct extends AppCompatActivity {
     ProductListAdapter productListAdapter;
     List<Product> productList;
     EditText ingredientNameTextView;
+    int mealId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +41,7 @@ public class AddNewIngredientSearchProduct extends AppCompatActivity {
 
 
 
-    private void loadIngredientList(String search) {
+    private void loadProductList(String search) {
         AppDatabase db = Database.getInstance(this);
         if(search.equals("NO_SEARCH_INPUT")){
             productList = db.productDao().getAllProducts();
@@ -47,24 +49,35 @@ public class AddNewIngredientSearchProduct extends AppCompatActivity {
             productList = db.productDao().searchProductsByName(search);
         }
 
-        productListAdapter.setContext(this);
-        productListAdapter.setProductList(productList);
+
+        this.runOnUiThread(() -> {
+            productListAdapter.setContext(this);
+            productListAdapter.setProductList(productList);
+        });
     }
 
     private void initRecyclerView() {
-        AsyncTask.execute(() -> {
+
             RecyclerView recyclerViewMeals = findViewById(R.id.recyclerViewProduct);
             recyclerViewMeals.setLayoutManager(new LinearLayoutManager(this));
 
             DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
             recyclerViewMeals.addItemDecoration(dividerItemDecoration);
-            productListAdapter = new ProductListAdapter(this);
+            productListAdapter = new ProductListAdapter(this, this.mealId);
             recyclerViewMeals.setAdapter(productListAdapter);
-            loadIngredientList("NO_SEARCH_INPUT");
-        });
+            loadProductList("NO_SEARCH_INPUT");
+
+            //AsyncTask.execute(this::loadProductList("NO_SEARCH_INPUT"));
+
+
     }
 
     private void initViews() {
+        if(getIntent().hasExtra("mealId")) {
+            String mealIdS = getIntent().getStringExtra("mealId");
+            this.mealId = Integer.valueOf(mealIdS);
+            Log.d("GET_MEAL_ID", String.valueOf(this.mealId));
+        }
 
         this.ingredientNameTextView = findViewById(R.id.IngredientNameTextView);
         ingredientNameTextView.addTextChangedListener(new TextWatcher() {
@@ -76,7 +89,7 @@ public class AddNewIngredientSearchProduct extends AppCompatActivity {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 String textFieldString = charSequence.toString().trim();
                 String ingName = ingredientNameTextView.getText().toString();
-                loadIngredientList(ingName);
+                loadProductList(ingName);
 
 
             }
