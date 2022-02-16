@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="prev"
-            android:textColor="@color/fit_blue_light"
+
             android:background="@null"
             android:textStyle="bold"
             android:textSize="20sp"
@@ -31,7 +31,7 @@
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Hello World!"
+            android:text=""
             android:textAlignment="center"
             android:textSize="20sp"
             android:textColor="@color/black"
@@ -43,7 +43,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="next"
-            android:textColor="@color/fit_blue_light"
+
             android:background="@null"
             android:textStyle="bold"
             android:textSize="20sp">

@@ -83,7 +83,7 @@ public class TrackerStatsFragment extends Fragment {
 
     AppDatabase db = Database.getInstance(getActivity());
 
-    int gewicht = 80;//in kg
+    float gewicht = 80;//in kg
     int groesse = 180;//in cm
     int alter = 21;
     int alltag = 500; //in kcal
@@ -159,9 +159,14 @@ public class TrackerStatsFragment extends Fragment {
         proteinText.setText(String.valueOf(round.format(this.proteinOfDay)));
         saltText.setText(String.valueOf(round.format(this.saltOfDay)));
 
+        this.gewicht = db.dayDao().getWeightById(this.dayId);
+
         ///BARCHART
         float grundumsatz = (float)(66.47 + (13.7 * this.gewicht) + (5 * this.groesse) - (6.8 * 21)) + this.alltag;
         float kcal = (this.kcalOfDay * 100) / grundumsatz;
+        db.dayDao().updateProgressById((int) kcal, this.dayId);
+        //TODO Grundumsatz sollte summe von carb fat und protein sein
+        //defizit benötigt Obergrenze
         //Log.d("Grundumsatz", String.valueOf(grundumsatz));
 
         float proteinsoll = (float)(1.8 * this.gewicht); //1.8g in Aufbau
@@ -176,11 +181,6 @@ public class TrackerStatsFragment extends Fragment {
         //fat -> 9.3kcal pro gramm
         //carbs -> 4.1kcal pro gramm
         //carbs sollten rest an benötigten kcal auffüllen(proteine und fette bestimmte menge)
-
-        /*
-        TODO Werte fpr Barchart bestimmen
-        (tägliche Min. Werte ausdenken -> davon anteil)
-         */
 
         BarChart bar = view.findViewById(R.id.barChart);
         ArrayList<BarEntry> listb = new ArrayList<>();
@@ -280,7 +280,7 @@ public class TrackerStatsFragment extends Fragment {
                 Color.parseColor("#"+Integer.toHexString(ContextCompat.getColor(getContext(), R.color.fit_orange_dark))),
                 Color.parseColor("#"+Integer.toHexString(ContextCompat.getColor(getContext(), R.color.fit_orange_light))));
         pieDataSetfat.setValueTextSize(0f);
-        
+
         piefat.setData(new PieData(pieDataSetfat));
         piefat.getLegend().setEnabled(false);
         piefat.setDescription(des);

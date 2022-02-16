@@ -63,10 +63,14 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder> {
                 int id = db.dayDao().getIdByDate(date.toString().substring(0,8)+day);
                 if(id != 0){
 
-                    if (!LocalDate.now().toString().equals(date.toString().substring(0,8)+day)){
-                        holder.dayOfMonth.setTextColor(Color.parseColor("#"+Integer.toHexString(ContextCompat.getColor(this.context, R.color.fit_green))));
-                    }else{
+                    //TODO
+                    //bei defizit müsste auch Oberschranke geben
+                    if (!LocalDate.now().toString().equals(date.toString().substring(0,8)+day)  && db.dayDao().getProgressById(id) < 100){
+                        holder.dayOfMonth.setTextColor(Color.parseColor("#"+Integer.toHexString(ContextCompat.getColor(this.context, R.color.fit_red))));
+                    }else if(LocalDate.now().toString().equals(date.toString().substring(0,8)+day)){
                         holder.dayOfMonth.setTextColor(Color.parseColor("#"+Integer.toHexString(ContextCompat.getColor(this.context, R.color.fit_orange_light))));
+                    }else if(!LocalDate.now().toString().equals(date.toString().substring(0,8)+day)){
+                        holder.dayOfMonth.setTextColor(Color.parseColor("#"+Integer.toHexString(ContextCompat.getColor(this.context, R.color.fit_green))));
                     }
                 }
             }catch (NumberFormatException n){}
