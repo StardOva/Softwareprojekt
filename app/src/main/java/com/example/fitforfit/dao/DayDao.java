@@ -7,7 +7,6 @@ import androidx.room.Query;
 import androidx.room.Update;
 
 import com.example.fitforfit.entity.Day;
-import com.example.fitforfit.entity.Workout;
 
 import java.util.List;
 

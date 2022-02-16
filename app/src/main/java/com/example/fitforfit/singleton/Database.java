@@ -18,7 +18,7 @@ public class Database {
         db = Room.databaseBuilder(context, AppDatabase.class, DB_NAME)
                 .allowMainThreadQueries().fallbackToDestructiveMigration()
                 /*
-                TO DO -> .allowMainThreadQueries() loswerden -> Scheisse für Leistung
+                TODO -> .allowMainThreadQueries() loswerden -> Scheisse für Leistung
                  */
                 .build();
         return db;

@@ -26,11 +26,13 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class WorkoutEvaluationAdapter extends RecyclerView.Adapter<WorkoutEvaluationAdapter.WorkoutEvaluationViewHolder> {
 
     private List<Exercise> exerciseList = null;
+    private HashMap<Integer, ArrayList<Training>> exerciseTrainingList = null;
     private final Context context;
     private final AppDatabase db;
     private final int workoutId;
@@ -44,6 +46,10 @@ public class WorkoutEvaluationAdapter extends RecyclerView.Adapter<WorkoutEvalua
     public void setExerciseList(List<Exercise> exerciseList) {
         this.exerciseList = exerciseList;
         notifyDataSetChanged();
+    }
+
+    public void setExerciseTrainingList(HashMap<Integer, ArrayList<Training>> exerciseTrainingList) {
+        this.exerciseTrainingList = exerciseTrainingList;
     }
 
     @NonNull
@@ -76,67 +82,70 @@ public class WorkoutEvaluationAdapter extends RecyclerView.Adapter<WorkoutEvalua
         ArrayList<Entry>       repList    = new ArrayList<>();
         ArrayList<LegendEntry> legendList = new ArrayList<>();
 
-        List<Training> trainingList = db.trainingDao().getMaxWeightSetsByWorkoutAndExerciseId(workoutId, exercise.id);
+        //List<Training> trainingList = db.trainingDao().getMaxWeightSetsByWorkoutAndExerciseId(workoutId, exercise.id);
 
-        int   i         = 0;
-        float maxWeight = 0;
-        int   maxReps   = 0;
+        // ArrayList<Training> trainingList = new ArrayList<>();
+        ArrayList<Training> trainingList = exerciseTrainingList.get(exercise.id);
 
-        for (Training training : trainingList) {
-            weightList.add(new Entry(i, training.weight));
-            repList.add(new Entry(i, training.reps));
+        if (trainingList != null && trainingList.size() > 0){
+            int   i         = 0;
+            float maxWeight = 0;
+            int   maxReps   = 0;
 
-            if (training.weight > maxWeight) {
-                maxWeight = training.weight;
+            for (Training training : trainingList) {
+                weightList.add(new Entry(i, training.weight));
+                repList.add(new Entry(i, training.reps));
+
+                if (training.weight > maxWeight) {
+                    maxWeight = training.weight;
+                }
+
+                if (training.reps > maxReps) {
+                    maxReps = training.reps;
+                }
+
+                LegendEntry legendEntry = new LegendEntry();
+                legendEntry.label = training.createdAt;
+                legendList.add(legendEntry);
+
+                i++;
             }
 
-            if (training.reps > maxReps) {
-                maxReps = training.reps;
-            }
+            LineDataSet weightSet = new LineDataSet(weightList, "Gewicht");
+            weightSet.setAxisDependency(YAxis.AxisDependency.LEFT);
+            weightSet.setColor(colorUtils.getFitGreen());
+            weightSet.setCircleColor(colorUtils.getFitGreen());
+            weightSet.setValueTextSize(12f);
 
-            LegendEntry legendEntry = new LegendEntry();
-            legendEntry.label = training.createdAt;
-            legendList.add(legendEntry);
+            LineDataSet repSet = new LineDataSet(repList, "Wiederholungen");
+            repSet.setAxisDependency(YAxis.AxisDependency.RIGHT);
+            repSet.setColor(colorUtils.getFitOrangeDark());
+            repSet.setCircleColor(colorUtils.getFitOrangeDark());
+            repSet.setValueTextSize(12f);
 
-            i++;
+            LineData lineData = new LineData(weightSet, repSet);
+            lineChart.setData(lineData);
+
+            lineChart.getLegend().setCustom(legendList);
+
+            XAxis xAxis = lineChart.getXAxis();
+            xAxis.setTextSize(12f);
+            xAxis.setAxisMinimum(0);
+            xAxis.setAxisMaximum(weightList.size() - 1);
+            xAxis.setGranularity(1f);
+
+            YAxis leftAxis = lineChart.getAxisLeft();
+            leftAxis.setTextSize(12f);
+            leftAxis.setAxisMinimum(0);
+            leftAxis.setAxisMaximum(maxWeight + 20);
+            leftAxis.setGranularity(1f);
+
+            YAxis rightAxis = lineChart.getAxisRight();
+            rightAxis.setTextSize(12f);
+            rightAxis.setAxisMaximum(maxReps + 10);
+            rightAxis.setGranularity(1f);
+
         }
-
-        LineDataSet weightSet = new LineDataSet(weightList, "Gewicht");
-        weightSet.setAxisDependency(YAxis.AxisDependency.LEFT);
-        weightSet.setColor(colorUtils.getFitGreen());
-        weightSet.setCircleColor(colorUtils.getFitGreen());
-        weightSet.setValueTextSize(12f);
-
-        LineDataSet repSet = new LineDataSet(repList, "Wiederholungen");
-        repSet.setAxisDependency(YAxis.AxisDependency.RIGHT);
-        repSet.setColor(colorUtils.getFitOrangeDark());
-        repSet.setCircleColor(colorUtils.getFitOrangeDark());
-        repSet.setValueTextSize(12f);
-
-        LineData lineData = new LineData(weightSet, repSet);
-        lineChart.setData(lineData);
-
-        lineChart.getLegend().setCustom(legendList);
-
-        XAxis xAxis = lineChart.getXAxis();
-        xAxis.setTextSize(12f);
-        xAxis.setAxisMinimum(0);
-        xAxis.setAxisMaximum(weightList.size() - 1);
-        xAxis.setGranularity(1f);
-
-        YAxis leftAxis = lineChart.getAxisLeft();
-        leftAxis.setTextSize(12f);
-        leftAxis.setAxisMinimum(0);
-        leftAxis.setAxisMaximum(maxWeight + 20);
-        leftAxis.setGranularity(1f);
-
-        YAxis rightAxis = lineChart.getAxisRight();
-        rightAxis.setTextSize(12f);
-        rightAxis.setAxisMaximum(maxReps + 10);
-        rightAxis.setGranularity(1f);
-
-
-
     }
 
     @Override

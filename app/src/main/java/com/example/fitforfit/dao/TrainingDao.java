@@ -33,6 +33,9 @@ public interface TrainingDao {
     int getLastId();
 
     @Query("SELECT DISTINCT id FROM training WHERE workout_id = :workoutId ORDER BY ID DESC")
+    int[] getAllIdsDesc(int workoutId);
+
+    @Query("SELECT DISTINCT id FROM training WHERE workout_id = :workoutId")
     int[] getAllIds(int workoutId);
 
     @Query("SELECT created_at from training WHERE id = :id")
@@ -49,5 +52,8 @@ public interface TrainingDao {
             " WHERE workout_id = :workoutId AND exercise_id = :exerciseId " +
             "ORDER BY t1.id ASC")
     List<Training> getMaxWeightSetsByWorkoutAndExerciseId(int workoutId, int exerciseId);
+
+    @Query("SELECT t.* FROM training t WHERE t.id = :id AND t.workout_id = :workoutId AND t.exercise_id = :exerciseId ORDER BY weight DESC, reps DESC LIMIT 1")
+    Training getMaxWeightSet(int id, int workoutId, int exerciseId);
 
 }
