@@ -17,8 +17,11 @@ import com.example.fitforfit.adapter.WorkoutEvaluationAdapter;
 import com.example.fitforfit.database.AppDatabase;
 import com.example.fitforfit.databinding.FragmentMainBinding;
 import com.example.fitforfit.entity.Exercise;
+import com.example.fitforfit.entity.Training;
 import com.example.fitforfit.singleton.Database;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class WorkoutEvaluationFragment extends Fragment {
@@ -72,6 +75,22 @@ public class WorkoutEvaluationFragment extends Fragment {
         AsyncTask.execute(() -> {
             AppDatabase    db           = Database.getInstance(getContext());
             List<Exercise> exerciseList = db.workoutDao().getRelatedExercises(workoutId);
+
+            HashMap<Integer, ArrayList<Training>> exerciseTrainingList = new HashMap<>();
+
+            int[] trainingIds = db.trainingDao().getAllIds(workoutId);
+
+            for (Exercise exercise : exerciseList) {
+                ArrayList<Training> maxSets = new ArrayList<>();
+
+                for (int id : trainingIds) {
+                    Training training = db.trainingDao().getMaxWeightSet(id, workoutId, exercise.id);
+                    maxSets.add(training);
+                }
+                exerciseTrainingList.put(exercise.id, maxSets);
+            }
+
+            adapter.setExerciseTrainingList(exerciseTrainingList);
 
             requireActivity().runOnUiThread(() -> adapter.setExerciseList(exerciseList));
         });

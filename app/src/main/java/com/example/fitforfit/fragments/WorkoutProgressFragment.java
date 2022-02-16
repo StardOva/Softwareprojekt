@@ -72,7 +72,7 @@ public class WorkoutProgressFragment extends Fragment {
     private void loadWorkoutProgressList() {
         AppDatabase db = Database.getInstance(getContext());
 
-        int[]             ids           = db.trainingDao().getAllIds(this.workoutId);
+        int[]             ids           = db.trainingDao().getAllIdsDesc(this.workoutId);
         ArrayList<String> timeStampList = new ArrayList<>();
 
         for (int id : ids) {
