@@ -44,15 +44,6 @@ public interface TrainingDao {
     @Query("SELECT * FROM training WHERE workout_id = :workoutId AND id = :trainingId AND exercise_id = :exerciseId ORDER BY `set` ASC")
     List<Training> getAllSetsByWorkoutAndTrainingAndExerciseId(int workoutId, int trainingId, int exerciseId);
 
-
-    @Query("SELECT t1.*" +
-            " FROM training t1 INNER JOIN (" +
-            "SELECT id, MAX(weight) weight FROM training GROUP BY id" +
-            ") t2 ON t1.id = t2.id AND t1.weight = t2.weight" +
-            " WHERE workout_id = :workoutId AND exercise_id = :exerciseId " +
-            "ORDER BY t1.id ASC")
-    List<Training> getMaxWeightSetsByWorkoutAndExerciseId(int workoutId, int exerciseId);
-
     @Query("SELECT t.* FROM training t WHERE t.id = :id AND t.workout_id = :workoutId AND t.exercise_id = :exerciseId ORDER BY weight DESC, reps DESC LIMIT 1")
     Training getMaxWeightSet(int id, int workoutId, int exerciseId);
 
