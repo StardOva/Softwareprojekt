@@ -49,7 +49,7 @@ public class CalendarActivity extends AppCompatActivity implements CalendarAdapt
         textView.setText(monthYearFromDate(selectedDate));
         ArrayList<String> daysInMonth = daysInMonthArray(selectedDate);
 
-        CalendarAdapter            calendarAdapter = new CalendarAdapter(daysInMonth, this);
+        CalendarAdapter            calendarAdapter = new CalendarAdapter(daysInMonth,selectedDate,this);
         RecyclerView.LayoutManager layoutManager   = new GridLayoutManager(getApplicationContext(), 7);
         calendarRecyclerView.setLayoutManager(layoutManager);
         calendarRecyclerView.setAdapter(calendarAdapter);
@@ -90,6 +90,8 @@ public class CalendarActivity extends AppCompatActivity implements CalendarAdapt
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM yyyy");
         return date.format(formatter);
     }
+
+
 
     @Override
     public void onItemClick(int position, String dayText) {
