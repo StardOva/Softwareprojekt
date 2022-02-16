@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.fitforfit.R;
+import com.example.fitforfit.adapter.WorkoutStatsStateAdapter;
 import com.example.fitforfit.databinding.ActivityWorkoutStatsBinding;
 import com.google.android.material.tabs.TabLayout;
 import com.google.android.material.tabs.TabLayoutMediator;

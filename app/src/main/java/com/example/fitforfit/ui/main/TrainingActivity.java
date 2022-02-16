@@ -1,12 +1,21 @@
 package com.example.fitforfit.ui.main;
 
+import android.content.Context;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,6 +29,8 @@ import com.example.fitforfit.entity.Training;
 import com.example.fitforfit.entity.Workout;
 import com.example.fitforfit.singleton.Database;
 import com.example.fitforfit.utils.DateUtils;
+import com.example.fitforfit.utils.FABUtils;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -63,6 +74,8 @@ public class TrainingActivity extends AppCompatActivity {
 
     private String dateString;
 
+    boolean editSession;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,7 +90,7 @@ public class TrainingActivity extends AppCompatActivity {
         // wenn die trainingId mitgeliefert wurde, dann nimm diese (wenn eine Session später nochmal bearbeitet wird)
         trainingId = getIntent().getIntExtra("trainingId", 0);
         // wird die Session gerade bearbeitet oder ist es eine neue
-        boolean editSession = true;
+        editSession = true;
 
         if (trainingId == 0) {
             trainingId = db.trainingDao().getLastId() + 1;
@@ -118,7 +131,7 @@ public class TrainingActivity extends AppCompatActivity {
                     List<Training> dbTrainingList = db.trainingDao().getAllSetsByWorkoutAndTrainingAndExerciseId(workoutId, trainingId, exercise.id);
 
                     // beim ersten Durchlauf gleich noch die Variable currentTrainingList setzen
-                    if (firstRun){
+                    if (firstRun) {
                         currentTrainingList = (ArrayList<Training>) dbTrainingList;
                         firstRun = false;
                     }
@@ -160,11 +173,14 @@ public class TrainingActivity extends AppCompatActivity {
         training.exerciseId = currentExerciseId;
         training.set = set;
         training.createdAt = dateString;
+        training.reps = 0;
+        training.weight = 0;
         return training;
     }
 
     private void initRecyclerView() {
         recyclerView = binding.trainingSets;
+        recyclerView.setItemViewCacheSize(100);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
 
@@ -189,9 +205,44 @@ public class TrainingActivity extends AppCompatActivity {
 
         Button addSetButton = binding.buttonAddSet;
         addSetButton.setOnClickListener(view -> {
+            currentTrainingList = currentSetListAdapter.getTrainingList();
             Training training = getNewTrainingInstance(currentTrainingList.size());
-            currentTrainingList.add(training);
-            currentSetListAdapter.setTrainingList(currentTrainingList);
+            currentSetListAdapter.addTrainingToList(training);
+        });
+
+        FloatingActionButton fab = binding.fabStartTimer;
+
+        fab.setOnClickListener(view -> {
+            fab.setClickable(false);
+            Toast.makeText(getApplicationContext(), "Timer gestartet", Toast.LENGTH_SHORT).show();
+
+            // TODO die Zeit aus den Shared Preferences auslesen
+            int countDown = 10 * 1000; // in Millisekunden
+
+            new CountDownTimer(countDown, 1000) {
+                @Override
+                public void onTick(long millisUntilFinished) {
+                    String timeLeft = Math.round(millisUntilFinished / 1000f) + "s";
+                    fab.setImageBitmap(FABUtils.textAsBitmap(timeLeft, 34, Color.BLACK));
+                }
+
+                @Override
+                public void onFinish() {
+                    fab.setImageDrawable(ContextCompat.getDrawable(getApplicationContext(), R.drawable.timer));
+                    fab.setClickable(true);
+                    Toast.makeText(getApplicationContext(), "Timer gestoppt", Toast.LENGTH_LONG).show();
+
+                    // das isses
+                    Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+
+                    // Pause, Vibration, Pause, Vibration, Pause, Vibration usw.
+                    long[] pattern = {0, 500, 500, 500, 500, 500, 500};
+                    // -1 = keine Wiederholung des Patterns
+                    VibrationEffect effect = VibrationEffect.createWaveform(pattern, -1);
+                    vibrator.vibrate(effect);
+                }
+            }.start();
+
         });
     }
 
@@ -248,6 +299,18 @@ public class TrainingActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+
+        // vor dem Speichern noch die aktuelle Liste laden
+        currentTrainingList = currentSetListAdapter.getTrainingList();
+
+        // Liste der Sätze der aktuellen Übung (vor dem Wechsel der Übung) speichern
+        exerciseTrainingList.put(currentExerciseId, currentTrainingList);
+
+        // wenn das Workout bearbeitet wird, vor dem Speichern noch alle bisherigen Einträge aus der DB löschen
+        if (editSession) {
+            db.trainingDao().deleteByTrainingId(trainingId);
+        }
+
         // alle Werte speichern
         for (ArrayList<Training> trainingList : exerciseTrainingList.values()) {
             for (Training training : trainingList) {

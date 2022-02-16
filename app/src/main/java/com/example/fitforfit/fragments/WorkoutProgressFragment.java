@@ -25,11 +25,19 @@ public class WorkoutProgressFragment extends Fragment {
 
     private FragmentMainBinding binding;
     private WorkoutProgressAdapter workoutProgressAdapter;
-    private final int workoutId;
+    private int workoutId;
 
-    public WorkoutProgressFragment(int workoutId) {
+    public WorkoutProgressFragment() {
         super(R.layout.fragment_workout_progress);
-        this.workoutId = workoutId;
+    }
+
+    public static WorkoutProgressFragment newInstance(int workoutId) {
+        Bundle args = new Bundle();
+        args.putInt("workoutId", workoutId);
+        WorkoutProgressFragment fragment = new WorkoutProgressFragment();
+        fragment.setArguments(args);
+
+        return fragment;
     }
 
     @Nullable
@@ -42,6 +50,7 @@ public class WorkoutProgressFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        this.workoutId = getArguments().getInt("workoutId");
         initRecyclerView(view);
     }
 
@@ -63,7 +72,7 @@ public class WorkoutProgressFragment extends Fragment {
     private void loadWorkoutProgressList() {
         AppDatabase db = Database.getInstance(getContext());
 
-        int[] ids = db.trainingDao().getAllIds(this.workoutId);
+        int[]             ids           = db.trainingDao().getAllIds(this.workoutId);
         ArrayList<String> timeStampList = new ArrayList<>();
 
         for (int id : ids) {

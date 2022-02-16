@@ -27,9 +27,17 @@ public class WorkoutEvaluationFragment extends Fragment {
     private WorkoutEvaluationAdapter adapter = null;
     private int workoutId = 0;
 
-    public WorkoutEvaluationFragment(int workoutId) {
+    public WorkoutEvaluationFragment() {
         super(R.layout.fragment_workout_evaluation);
-        this.workoutId = workoutId;
+    }
+
+    public static WorkoutEvaluationFragment newInstance(int workoutId) {
+        Bundle args = new Bundle();
+        args.putInt("workoutId", workoutId);
+        WorkoutEvaluationFragment fragment = new WorkoutEvaluationFragment();
+        fragment.setArguments(args);
+
+        return fragment;
     }
 
     @Override
@@ -47,6 +55,7 @@ public class WorkoutEvaluationFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        this.workoutId = getArguments().getInt("workoutId");
         initRecyclerView(view);
     }
 

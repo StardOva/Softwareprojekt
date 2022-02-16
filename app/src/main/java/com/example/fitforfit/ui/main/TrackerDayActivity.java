@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.fitforfit.R;
+import com.example.fitforfit.adapter.TrackerDaySectionsPagerAdapter;
 import com.example.fitforfit.database.AppDatabase;
 import com.example.fitforfit.databinding.ActivityDayBinding;
 import com.example.fitforfit.databinding.ActivityMainBinding;
@@ -14,7 +15,6 @@ import com.google.android.material.tabs.TabLayoutMediator;
 
 import android.os.Bundle;
 import android.widget.Button;
-import android.widget.TextView;
 
 public class TrackerDayActivity extends AppCompatActivity {
 
@@ -41,7 +41,7 @@ public class TrackerDayActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         TrackerDaySectionsPagerAdapter daysectionsPagerAdapter = new TrackerDaySectionsPagerAdapter(this);
-        ViewPager2           viewPager            = binding.dayViewPager;
+        ViewPager2                     viewPager               = binding.dayViewPager;
         viewPager.setAdapter(daysectionsPagerAdapter);
 
         TabLayout tabLayout = binding.tabs;

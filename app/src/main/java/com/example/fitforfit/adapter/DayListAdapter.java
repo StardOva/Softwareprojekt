@@ -38,7 +38,6 @@ public class DayListAdapter extends RecyclerView.Adapter<DayListAdapter.MyViewHo
         notifyDataSetChanged();
     }
 
-
     @NonNull
     @Override
     public DayListAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

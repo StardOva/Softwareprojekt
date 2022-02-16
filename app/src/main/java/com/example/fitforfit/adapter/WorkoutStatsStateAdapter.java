@@ -1,4 +1,4 @@
-package com.example.fitforfit.ui.main;
+package com.example.fitforfit.adapter;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -22,12 +22,12 @@ public class WorkoutStatsStateAdapter extends FragmentStateAdapter {
     public Fragment createFragment(int position) {
         switch (position) {
             case 0:
-                return new WorkoutEvaluationFragment(workoutId);
+                return WorkoutEvaluationFragment.newInstance(workoutId);
             case 1:
-                return new WorkoutProgressFragment(workoutId);
+                return WorkoutProgressFragment.newInstance(workoutId);
         }
 
-        return new WorkoutEvaluationFragment(workoutId);
+        return WorkoutEvaluationFragment.newInstance(workoutId);
     }
 
     @Override
