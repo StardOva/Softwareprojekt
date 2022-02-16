@@ -186,7 +186,7 @@ public class AddNewIngredientScanProductActivity extends AppCompatActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
                 //codeText.setText("JSON FEHLER");
-                error = "JSON FEHLER";
+                error = "KEIN EINTRAG VORHANDEN (JSON FEHLER)";
                 startErrorActivity(error);
             }
 
