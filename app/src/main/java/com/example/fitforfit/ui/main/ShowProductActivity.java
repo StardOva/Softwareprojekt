@@ -1,5 +1,6 @@
 package com.example.fitforfit.ui.main;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import com.example.fitforfit.R;
 import com.example.fitforfit.database.AppDatabase;
@@ -60,7 +61,7 @@ public class ShowProductActivity extends AppCompatActivity {
         TextView infoText = findViewById(R.id.infoValue);
 
         Button addButton = findViewById(R.id.RemoveIngredientButton);
-        Button cancelButton = findViewById(R.id.cancelButton);
+        Button cancelButton = findViewById(R.id.cancelIngredientButton);
 
         prodNameText.setText(this.prod.product_name);
         ckalText.setText(String.valueOf(this.prod.ckal));
@@ -89,9 +90,23 @@ public class ShowProductActivity extends AppCompatActivity {
             this.startActivity(intent);
             finish();
         });
-        //cancelButton.setOnClickListener(view -> {
-            //finish();
-       // });
+        cancelButton.setOnClickListener(view -> {
+            AppDatabase db = Database.getInstance(this);
+            AlertDialog alertDialog = new AlertDialog.Builder(this)
+                    .setTitle("Bestätigen")
+                    .setMessage("Dieses Produkt wirklich löschen?")
+                    .setPositiveButton("JA", null)
+                    .setNegativeButton("NEIN", null)
+                    .show();
+
+            Button positiveBtn = alertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
+            positiveBtn.setOnClickListener(view1 -> {
+                db.productDao().deleteProductById(this.prodId);
+                finish();
+
+            });
+
+        });
 
     }
 }

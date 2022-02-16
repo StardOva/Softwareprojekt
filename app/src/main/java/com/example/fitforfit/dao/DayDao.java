@@ -43,6 +43,9 @@ public interface DayDao {
     @Query("UPDATE day SET weight = :weight WHERE day_id = :id")
     void updateWeightById(float weight, int id);
 
+    @Query("UPDATE day SET progress = :newp WHERE day_id = :id")
+    void updateProgressById(int newp, int id);
+
     @Query("SELECT weight FROM day WHERE day_id = :id")
     float getWeightById(int id);
 
@@ -60,4 +63,7 @@ public interface DayDao {
 
     @Query("SELECT * FROM day WHERE weight <> :currentWeight ORDER BY day_id DESC LIMIT 1")
     Day getLastWeightDay(float currentWeight);
+
+    @Query("SELECT progress FROM day WHERE day_id = :id")
+    int getProgressById(int id);
 }

@@ -29,6 +29,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:hint="2022-01-30"
+                android:textAlignment="viewEnd"
 
                 />
         </LinearLayout>
@@ -51,6 +52,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Sonntag"
+                android:textAlignment="viewEnd"
 
                 />
         </LinearLayout>
@@ -71,7 +73,7 @@
             android:orientation="horizontal"
             android:paddingBottom="20dp">
 
-            <LinearLayout
+            <!--<LinearLayout
                 android:layout_width="15dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0"
@@ -128,14 +130,67 @@
                     android:background="@color/fit_grey"
                     android:layout_marginTop="9dp"
                     />
-            </LinearLayout>
+            </LinearLayout>-->
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:orientation="vertical">
+                android:orientation="horizontal">
 
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_weight="0.05"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="20dp"
+                        android:layout_height="wrap_content"
+                        android:background="@color/fit_red">
+                    </TextView>
+                    <TextView
+                        android:layout_width="20dp"
+                        android:layout_height="wrap_content"
+                        android:background="@color/fit_orange_dark">
+                    </TextView>
+                    <TextView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:background="@color/fit_orange_light">
+                    </TextView>
+                    <TextView
+                        android:layout_width="20dp"
+                        android:layout_height="wrap_content"
+                        android:background="@color/fit_blue_dark">
+                    </TextView>
+                    <TextView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:background="@color/fit_blue_light">
+                    </TextView>
+                    <TextView
+                        android:layout_width="20dp"
+                        android:layout_height="wrap_content"
+                        android:background="@color/fit_brown">
+                    </TextView>
+                    <TextView
+                        android:layout_width="20dp"
+                        android:layout_height="wrap_content"
+                        android:background="@color/fit_green">
+                    </TextView>
+                    <TextView
+                        android:layout_width="20dp"
+                        android:layout_height="wrap_content"
+                        android:background="@color/fit_grey">
+                    </TextView>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
                 <TextView
 
                     android:id="@+id/ckalTextView"
@@ -156,9 +211,9 @@
                 <TextView
                     android:id="@+id/satfatTextView"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="20dp"
                     android:layout_weight="2"
-
+                    android:textSize="12dp"
                     android:text="davon gesättigte Fette:" />
 
                 <TextView
@@ -172,9 +227,9 @@
                 <TextView
                     android:id="@+id/sugarTextView"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="20dp"
                     android:layout_weight="2"
-
+                    android:textSize="12dp"
                     android:text="davon Zucker:" />
 
                 <TextView
@@ -200,6 +255,7 @@
                     android:layout_weight="2"
 
                     android:text="Salz:" />
+            </LinearLayout>
             </LinearLayout>
 
             <LinearLayout
@@ -235,9 +291,11 @@
                     <TextView
                         android:id="@+id/satfatValue"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="20dp"
+                        android:textSize="12dp"
                         android:layout_weight="1"
                         android:hint="Gramm"
+
                         android:inputType="numberDecimal"
                         />
 
@@ -253,7 +311,8 @@
                     <TextView
                         android:id="@+id/sugarValue"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="20dp"
+                        android:textSize="12dp"
                         android:layout_weight="1"
                         android:hint="Gramm"
                         android:inputType="numberDecimal"
@@ -266,7 +325,9 @@
                         android:layout_weight="1"
                         android:hint="Gramm"
                         android:inputType="numberDecimal"
-                        ></TextView>
+                        >
+
+                    </TextView>
                     <TextView
                         android:id="@+id/proteinValue"
                         android:layout_width="wrap_content"
@@ -297,7 +358,9 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="0.2"
 
-                        android:text="ckal"></TextView>
+                        android:text="ckal">
+
+                    </TextView>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -310,24 +373,32 @@
 
                     <TextView
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="20dp"
+                        android:textSize="12dp"
                         android:layout_weight="0.2"
 
-                        android:text="g"></TextView>
+                        android:text="g">
+
+                    </TextView>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.2"
 
-                        android:text="g"></TextView>
+                        android:text="g">
+
+                    </TextView>
 
                     <TextView
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="20dp"
+                        android:textSize="12dp"
                         android:layout_weight="0.2"
 
-                        android:text="g"></TextView>
+                        android:text="g">
+
+                    </TextView>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -374,29 +445,48 @@
             android:layout_width="match_parent"
             android:layout_height="3dp"
             android:background="@android:color/darker_gray"
+            android:layout_marginBottom="10dp"
             />
 
         <com.github.mikephil.charting.charts.PieChart
             android:id="@+id/pieChart"
             android:layout_width="match_parent"
-            android:layout_height="400dp"
+            android:layout_height="300dp"
             >
 
         </com.github.mikephil.charting.charts.PieChart>
 
-
-        <com.github.mikephil.charting.charts.PieChart
-            android:id="@+id/pieChartfat"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="400dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_weight="1">
+                <com.github.mikephil.charting.charts.PieChart
+                    android:id="@+id/pieChartfat"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
 
-            />
-        <com.github.mikephil.charting.charts.PieChart
-            android:id="@+id/pieChartcarb"
-            android:layout_width="match_parent"
-            android:layout_height="400dp"
+                    />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_weight="1">
+                <com.github.mikephil.charting.charts.PieChart
+                    android:id="@+id/pieChartcarb"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
 
-            />
+                    />
+            </LinearLayout>
+        </LinearLayout>
+
+
 
     </LinearLayout>
 </ScrollView>

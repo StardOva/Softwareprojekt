@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
 import com.example.fitforfit.R;
 import com.example.fitforfit.adapter.IngredientListAdapter;
 import com.example.fitforfit.adapter.MealListAdapter;
@@ -30,7 +31,7 @@ public class AddNewMealActivity extends AppCompatActivity {
 
     int dayId;
     List<Meal> mealList;
-    private IngredientListAdapter ingListAdapter;
+    private IngredientListAdapter ingListAdapter = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,22 +41,18 @@ public class AddNewMealActivity extends AppCompatActivity {
         initViews();
         cleanProducts();
         initRecyclerView();// zeigt alle Zutaten des meals
-        loadIngredientList();
-
-
-
     }
 
     private void cleanProducts() {
-            AppDatabase db = Database.getInstance(this);
-            db.productDao().cleanProducts();
+        AppDatabase db = Database.getInstance(this);
+        db.productDao().cleanProducts();
     }
 
     private void initViews() {
         String dayIdS = getIntent().getStringExtra("dayId");
         this.dayId = Integer.valueOf(dayIdS);
-        AppDatabase db = Database.getInstance(this);
-        String date = db.dayDao().getDateById(this.dayId);
+        AppDatabase db   = Database.getInstance(this);
+        String      date = db.dayDao().getDateById(this.dayId);
         this.mealList = db.mealDao().getAllMealsOnDay(this.dayId);
         int mealCount = this.mealList.size();
 
@@ -82,8 +79,8 @@ public class AddNewMealActivity extends AppCompatActivity {
         addButton.setText("Add");
         addButton.setOnClickListener((v -> {
             String name = mealNameText.getText().toString();
-            if(name == null || name == "" || name.matches("")){
-                name = "Meal#" + mealCount+1;
+            if (name == null || name == "" || name.matches("")) {
+                name = "Meal#" + mealCount + 1;
             }
             Log.d("MealAdded", "Added Meal on Day: " + this.dayId);
             //TODO auto timestamp
@@ -140,24 +137,31 @@ public class AddNewMealActivity extends AppCompatActivity {
     }
 
     private void initRecyclerView() {
-        AsyncTask.execute(() -> {
-            RecyclerView recyclerViewMeals = findViewById(R.id.recyclerViewMeals);
-            recyclerViewMeals.setLayoutManager(new LinearLayoutManager(this));
+        RecyclerView recyclerViewMeals = findViewById(R.id.recyclerViewMeals);
+        recyclerViewMeals.setLayoutManager(new LinearLayoutManager(this));
 
-            DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
-            recyclerViewMeals.addItemDecoration(dividerItemDecoration);
-            ingListAdapter = new IngredientListAdapter(this);
-            recyclerViewMeals.setAdapter(ingListAdapter);
-        });
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
+        recyclerViewMeals.addItemDecoration(dividerItemDecoration);
+        ingListAdapter = new IngredientListAdapter(this);
+        recyclerViewMeals.setAdapter(ingListAdapter);
+
+        loadIngredientList();
     }
-    private void loadIngredientList() {
 
-        AppDatabase db = Database.getInstance(this);
-        //mealID id des zukünftigen MEals
-        int mealId = db.mealDao().getLastMealId();
-        List<Ingredient> ingredientList = db.ingredientDao().getAllIngredientsOnMeal(mealId);
-        ingListAdapter.setContext(this);
-        ingListAdapter.setIngredientList(ingredientList);
+    private void loadIngredientList() {
+        AsyncTask.execute(() -> {
+            AppDatabase db = Database.getInstance(this);
+            //mealID id des zukünftigen MEals
+            int              mealId         = db.mealDao().getLastMealId();
+            List<Ingredient> ingredientList = db.ingredientDao().getAllIngredientsOnMeal(mealId);
+
+            runOnUiThread(() -> {
+                if (ingListAdapter != null) {
+                    ingListAdapter.setContext(this);
+                    ingListAdapter.setIngredientList(ingredientList);
+                }
+            });
+        });
     }
 
     /*
