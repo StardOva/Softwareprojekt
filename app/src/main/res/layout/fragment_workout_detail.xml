@@ -45,6 +45,8 @@
         android:clickable="true"
         app:srcCompat="@android:drawable/ic_media_play"
         android:layout_gravity="bottom|end"
-        android:layout_margin="28dp"/>
+        android:layout_margin="28dp"
+        android:backgroundTint="@color/fit_orange_light"
+        app:borderWidth="0dp" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

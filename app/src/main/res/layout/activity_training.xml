@@ -87,5 +87,8 @@
         android:clickable="true"
         app:srcCompat="@drawable/timer"
         android:layout_gravity="bottom|end"
-        android:layout_margin="28dp"/>
+        android:layout_margin="28dp"
+        android:backgroundTint="@color/fit_orange_light"
+        app:borderWidth="0dp"
+        app:tint="@color/black"/>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
