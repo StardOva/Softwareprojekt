@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/cellDayText"
         android:textSize="20sp"
-        android:textColor="@color/black"
+        android:textColor="@color/fit_grey"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintRight_toRightOf="parent"

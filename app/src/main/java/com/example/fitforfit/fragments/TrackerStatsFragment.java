@@ -211,7 +211,9 @@ public class TrackerStatsFragment extends Fragment {
         BarData barData = new BarData(barDataSet);
 
         bar.setDrawValueAboveBar(false);
-
+        //barData.setValueTextColor(
+        //        Color.parseColor("#"+Integer.toHexString(ContextCompat.getColor(getContext(), R.color.white)))
+        //        );
         bar.setFitBars(true);
         bar.setData(barData);
         bar.getDescription().setText("");
@@ -220,27 +222,39 @@ public class TrackerStatsFragment extends Fragment {
         String[] labels = {"", "Energie","Proteine", "Fette", "Kohlendydrate"};
         bar.getLegend().setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
         bar.getLegend().setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
-
+        bar.getLegend().setTextColor(
+                Color.parseColor("#"+Integer.toHexString(ContextCompat.getColor(getContext(), R.color.white))
+        ));
         XAxis x = bar.getXAxis();
         x.setGranularity(1f);
         x.setGranularityEnabled(true);
         x.setCenterAxisLabels(false);
         x.setPosition(XAxis.XAxisPosition.BOTTOM);
         x.setValueFormatter(new IndexAxisValueFormatter(labels));
+        x.setTextColor(
+                Color.parseColor("#"+Integer.toHexString(ContextCompat.getColor(getContext(), R.color.white))
+        ));
 
         /*
         TODO Werte fpr Piechart bestimmen
+
          */
 
         PieChart pie = view.findViewById(R.id.pieChart);
         ArrayList<PieEntry> list = new ArrayList<>();
-        list.add(new PieEntry(this.fatOfDay,"Fett"));
-        list.add(new PieEntry(this.carbOfDay,"Kohlenhydrate"));
-        list.add(new PieEntry(this.fiberOfDay,"Ballaststoffe"));
-        list.add(new PieEntry(this.saltOfDay,""));
-        list.add(new PieEntry(this.proteinOfDay,"Eiweiß"));
+        if (this.fatOfDay == 0 && this.carbOfDay == 0 && this.fiberOfDay == 0 && this.saltOfDay == 0 && this.proteinOfDay == 0) {
+            list.add(new PieEntry(100, "Keine Daten"));
+        } else {
+            list.add(new PieEntry(this.fatOfDay, "Fett"));
+            list.add(new PieEntry(this.carbOfDay, "Kohlenhydrate"));
+            list.add(new PieEntry(this.fiberOfDay, "Ballaststoffe"));
+            list.add(new PieEntry(this.saltOfDay, ""));
+            list.add(new PieEntry(this.proteinOfDay, "Eiweiß"));
+        }
 
 
+        pie.setTransparentCircleRadius(0);
+        pie.setHoleRadius(0);
         Legend legend = pie.getLegend();
         legend.setOrientation(Legend.LegendOrientation.VERTICAL);
         legend.setDirection(Legend.LegendDirection.RIGHT_TO_LEFT);
@@ -258,12 +272,11 @@ public class TrackerStatsFragment extends Fragment {
         PieDataSet pieDataSet = new PieDataSet(list, "");
         pieDataSet.setValueTextSize(0f);
         pieDataSet.setColors(
-                Color.parseColor("#"+Integer.toHexString(ContextCompat.getColor(getContext(), R.color.fit_orange_dark))),
-                Color.parseColor("#"+Integer.toHexString(ContextCompat.getColor(getContext(), R.color.fit_blue_dark))),
-                Color.parseColor("#"+Integer.toHexString(ContextCompat.getColor(getContext(), R.color.fit_brown))),
-
-                Color.parseColor("#"+Integer.toHexString(ContextCompat.getColor(getContext(), R.color.fit_grey))),
-                Color.parseColor("#"+Integer.toHexString(ContextCompat.getColor(getContext(), R.color.fit_green))));
+                Color.parseColor("#" + Integer.toHexString(ContextCompat.getColor(getContext(), R.color.fit_orange_dark))),
+                Color.parseColor("#" + Integer.toHexString(ContextCompat.getColor(getContext(), R.color.fit_blue_dark))),
+                Color.parseColor("#" + Integer.toHexString(ContextCompat.getColor(getContext(), R.color.fit_brown))),
+                Color.parseColor("#" + Integer.toHexString(ContextCompat.getColor(getContext(), R.color.fit_grey))),
+                Color.parseColor("#" + Integer.toHexString(ContextCompat.getColor(getContext(), R.color.fit_green))));
         //pieDataSet.setColors(ColorTemplate.COLORFUL_COLORS);
         pie.setData(new PieData(pieDataSet));
         pie.setDrawEntryLabels(true);
@@ -273,8 +286,12 @@ public class TrackerStatsFragment extends Fragment {
 
         PieChart piefat = view.findViewById(R.id.pieChartfat);
         ArrayList<PieEntry> listfat = new ArrayList<>();
-        listfat.add(new PieEntry(this.fatOfDay-this.satfatOfDay,"ungesättigte Fett"));
-        listfat.add(new PieEntry(this.satfatOfDay,"gesättigte Fette"));
+        if(this.fatOfDay == 0 && this.satfatOfDay == 0){
+            listfat.add(new PieEntry(100,"Keine Daten"));
+        }else {
+            listfat.add(new PieEntry(this.fatOfDay - this.satfatOfDay, "ungesättigte Fett"));
+            listfat.add(new PieEntry(this.satfatOfDay, "gesättigte Fette"));
+        }
         PieDataSet pieDataSetfat = new PieDataSet(listfat, "");
         pieDataSetfat.setColors(
                 Color.parseColor("#"+Integer.toHexString(ContextCompat.getColor(getContext(), R.color.fit_orange_dark))),
@@ -285,11 +302,17 @@ public class TrackerStatsFragment extends Fragment {
         piefat.getLegend().setEnabled(false);
         piefat.setDescription(des);
         piefat.setTouchEnabled(false);
+        piefat.setTransparentCircleRadius(0);
+        piefat.setHoleRadius(0);
 
         PieChart piecarb = view.findViewById(R.id.pieChartcarb);
         ArrayList<PieEntry> listcarb = new ArrayList<>();
-        listcarb.add(new PieEntry(this.carbOfDay-this.sugarOfDay,"andere\nKohlenhydrate"));
-        listcarb.add(new PieEntry(this.sugarOfDay,"Zucker"));
+        if(this.carbOfDay == 0 && this.sugarOfDay == 0){
+            listcarb.add(new PieEntry(100,"Keine Daten"));
+        }else {
+            listcarb.add(new PieEntry(this.carbOfDay - this.sugarOfDay, "andere\nKohlenhydrate"));
+            listcarb.add(new PieEntry(this.sugarOfDay, "Zucker"));
+        }
         PieDataSet pieDataSetcarb = new PieDataSet(listcarb, "");
         pieDataSetcarb.setColors(
                 Color.parseColor("#"+Integer.toHexString(ContextCompat.getColor(getContext(), R.color.fit_blue_dark))),
@@ -299,6 +322,8 @@ public class TrackerStatsFragment extends Fragment {
         piecarb.getLegend().setEnabled(false);
         piecarb.setDescription(des);
         piecarb.setTouchEnabled(false);
+        piecarb.setTransparentCircleRadius(0);
+        piecarb.setHoleRadius(0);
 
 
 
