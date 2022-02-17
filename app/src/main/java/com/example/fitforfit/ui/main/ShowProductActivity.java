@@ -102,6 +102,7 @@ public class ShowProductActivity extends AppCompatActivity {
             Button positiveBtn = alertDialog.getButton(AlertDialog.BUTTON_POSITIVE);
             positiveBtn.setOnClickListener(view1 -> {
                 db.productDao().deleteProductById(this.prodId);
+                db.ingredientDao().deleteAllIngredientsByProductId(this.prodId);
                 finish();
 
             });

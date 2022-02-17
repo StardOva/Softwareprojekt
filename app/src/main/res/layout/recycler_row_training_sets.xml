@@ -17,7 +17,8 @@
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:text=""
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:textColor="@color/fit_grey"/>
 
         <TextView
             android:id="@+id/trainingSetOptions"
@@ -29,7 +30,8 @@
             android:paddingEnd="15dp"
             android:text="@string/tripleDots"
             android:textAppearance="?android:textAppearanceLarge"
-            android:textSize="25sp" />
+            android:textSize="25sp"
+            android:textColor="@color/fit_grey"/>
     </RelativeLayout>
 
     <LinearLayout
@@ -49,7 +51,8 @@
                 android:layout_height="48dp"
                 android:gravity="center_vertical"
                 android:text="@string/reps"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:textColor="@color/fit_grey"/>
 
             <TextView
                 android:id="@+id/trainingWeightTextView"
@@ -57,7 +60,9 @@
                 android:layout_height="48dp"
                 android:gravity="center_vertical"
                 android:text="@string/weight"
-                android:textSize="20sp" />
+                android:textSize="20sp"
+                android:textColor="@color/fit_grey"
+                />
 
         </LinearLayout>
 
@@ -73,7 +78,8 @@
                 android:ems="5"
                 android:inputType="numberDecimal"
                 android:minHeight="48dp"
-                tools:ignore="SpeakableTextPresentCheck" />
+                tools:ignore="SpeakableTextPresentCheck"
+                android:textColor="@color/fit_grey"/>
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -88,14 +94,16 @@
                     android:ems="5"
                     android:inputType="numberDecimal"
                     android:minHeight="48dp"
-                    tools:ignore="SpeakableTextPresentCheck" />
+                    tools:ignore="SpeakableTextPresentCheck"
+                    android:textColor="@color/fit_grey"/>
 
                 <TextView
                     android:id="@+id/trainingWeightKilo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/kilo"
-                    android:textSize="20sp" />
+                    android:textSize="20sp"
+                    android:textColor="@color/fit_grey"/>
             </LinearLayout>
 
         </LinearLayout>

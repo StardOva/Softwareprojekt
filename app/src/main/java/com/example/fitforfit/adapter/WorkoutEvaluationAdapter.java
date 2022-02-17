@@ -72,6 +72,7 @@ public class WorkoutEvaluationAdapter extends RecyclerView.Adapter<WorkoutEvalua
         lineChart.setDragEnabled(true);
         lineChart.setScaleEnabled(true);
         lineChart.setDrawGridBackground(false);
+        //lineChart.setBackgroundColor();
 
         Description description = new Description();
         description.setText("");
@@ -87,28 +88,30 @@ public class WorkoutEvaluationAdapter extends RecyclerView.Adapter<WorkoutEvalua
         // ArrayList<Training> trainingList = new ArrayList<>();
         ArrayList<Training> trainingList = exerciseTrainingList.get(exercise.id);
 
-        if (trainingList != null && trainingList.size() > 0){
+        if (trainingList != null && trainingList.size() > 0) {
             int   i         = 0;
             float maxWeight = 0;
             int   maxReps   = 0;
 
             for (Training training : trainingList) {
-                weightList.add(new Entry(i, training.weight));
-                repList.add(new Entry(i, training.reps));
+                if (training != null) {
+                    weightList.add(new Entry(i, training.weight));
+                    repList.add(new Entry(i, training.reps));
 
-                if (training.weight > maxWeight) {
-                    maxWeight = training.weight;
+                    if (training.weight > maxWeight) {
+                        maxWeight = training.weight;
+                    }
+
+                    if (training.reps > maxReps) {
+                        maxReps = training.reps;
+                    }
+
+                    LegendEntry legendEntry = new LegendEntry();
+                    legendEntry.label = training.createdAt;
+                    legendList.add(legendEntry);
+
+                    i++;
                 }
-
-                if (training.reps > maxReps) {
-                    maxReps = training.reps;
-                }
-
-                LegendEntry legendEntry = new LegendEntry();
-                legendEntry.label = training.createdAt;
-                legendList.add(legendEntry);
-
-                i++;
             }
 
             LineDataSet weightSet = new LineDataSet(weightList, "Gewicht");
