@@ -72,6 +72,7 @@ public class WorkoutEvaluationAdapter extends RecyclerView.Adapter<WorkoutEvalua
         lineChart.setDragEnabled(true);
         lineChart.setScaleEnabled(true);
         lineChart.setDrawGridBackground(false);
+        //lineChart.setBackgroundColor();
 
         Description description = new Description();
         description.setText("");
