@@ -22,9 +22,9 @@
     </style>
 
     <style name="splashScreenTheme" parent="Theme.FitforFit.NoActionBar">
-        <item name="android:windowBackground">@color/black</item>
-        <!--<item name="android:windowBackground">@drawable/splash_screen</item>
-         TODO SplashScreen should show logo -->
+       <!-- <item name="android:windowBackground">@color/black</item>-->
+        <item name="android:windowBackground">@drawable/splash_screen</item>
+         <!--TODO SplashScreen should show logo -->
     </style>
 
     <style name="Theme.FitforFit.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />

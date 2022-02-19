@@ -9,28 +9,26 @@
 
     <LinearLayout
         android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="20dp"
+        >
+
+
+    <TextView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <Button
-            android:id="@+id/goalBtn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Ziel/Gewicht"
-            android:layout_weight="1"
-            
+        android:text="Ernährungstracker"
+        android:textSize="30dp"
+        >
 
+    </TextView>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/fit_grey">
 
-            />
-        <Button
-            android:id="@+id/calendarBtn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Kalender"
-            android:layout_weight="1"
-
-
-            />
-    </LinearLayout>
+    </View>
 
 
     <androidx.recyclerview.widget.RecyclerView
@@ -39,4 +37,31 @@
         android:layout_height="wrap_content"
 
          />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/fit_grey"
+            android:layout_marginTop="50dp"
+            android:layout_marginBottom="10dp">
+
+        </View>
+
+        <Button
+            android:id="@+id/calendarBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Kalender"
+
+            />
+
+
+        <Button
+            android:id="@+id/goalBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Gewicht"
+
+
+            />
+    </LinearLayout>
 </LinearLayout>

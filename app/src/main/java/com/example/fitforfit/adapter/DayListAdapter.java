@@ -15,6 +15,8 @@ import com.example.fitforfit.R;
 import com.example.fitforfit.entity.Day;
 import com.example.fitforfit.ui.main.TrackerDayActivity;
 
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.Calendar;
 import java.util.List;
 
@@ -55,7 +57,7 @@ public class DayListAdapter extends RecyclerView.Adapter<DayListAdapter.MyViewHo
         //String[] split = date.split("-");   //String Array der Werte Jahr-Monat-Tag des letzten Date Eintrags
         c.set(Integer.valueOf(split[0]),Integer.valueOf(split[1]),Integer.valueOf(split[2])); //erzeugen Kalender Objekt#
         String weekDay = "";
-        int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
+        /*int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
         Log.d("WEEK_DAY", String.valueOf(dayOfWeek));
         if(dayOfWeek == 0){
             weekDay = "Samstag";
@@ -65,7 +67,17 @@ public class DayListAdapter extends RecyclerView.Adapter<DayListAdapter.MyViewHo
         else if(dayOfWeek == 4){weekDay = "Mittwoch";}
         else if(dayOfWeek == 5){weekDay = "Donnserstag";}
         else if(dayOfWeek == 6){weekDay = "Freitag";}
-        //Log.d("TEST", String.valueOf(dayOfWeek));
+        else if(dayOfWeek == 7){weekDay = "Samstag";}
+        //Log.d("TEST", String.valueOf(dayOfWeek));*/
+        LocalDate today = LocalDate.now();
+        if(date.equals(today.toString())){
+            weekDay = "Heute";
+        }else if(date.equals(today.minus(Period.ofDays(1)).toString())){
+            weekDay = "Gestern";
+        }else if(date.equals(today.minus(Period.ofDays(2)).toString())){
+            weekDay = "Vorgestern";
+        }
+       // Log.d("TEST", date + " " + LocalDate.now().minus(Period.ofDays(2)).toString());
 
         String   displayDate = weekDay + " " + split[2] + "." + split[1] + ".";
         holder.dayButton.setText(displayDate);
@@ -83,8 +95,8 @@ public class DayListAdapter extends RecyclerView.Adapter<DayListAdapter.MyViewHo
     @Override
     public int getItemCount() {
         if (this.dayList != null) {
-            if(this.dayList.size() > 7){
-                return 7;
+            if(this.dayList.size() > 3){
+                return 3;
             }
             return this.dayList.size();
         }

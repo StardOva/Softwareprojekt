@@ -29,13 +29,13 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setTheme(R.style.Theme_FitforFit_NoActionBar);
+
         super.onCreate(savedInstanceState);
         //TODO Layout Farben an DarkMode anpassen
         //immer Darkmode aktiviert
         AppCompatDelegate.setDefaultNightMode(
                 AppCompatDelegate.MODE_NIGHT_YES);
-
+        setTheme(R.style.Theme_FitforFit_NoActionBar);
 
 
 
