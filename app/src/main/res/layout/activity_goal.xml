@@ -8,50 +8,29 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="20dp">
 
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Aktuelles Gewicht:"
-            android:layout_weight="1">
+            android:text="Analyse"
+            android:textSize="30dp"
+
+            >
 
         </TextView>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/fit_grey">
 
-        <TextView
-            android:id="@+id/weightText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="Gewicht in kg">
-
-
-        </TextView>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="kg"
-            android:layout_weight="0.2">
-
-        </TextView>
-    </LinearLayout>
+        </View>
 
 
 
-    <Button
-        android:id="@+id/changeWeightBtn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Change gewicht"
-        >
 
-    </Button>
     <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/reportingChart"
         android:layout_width="match_parent"
@@ -61,13 +40,68 @@
         android:layout_marginTop="8dp"
         android:background="@color/fit_grey"
         android:elevation="10dp"
+        android:layout_marginBottom="20dp"
 
         />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Aktuelles Gewicht:"
+                android:layout_weight="1">
+
+            </TextView>
+
+            <TextView
+                android:id="@+id/weightText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Gewicht">
+
+
+            </TextView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="kg"
+                android:layout_weight="0.2">
+
+            </TextView>
+            <Button
+                android:id="@+id/changeWeightBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ändern"
+                android:layout_weight="1"
+                >
+
+            </Button>
+        </LinearLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Vergangene Daten"
+            android:textSize="30dp"
+            android:layout_marginTop="40dp"
+            >
+
+        </TextView>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/fit_grey">
+
+        </View>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="40dp">
+            >
 
             <TextView
                 android:layout_width="wrap_content"
@@ -82,7 +116,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:hint="Gewicht in kg">
+                android:hint="Gewicht">
 
 
             </TextView>
@@ -93,11 +127,21 @@
                 android:layout_weight="0.2">
 
             </TextView>
+            <Button
+                android:id="@+id/changeOldWeightBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ändern"
+                android:layout_weight="1">
+
+            </Button>
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            >
 
             <EditText
                 android:id="@+id/yearText"
@@ -128,29 +172,23 @@
                 android:inputType="numberDecimal">
 
             </EditText>
+            <Button
+                android:id="@+id/showOldWeightBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Show"
+                android:layout_weight="1">
+
+            </Button>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <Button
-                android:id="@+id/showOldWeightBtn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Show"
-                android:layout_weight="1">
 
-            </Button>
 
-            <Button
-                android:id="@+id/changeOldWeightBtn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Change"
-                android:layout_weight="1">
 
-            </Button>
         </LinearLayout>
        <!-- <View
             android:layout_width="match_parent"

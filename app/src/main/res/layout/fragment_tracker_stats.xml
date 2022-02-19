@@ -5,11 +5,25 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
         android:orientation="vertical"
-        android:padding="20dp">
+        >
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Info"
+            android:textSize="30dp"
 
+            >
+
+        </TextView>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/fit_grey">
+
+        </View>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -56,12 +70,74 @@
 
                 />
         </LinearLayout>
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingTop="20dp">
+            >
+            <TextView
+                android:id="@+id/weightLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Gewicht:"
+                />
+
+            <TextView
+                android:id="@+id/weightValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="70kg"
+                android:textAlignment="viewEnd"
+
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+            <TextView
+                android:id="@+id/prgogressLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Kalorienbedarf erreicht zu:"
+                />
+
+            <TextView
+                android:id="@+id/progressValue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="70%"
+                android:textAlignment="viewEnd"
+
+                />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Nährwerte"
+            android:textSize="30dp"
+            android:layout_marginTop="10dp"
+
+            >
+
+        </TextView>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/fit_grey">
+
+        </View>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingTop="10dp">
 
 
         </LinearLayout>
@@ -425,12 +501,27 @@
         </LinearLayout>
 
 
-        <View
+       <!-- <View
             android:layout_width="match_parent"
             android:layout_height="3dp"
             android:background="@android:color/darker_gray"
 
-            />
+            />-->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Analyse"
+            android:textSize="30dp"
+
+            >
+
+        </TextView>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/fit_grey">
+
+        </View>
 
         <com.github.mikephil.charting.charts.BarChart
             android:id="@+id/barChart"
@@ -441,12 +532,12 @@
         </com.github.mikephil.charting.charts.BarChart>
 
 
-        <View
+        <!--<View
             android:layout_width="match_parent"
             android:layout_height="3dp"
             android:background="@android:color/darker_gray"
             android:layout_marginBottom="10dp"
-            />
+            />-->
 
         <com.github.mikephil.charting.charts.PieChart
             android:id="@+id/pieChart"

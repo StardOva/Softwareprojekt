@@ -2,6 +2,8 @@ package com.example.fitforfit;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.view.ViewTreeObserver;
 
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,11 +29,15 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         //TODO Layout Farben an DarkMode anpassen
         //immer Darkmode aktiviert
         AppCompatDelegate.setDefaultNightMode(
                 AppCompatDelegate.MODE_NIGHT_YES);
+        setTheme(R.style.Theme_FitforFit_NoActionBar);
+
+
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());

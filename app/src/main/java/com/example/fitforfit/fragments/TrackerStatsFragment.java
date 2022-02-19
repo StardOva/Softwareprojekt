@@ -136,8 +136,14 @@ public class TrackerStatsFragment extends Fragment {
         else if(dayOfWeek == 4){weekDay = "Mittwoch";}
         else if(dayOfWeek == 5){weekDay = "Donnserstag";}
         else if(dayOfWeek == 6){weekDay = "Freitag";}
+        else if(dayOfWeek == 7){weekDay = "Samstag";}
         weekDayText = view.findViewById(R.id.WeekDayvalue);
         weekDayText.setText(weekDay);
+
+        this.gewicht = db.dayDao().getWeightById(this.dayId);
+
+        TextView weigthText = view.findViewById(R.id.weightValue);
+        weigthText.setText(String.valueOf(this.gewicht)+"kg");
 
         DecimalFormat round = new DecimalFormat("#.##");
 
@@ -159,12 +165,14 @@ public class TrackerStatsFragment extends Fragment {
         proteinText.setText(String.valueOf(round.format(this.proteinOfDay)));
         saltText.setText(String.valueOf(round.format(this.saltOfDay)));
 
-        this.gewicht = db.dayDao().getWeightById(this.dayId);
+
 
         ///BARCHART
         float grundumsatz = (float)(66.47 + (13.7 * this.gewicht) + (5 * this.groesse) - (6.8 * 21)) + this.alltag;
         float kcal = (this.kcalOfDay * 100) / grundumsatz;
         db.dayDao().updateProgressById((int) kcal, this.dayId);
+        TextView progressText = view.findViewById(R.id.progressValue);
+        progressText.setText(String.valueOf(round.format(kcal))+ "%");
         //TODO Grundumsatz sollte summe von carb fat und protein sein
         //defizit benötigt Obergrenze
         //Log.d("Grundumsatz", String.valueOf(grundumsatz));
