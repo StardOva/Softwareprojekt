@@ -50,4 +50,8 @@ public class ColorUtils {
     public int getFitGrey() {
         return getBase(R.color.fit_grey);
     }
+
+    public int getWhite(){
+        return getBase(R.color.white);
+    }
 }

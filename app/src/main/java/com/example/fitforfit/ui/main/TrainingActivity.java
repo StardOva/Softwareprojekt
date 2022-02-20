@@ -2,12 +2,11 @@ package com.example.fitforfit.ui.main;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.os.Build;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -70,7 +69,8 @@ public class TrainingActivity extends AppCompatActivity {
     private Button prevButton;
     private Button nextButton;
 
-    private AlertDialog.Builder finishAlertDialog;
+    private AlertDialog.Builder saveAlertDialog;
+    private AlertDialog.Builder quitAlertDialog;
 
     private String dateString;
 
@@ -151,9 +151,18 @@ public class TrainingActivity extends AppCompatActivity {
             initRecyclerView();
         }
 
-        finishAlertDialog = new AlertDialog.Builder(this)
+        saveAlertDialog = new AlertDialog.Builder(this)
                 .setTitle("Bestätigen")
                 .setMessage("Das Training beenden und alle Werte speichern?")
+                .setPositiveButton("JA", (dialogInterface, i) -> {
+                    saveTraining();
+                    finish();
+                })
+                .setNegativeButton("NEIN", null);
+
+        quitAlertDialog = new AlertDialog.Builder(this)
+                .setTitle("Bestätigen")
+                .setMessage("Das Training beenden ohne zu speichern?")
                 .setPositiveButton("JA", (dialogInterface, i) -> finish())
                 .setNegativeButton("NEIN", null);
 
@@ -200,7 +209,7 @@ public class TrainingActivity extends AppCompatActivity {
             nextButton.setOnClickListener(view -> performExerciseChange(++currentExercisePos));
         } else {
             nextButton.setText(R.string.finished);
-            nextButton.setOnClickListener(view -> finishAlertDialog.show());
+            nextButton.setOnClickListener(view -> saveAlertDialog.show());
         }
 
         Button addSetButton = binding.buttonAddSet;
@@ -289,17 +298,14 @@ public class TrainingActivity extends AppCompatActivity {
 
         if (currentExercisePos + 1 == exerciseList.size()) {
             nextButton.setText(R.string.finished);
-            nextButton.setOnClickListener(view -> finishAlertDialog.show());
+            nextButton.setOnClickListener(view -> saveAlertDialog.show());
         } else {
             nextButton.setText(R.string.next);
             nextButton.setOnClickListener(view -> performExerciseChange(++currentExercisePos));
         }
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-
+    private void saveTraining() {
         // vor dem Speichern noch die aktuelle Liste laden
         currentTrainingList = currentSetListAdapter.getTrainingList();
 
@@ -311,16 +317,18 @@ public class TrainingActivity extends AppCompatActivity {
             db.trainingDao().deleteByTrainingId(trainingId);
         }
 
-        // alle Werte speichern
-        for (ArrayList<Training> trainingList : exerciseTrainingList.values()) {
-            for (Training training : trainingList) {
-                db.trainingDao().insert(training);
+        AsyncTask.execute(() -> {
+            // alle Werte speichern
+            for (ArrayList<Training> trainingList : exerciseTrainingList.values()) {
+                for (Training training : trainingList) {
+                    db.trainingDao().insert(training);
+                }
             }
-        }
+        });
     }
 
     @Override
     public void onBackPressed() {
-        finishAlertDialog.show();
+        quitAlertDialog.show();
     }
 }

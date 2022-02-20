@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
@@ -35,12 +36,10 @@ public class WorkoutEvaluationAdapter extends RecyclerView.Adapter<WorkoutEvalua
     private HashMap<Integer, ArrayList<Training>> exerciseTrainingList = null;
     private final Context context;
     private final AppDatabase db;
-    private final int workoutId;
 
-    public WorkoutEvaluationAdapter(Context context, int workoutId) {
+    public WorkoutEvaluationAdapter(Context context) {
         this.context = context;
         this.db = Database.getInstance(context);
-        this.workoutId = workoutId;
     }
 
     public void setExerciseList(List<Exercise> exerciseList) {
@@ -62,7 +61,9 @@ public class WorkoutEvaluationAdapter extends RecyclerView.Adapter<WorkoutEvalua
 
     @Override
     public void onBindViewHolder(@NonNull WorkoutEvaluationViewHolder holder, int position) {
-        Exercise  exercise  = exerciseList.get(position);
+        Exercise exercise = exerciseList.get(position);
+        holder.workoutEvaluationExerciseName.setText(exercise.name);
+
         LineChart lineChart = holder.lineChart;
 
         ColorUtils colorUtils = new ColorUtils(this.context);
@@ -72,7 +73,7 @@ public class WorkoutEvaluationAdapter extends RecyclerView.Adapter<WorkoutEvalua
         lineChart.setDragEnabled(true);
         lineChart.setScaleEnabled(true);
         lineChart.setDrawGridBackground(false);
-        //lineChart.setBackgroundColor();
+        //lineChart.setBackgroundColor(Color.BLACK);
 
         Description description = new Description();
         description.setText("");
@@ -83,9 +84,6 @@ public class WorkoutEvaluationAdapter extends RecyclerView.Adapter<WorkoutEvalua
         ArrayList<Entry>       repList    = new ArrayList<>();
         ArrayList<LegendEntry> legendList = new ArrayList<>();
 
-        //List<Training> trainingList = db.trainingDao().getMaxWeightSetsByWorkoutAndExerciseId(workoutId, exercise.id);
-
-        // ArrayList<Training> trainingList = new ArrayList<>();
         ArrayList<Training> trainingList = exerciseTrainingList.get(exercise.id);
 
         if (trainingList != null && trainingList.size() > 0) {
@@ -119,34 +117,40 @@ public class WorkoutEvaluationAdapter extends RecyclerView.Adapter<WorkoutEvalua
             weightSet.setColor(colorUtils.getFitGreen());
             weightSet.setCircleColor(colorUtils.getFitGreen());
             weightSet.setValueTextSize(12f);
+            weightSet.setValueTextColor(colorUtils.getWhite());
 
             LineDataSet repSet = new LineDataSet(repList, "Wiederholungen");
             repSet.setAxisDependency(YAxis.AxisDependency.RIGHT);
             repSet.setColor(colorUtils.getFitOrangeDark());
             repSet.setCircleColor(colorUtils.getFitOrangeDark());
             repSet.setValueTextSize(12f);
+            repSet.setValueTextColor(colorUtils.getWhite());
 
             LineData lineData = new LineData(weightSet, repSet);
             lineChart.setData(lineData);
 
             lineChart.getLegend().setCustom(legendList);
+            lineChart.getLegend().setTextColor(colorUtils.getWhite());
 
             XAxis xAxis = lineChart.getXAxis();
             xAxis.setTextSize(12f);
             xAxis.setAxisMinimum(0);
             xAxis.setAxisMaximum(weightList.size() - 1);
             xAxis.setGranularity(1f);
+            xAxis.setTextColor(colorUtils.getWhite());
 
             YAxis leftAxis = lineChart.getAxisLeft();
             leftAxis.setTextSize(12f);
             leftAxis.setAxisMinimum(0);
             leftAxis.setAxisMaximum(maxWeight + 20);
             leftAxis.setGranularity(1f);
+            leftAxis.setTextColor(colorUtils.getWhite());
 
             YAxis rightAxis = lineChart.getAxisRight();
             rightAxis.setTextSize(12f);
             rightAxis.setAxisMaximum(maxReps + 10);
             rightAxis.setGranularity(1f);
+            rightAxis.setTextColor(colorUtils.getWhite());
 
         }
     }
@@ -162,10 +166,12 @@ public class WorkoutEvaluationAdapter extends RecyclerView.Adapter<WorkoutEvalua
 
     public static class WorkoutEvaluationViewHolder extends RecyclerView.ViewHolder {
         LineChart lineChart;
+        TextView workoutEvaluationExerciseName;
 
         public WorkoutEvaluationViewHolder(@NonNull View itemView) {
             super(itemView);
             lineChart = itemView.findViewById(R.id.lineChart);
+            workoutEvaluationExerciseName = itemView.findViewById(R.id.workoutEvaluationExerciseName);
         }
     }
 }

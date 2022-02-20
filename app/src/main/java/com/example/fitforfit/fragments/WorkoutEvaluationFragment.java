@@ -48,6 +48,12 @@ public class WorkoutEvaluationFragment extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadExerciseList();
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -58,7 +64,9 @@ public class WorkoutEvaluationFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        this.workoutId = getArguments().getInt("workoutId");
+        if (getArguments() != null) {
+            this.workoutId = getArguments().getInt("workoutId");
+        }
         initRecyclerView(view);
     }
 
@@ -66,33 +74,37 @@ public class WorkoutEvaluationFragment extends Fragment {
         RecyclerView recyclerView = view.findViewById(R.id.recyclerViewWorkoutEvaluation);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        this.adapter = new WorkoutEvaluationAdapter(getActivity(), workoutId);
+        this.adapter = new WorkoutEvaluationAdapter(getActivity());
         recyclerView.setAdapter(adapter);
         loadExerciseList();
     }
 
     private void loadExerciseList() {
         AsyncTask.execute(() -> {
-            AppDatabase    db           = Database.getInstance(getContext());
-            List<Exercise> exerciseList = db.workoutDao().getRelatedExercises(workoutId);
+            if (adapter != null && workoutId > 0) {
+                AppDatabase    db           = Database.getInstance(getContext());
+                List<Exercise> exerciseList = db.workoutDao().getRelatedExercises(workoutId);
 
-            HashMap<Integer, ArrayList<Training>> exerciseTrainingList = new HashMap<>();
+                HashMap<Integer, ArrayList<Training>> exerciseTrainingList = new HashMap<>();
 
-            int[] trainingIds = db.trainingDao().getAllIds(workoutId);
+                int[] trainingIds = db.trainingDao().getAllIds(workoutId);
 
-            for (Exercise exercise : exerciseList) {
-                ArrayList<Training> maxSets = new ArrayList<>();
+                if (exerciseList != null && exerciseList.size() > 0 && trainingIds != null && trainingIds.length > 0) {
+                    for (Exercise exercise : exerciseList) {
+                        ArrayList<Training> maxSets = new ArrayList<>();
 
-                for (int id : trainingIds) {
-                    Training training = db.trainingDao().getMaxWeightSet(id, workoutId, exercise.id);
-                    maxSets.add(training);
+                        for (int id : trainingIds) {
+                            Training training = db.trainingDao().getMaxWeightSet(id, workoutId, exercise.id);
+                            maxSets.add(training);
+                        }
+                        exerciseTrainingList.put(exercise.id, maxSets);
+                    }
+
+                    adapter.setExerciseTrainingList(exerciseTrainingList);
+
+                    requireActivity().runOnUiThread(() -> adapter.setExerciseList(exerciseList));
                 }
-                exerciseTrainingList.put(exercise.id, maxSets);
             }
-
-            adapter.setExerciseTrainingList(exerciseTrainingList);
-
-            requireActivity().runOnUiThread(() -> adapter.setExerciseList(exerciseList));
         });
     }
 
