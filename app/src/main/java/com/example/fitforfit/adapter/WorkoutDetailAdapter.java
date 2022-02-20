@@ -177,7 +177,7 @@ public class WorkoutDetailAdapter extends RecyclerView.Adapter<WorkoutDetailAdap
 
     @Override
     public void onRowClear(WorkoutDetailViewHolder myViewHolder) {
-        myViewHolder.exerciseName.setBackgroundColor(Color.WHITE);
+        myViewHolder.exerciseName.setBackgroundColor(Color.BLACK);
         // jetzt noch die neue Liste asynchron speichern
         AsyncTask.execute(() -> {
             int         i  = 1;
