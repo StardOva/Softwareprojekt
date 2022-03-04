@@ -99,7 +99,7 @@ public class WorkoutProgressFragment extends Fragment {
 
                                 String currentDate = calendarDay.getDate().format(DateTimeFormatter.ofPattern(DateUtils.getGermanDateFormat()));
                                 if (workoutProgressList.contains(currentDate)) {
-                                    viewContainer.textView.setTextColor(colorUtils.getFitOrangeLight());
+                                    viewContainer.textView.setTextColor(colorUtils.getColor(R.color.fit_orange_light));
                                     viewContainer.textView.setTypeface(viewContainer.textView.getTypeface(), Typeface.BOLD);
 
                                     viewContainer.textView.setOnClickListener(view1 -> {

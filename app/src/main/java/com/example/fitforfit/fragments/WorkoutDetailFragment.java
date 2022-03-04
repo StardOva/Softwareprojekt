@@ -88,6 +88,8 @@ public class WorkoutDetailFragment extends Fragment {
                 }
             }
         }
+
+        initFab();
     }
 
     private void initRecyclerView(View view) {
@@ -141,6 +143,10 @@ public class WorkoutDetailFragment extends Fragment {
             requireActivity().startActivity(intent);
         });
 
+        initFab();
+    }
+
+    private void initFab(){
         AsyncTask.execute(() -> {
             AppDatabase db = Database.getInstance(getContext());
 

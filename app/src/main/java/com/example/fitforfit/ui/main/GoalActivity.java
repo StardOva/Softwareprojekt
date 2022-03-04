@@ -157,7 +157,7 @@ public class GoalActivity extends AppCompatActivity {
         lineChart.setTouchEnabled(true);
         lineChart.setPinchZoom(true);
         LimitLine ll1 = new LimitLine(30f,"Title");
-        ll1.setLineColor(colorUtils.getFitBlueDark());
+        ll1.setLineColor(colorUtils.getColor(R.color.fit_blue_dark));
         ll1.setLineWidth(4f);
         ll1.enableDashedLine(10f, 10f, 0f);
         ll1.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_BOTTOM);
@@ -174,8 +174,8 @@ public class GoalActivity extends AppCompatActivity {
         ArrayList<ILineDataSet> dataSets = new ArrayList<>();
         dataSets.add(lineDataSet);
         lineDataSet.setAxisDependency(YAxis.AxisDependency.LEFT);
-        lineDataSet.setColor(colorUtils.getFitBlueDark());
-        lineDataSet.setCircleColor(colorUtils.getFitBlueLight());
+        lineDataSet.setColor(colorUtils.getColor(R.color.fit_blue_dark));
+        lineDataSet.setCircleColor(colorUtils.getColor(R.color.fit_blue_light));
         lineDataSet.setValueTextSize(0f);
 
         LineData data = new LineData(dataSets);

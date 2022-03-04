@@ -24,6 +24,7 @@ import com.example.fitforfit.entity.WorkoutExercise;
 import com.example.fitforfit.fragments.WorkoutDetailFragment;
 import com.example.fitforfit.singleton.Database;
 import com.example.fitforfit.ui.main.CreateNewExerciseActivity;
+import com.example.fitforfit.utils.ColorUtils;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.Collections;
@@ -36,12 +37,14 @@ public class WorkoutDetailAdapter extends RecyclerView.Adapter<WorkoutDetailAdap
     private final int workoutId;
     private final AppDatabase db;
     private final WorkoutDetailFragment workoutDetailFragment;
+    private ColorUtils colorUtils;
 
     public WorkoutDetailAdapter(Context context, int workoutId, WorkoutDetailFragment workoutDetailFragment) {
         this.context = context;
         this.workoutId = workoutId;
         this.workoutDetailFragment = workoutDetailFragment;
         db = Database.getInstance(context);
+        colorUtils = new ColorUtils(context);
     }
 
     public void setExerciseList(List<Exercise> exerciseList) {
@@ -172,12 +175,12 @@ public class WorkoutDetailAdapter extends RecyclerView.Adapter<WorkoutDetailAdap
 
     @Override
     public void onRowSelected(WorkoutDetailViewHolder myViewHolder) {
-        myViewHolder.exerciseName.setBackgroundColor(Color.LTGRAY);
+        myViewHolder.exerciseName.setBackgroundColor(colorUtils.getColor(R.color.fit_light_grey));
     }
 
     @Override
     public void onRowClear(WorkoutDetailViewHolder myViewHolder) {
-        myViewHolder.exerciseName.setBackgroundColor(Color.BLACK);
+        myViewHolder.exerciseName.setBackgroundColor(colorUtils.getColor(R.color.fit_dark_grey));
         // jetzt noch die neue Liste asynchron speichern
         AsyncTask.execute(() -> {
             int         i  = 1;
