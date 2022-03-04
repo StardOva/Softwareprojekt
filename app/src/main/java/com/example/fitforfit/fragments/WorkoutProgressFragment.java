@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -76,69 +77,77 @@ public class WorkoutProgressFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         this.workoutId = getArguments().getInt("workoutId");
 
-        loadWorkoutProgressList();
-        ColorUtils colorUtils = new ColorUtils(getContext());
+        AsyncTask.execute(() -> {
+            loadWorkoutProgressList();
 
-        com.kizitonwose.calendarview.CalendarView calView = view.findViewById(R.id.calendarViewLib);
-        calView.setDayBinder(new DayBinder<DayViewContainer>() {
-            @NonNull
-            @Override
-            public DayViewContainer create(@NonNull View view) {
-                return new DayViewContainer(view);
-            }
+            requireActivity().runOnUiThread(() -> {
+                ColorUtils colorUtils = new ColorUtils(getContext());
 
-            @Override
-            public void bind(@NonNull DayViewContainer viewContainer, @NonNull CalendarDay calendarDay) {
-                if (calendarDay.getOwner() == DayOwner.THIS_MONTH) {
-                    viewContainer.textView.setText(String.valueOf(calendarDay.getDate().getDayOfMonth()));
+                if (workoutProgressList.size() > 0) {
+                    com.kizitonwose.calendarview.CalendarView calView = view.findViewById(R.id.calendarViewLib);
+                    calView.setDayBinder(new DayBinder<DayViewContainer>() {
+                        @NonNull
+                        @Override
+                        public DayViewContainer create(@NonNull View view) {
+                            return new DayViewContainer(view);
+                        }
 
-                    String currentDate = calendarDay.getDate().format(DateTimeFormatter.ofPattern(DateUtils.getGermanDateFormat()));
-                    if (workoutProgressList.contains(currentDate)) {
-                        viewContainer.textView.setTextColor(colorUtils.getFitOrangeLight());
-                        viewContainer.textView.setTypeface(viewContainer.textView.getTypeface(), Typeface.BOLD);
+                        @Override
+                        public void bind(@NonNull DayViewContainer viewContainer, @NonNull CalendarDay calendarDay) {
+                            if (calendarDay.getOwner() == DayOwner.THIS_MONTH) {
+                                viewContainer.textView.setText(String.valueOf(calendarDay.getDate().getDayOfMonth()));
 
-                        viewContainer.textView.setOnClickListener(view1 -> {
-                            Intent intent = new Intent(getActivity(), TrainingActivity.class);
-                            intent.putExtra("workoutId", workoutId);
-                            intent.putExtra("trainingId", trainingIds[workoutProgressList.indexOf(currentDate)]);
-                            intent.putExtra("createdAt", currentDate);
+                                String currentDate = calendarDay.getDate().format(DateTimeFormatter.ofPattern(DateUtils.getGermanDateFormat()));
+                                if (workoutProgressList.contains(currentDate)) {
+                                    viewContainer.textView.setTextColor(colorUtils.getFitOrangeLight());
+                                    viewContainer.textView.setTypeface(viewContainer.textView.getTypeface(), Typeface.BOLD);
 
-                            requireActivity().startActivity(intent);
-                        });
+                                    viewContainer.textView.setOnClickListener(view1 -> {
+                                        Intent intent = new Intent(getActivity(), TrainingActivity.class);
+                                        intent.putExtra("workoutId", workoutId);
+                                        intent.putExtra("trainingId", trainingIds[workoutProgressList.indexOf(currentDate)]);
+                                        intent.putExtra("createdAt", currentDate);
+                                        requireActivity().startActivity(intent);
+                                    });
+                                }
+                            }
+                        }
+                    });
 
-                    }
+                    calView.setMonthHeaderBinder(new MonthHeaderFooterBinder<MonthHeaderBinder>() {
+                        @NonNull
+                        @Override
+                        public MonthHeaderBinder create(@NonNull View view) {
+                            return new MonthHeaderBinder(view);
+                        }
+
+                        @Override
+                        public void bind(@NonNull MonthHeaderBinder viewContainer, @NonNull CalendarMonth calendarMonth) {
+                            String lowercaseMonth  = calendarMonth.getYearMonth().getMonth().getDisplayName(TextStyle.FULL, Locale.GERMAN);
+                            String displayedHeader = lowercaseMonth.substring(0, 1).toUpperCase() + lowercaseMonth.substring(1) + " " + calendarMonth.getYear();
+                            viewContainer.textView.setText(displayedHeader);
+                        }
+                    });
+
+                    YearMonth currentMonth = YearMonth.now();
+
+                    // was ist der erste Monat der angezeigt wird?
+                    YearMonth firstMonth = YearMonth.parse(workoutProgressList.get(workoutProgressList.size() - 1),
+                            DateTimeFormatter.ofPattern(DateUtils.getGermanDateFormat()));
+
+                    YearMonth lastMonth      = currentMonth.plusMonths(0);
+                    DayOfWeek firstDayOfWeek = WeekFields.of(Locale.getDefault()).getFirstDayOfWeek();
+
+                    calView.setup(firstMonth, lastMonth, firstDayOfWeek);
+                    calView.scrollToMonth(currentMonth);
+
+                    initRecyclerView(view);
+                } else {
+                    TextView textViewSessionList = view.findViewById(R.id.textViewSessionList);
+                    textViewSessionList.setVisibility(View.GONE);
                 }
-            }
+            });
         });
-
-        calView.setMonthHeaderBinder(new MonthHeaderFooterBinder<MonthHeaderBinder>() {
-            @NonNull
-            @Override
-            public MonthHeaderBinder create(@NonNull View view) {
-                return new MonthHeaderBinder(view);
-            }
-
-            @Override
-            public void bind(@NonNull MonthHeaderBinder viewContainer, @NonNull CalendarMonth calendarMonth) {
-                String lowercaseMonth  = calendarMonth.getYearMonth().getMonth().getDisplayName(TextStyle.FULL, Locale.GERMAN);
-                String displayedHeader = lowercaseMonth.substring(0, 1).toUpperCase() + lowercaseMonth.substring(1) + " " + calendarMonth.getYear();
-                viewContainer.textView.setText(displayedHeader);
-            }
-        });
-
-        YearMonth currentMonth = YearMonth.now();
-
-        // was ist der erste Monat der angezeigt wird?
-        YearMonth firstMonth = YearMonth.parse(workoutProgressList.get(workoutProgressList.size() - 1),
-                DateTimeFormatter.ofPattern(DateUtils.getGermanDateFormat()));
-
-        YearMonth lastMonth      = currentMonth.plusMonths(0);
-        DayOfWeek firstDayOfWeek = WeekFields.of(Locale.getDefault()).getFirstDayOfWeek();
-
-        calView.setup(firstMonth, lastMonth, firstDayOfWeek);
-        calView.scrollToMonth(currentMonth);
-
-        initRecyclerView(view);
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -152,9 +161,12 @@ public class WorkoutProgressFragment extends Fragment {
 
             // zeige nur die letzten drei Sessions in der Recycler View an
             ArrayList<String> copyWorkoutProgressList = new ArrayList<>();
-            int[]             copyTrainingIds         = new int[MAX_PREVIEW_SESSIONS];
 
-            for (int i = 0; i < MAX_PREVIEW_SESSIONS; i++) {
+            int previewItems = Math.min(workoutProgressList.size(), MAX_PREVIEW_SESSIONS);
+
+            int[] copyTrainingIds = new int[previewItems];
+
+            for (int i = 0; i < previewItems; i++) {
                 copyWorkoutProgressList.add(workoutProgressList.get(i));
                 copyTrainingIds[i] = trainingIds[i];
             }

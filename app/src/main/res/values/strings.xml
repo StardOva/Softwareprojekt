@@ -43,5 +43,6 @@
     <string name="renameWorkout">Umbenennen</string>
     <string name="deleteWorkout">Löschen</string>
     <string name="removeTrainingSet">Entfernen</string>
+    <string name="workout_progress_fragment_prev_sessions">Zuletzt absolvierte Workouts</string>
 
 </resources>

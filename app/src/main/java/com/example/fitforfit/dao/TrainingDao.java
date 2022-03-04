@@ -47,4 +47,7 @@ public interface TrainingDao {
     @Query("SELECT t.* FROM training t WHERE t.id = :id AND t.workout_id = :workoutId AND t.exercise_id = :exerciseId ORDER BY weight DESC, reps DESC LIMIT 1")
     Training getMaxWeightSet(int id, int workoutId, int exerciseId);
 
+    @Query("SELECT * FROM training WHERE created_at = :createdAt LIMIT 1")
+    Training getTrainingByDate(String createdAt);
+
 }

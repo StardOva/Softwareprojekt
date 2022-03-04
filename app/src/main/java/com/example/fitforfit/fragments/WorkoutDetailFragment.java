@@ -23,12 +23,16 @@ import com.example.fitforfit.database.AppDatabase;
 import com.example.fitforfit.databinding.FragmentWorkoutDetailBinding;
 import com.example.fitforfit.dragndrop.WorkoutDetailMoveCallback;
 import com.example.fitforfit.entity.Exercise;
+import com.example.fitforfit.entity.Training;
 import com.example.fitforfit.singleton.Database;
 import com.example.fitforfit.ui.main.AddExerciseToWorkoutActivity;
 import com.example.fitforfit.ui.main.TrainingActivity;
 import com.example.fitforfit.ui.main.WorkoutStatsActivity;
+import com.example.fitforfit.utils.DateUtils;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 public class WorkoutDetailFragment extends Fragment {
@@ -79,7 +83,7 @@ public class WorkoutDetailFragment extends Fragment {
                 textView.setText(R.string.workout_detail_no_exercises);
             } else {
                 textView.setVisibility(View.GONE);
-                if (fab != null){
+                if (fab != null) {
                     fab.setVisibility(View.VISIBLE);
                 }
             }
@@ -87,7 +91,7 @@ public class WorkoutDetailFragment extends Fragment {
     }
 
     private void initRecyclerView(View view) {
-        initViews(view);
+        initViews();
 
         RecyclerView recyclerView = view.findViewById(R.id.recyclerViewWorkoutExercises);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -122,30 +126,49 @@ public class WorkoutDetailFragment extends Fragment {
         });
     }
 
-    private void initViews(View view) {
-        Button addExerciseBtn = view.findViewById(R.id.btnAddExercise);
+    private void initViews() {
+        Button addExerciseBtn = requireView().findViewById(R.id.btnAddExercise);
         addExerciseBtn.setOnClickListener(view1 -> {
             Intent intent = new Intent(getActivity(), AddExerciseToWorkoutActivity.class);
             intent.putExtra("workoutId", workoutId);
             requireActivity().startActivity(intent);
         });
 
-        Button workoutStatsBtn = view.findViewById(R.id.btnWorkoutStats);
+        Button workoutStatsBtn = requireView().findViewById(R.id.btnWorkoutStats);
         workoutStatsBtn.setOnClickListener(view1 -> {
             Intent intent = new Intent(getActivity(), WorkoutStatsActivity.class);
             intent.putExtra("workoutId", workoutId);
             requireActivity().startActivity(intent);
         });
 
-        fab = view.findViewById(R.id.fabStartTraining);
-        fab.setOnClickListener(view1 -> {
-            Intent intent = new Intent(getActivity(), TrainingActivity.class);
-            intent.putExtra("workoutId", workoutId);
-            requireActivity().startActivity(intent);
+        AsyncTask.execute(() -> {
+            AppDatabase db = Database.getInstance(getContext());
+
+            LocalDate date       = LocalDate.now();
+            String    dateString = date.format(DateTimeFormatter.ofPattern(DateUtils.getGermanDateFormat()));
+            Training  training   = db.trainingDao().getTrainingByDate(dateString);
+
+            requireActivity().runOnUiThread(() -> {
+                fab = requireView().findViewById(R.id.fabStartTraining);
+
+                Intent intent = new Intent(getActivity(), TrainingActivity.class);
+                intent.putExtra("workoutId", workoutId);
+
+                if (training != null) {
+                    intent.putExtra("trainingId", training.id);
+                    intent.putExtra("createdAt", training.createdAt);
+                    intent.putExtra("continueTrainingToday", 1);
+                } else {
+                    intent.putExtra("trainingId", 0);
+                    intent.putExtra("createdAt", dateString);
+                }
+
+                fab.setOnClickListener(view1 -> requireActivity().startActivity(intent));
+            });
         });
     }
 
-    public FloatingActionButton getFab(){
+    public FloatingActionButton getFab() {
         return this.fab;
     }
 }
