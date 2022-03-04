@@ -37,12 +37,8 @@ public class MainActivity extends AppCompatActivity {
                 AppCompatDelegate.MODE_NIGHT_YES);
         setTheme(R.style.Theme_FitforFit_NoActionBar);
 
-
-
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
-        AppDatabase db = Database.getInstance(getApplicationContext());
 
         SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(this);
         ViewPager2           viewPager            = binding.viewPager;
