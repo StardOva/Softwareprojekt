@@ -114,43 +114,43 @@ public class WorkoutEvaluationAdapter extends RecyclerView.Adapter<WorkoutEvalua
 
             LineDataSet weightSet = new LineDataSet(weightList, "Gewicht");
             weightSet.setAxisDependency(YAxis.AxisDependency.LEFT);
-            weightSet.setColor(colorUtils.getFitGreen());
-            weightSet.setCircleColor(colorUtils.getFitGreen());
+            weightSet.setColor(colorUtils.getColor(R.color.fit_green));
+            weightSet.setCircleColor(colorUtils.getColor(R.color.fit_green));
             weightSet.setValueTextSize(12f);
-            weightSet.setValueTextColor(colorUtils.getWhite());
+            weightSet.setValueTextColor(colorUtils.getColor(R.color.white));
 
             LineDataSet repSet = new LineDataSet(repList, "Wiederholungen");
             repSet.setAxisDependency(YAxis.AxisDependency.RIGHT);
-            repSet.setColor(colorUtils.getFitOrangeDark());
-            repSet.setCircleColor(colorUtils.getFitOrangeDark());
+            repSet.setColor(colorUtils.getColor(R.color.fit_orange_dark));
+            repSet.setCircleColor(colorUtils.getColor(R.color.fit_orange_dark));
             repSet.setValueTextSize(12f);
-            repSet.setValueTextColor(colorUtils.getWhite());
+            repSet.setValueTextColor(colorUtils.getColor(R.color.white));
 
             LineData lineData = new LineData(weightSet, repSet);
             lineChart.setData(lineData);
 
             lineChart.getLegend().setCustom(legendList);
-            lineChart.getLegend().setTextColor(colorUtils.getWhite());
+            lineChart.getLegend().setTextColor(colorUtils.getColor(R.color.white));
 
             XAxis xAxis = lineChart.getXAxis();
             xAxis.setTextSize(12f);
             xAxis.setAxisMinimum(0);
             xAxis.setAxisMaximum(weightList.size() - 1);
             xAxis.setGranularity(1f);
-            xAxis.setTextColor(colorUtils.getWhite());
+            xAxis.setTextColor(colorUtils.getColor(R.color.white));
 
             YAxis leftAxis = lineChart.getAxisLeft();
             leftAxis.setTextSize(12f);
             leftAxis.setAxisMinimum(0);
             leftAxis.setAxisMaximum(maxWeight + 20);
             leftAxis.setGranularity(1f);
-            leftAxis.setTextColor(colorUtils.getWhite());
+            leftAxis.setTextColor(colorUtils.getColor(R.color.white));
 
             YAxis rightAxis = lineChart.getAxisRight();
             rightAxis.setTextSize(12f);
             rightAxis.setAxisMaximum(maxReps + 10);
             rightAxis.setGranularity(1f);
-            rightAxis.setTextColor(colorUtils.getWhite());
+            rightAxis.setTextColor(colorUtils.getColor(R.color.white));
 
         }
     }

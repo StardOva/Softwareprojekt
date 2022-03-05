@@ -18,8 +18,8 @@ import java.util.ArrayList;
 public class WorkoutProgressAdapter extends RecyclerView.Adapter<WorkoutProgressAdapter.WorkoutProgressViewHolder> {
 
     private Context parentActivity;
-    private Context context;
-    private int workoutId;
+    private final Context context;
+    private final int workoutId;
 
     // Liste aller Timestamps
     private ArrayList<String> workoutProgressList = new ArrayList<>();

@@ -16,6 +16,8 @@
     <color name="fit_brown">#633c00</color>
     <color name="fit_green">#72d600</color>
     <color name="fit_grey">#878787</color>
+    <color name="fit_dark_grey">#121212</color>
+    <color name="fit_light_grey">#5e5e5e</color>
 
 
 </resources>

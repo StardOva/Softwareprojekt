@@ -104,6 +104,11 @@ public class TrainingActivity extends AppCompatActivity {
             dateString = DateUtils.getGermanDateString();
         }
 
+        // wenn die heutige Session fortgesetzt wird
+        if (getIntent().getIntExtra("continueTrainingToday", 0) == 1) {
+            Toast.makeText(getApplicationContext(), "Das heutige Training wird fortgesetzt.", Toast.LENGTH_SHORT).show();
+        }
+
         if (workoutId > 0) {
             exerciseList = db.workoutDao().getRelatedExercises(workoutId);
             Workout workout = db.workoutDao().getById(workoutId);

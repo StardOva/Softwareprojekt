@@ -17,7 +17,7 @@ public class DateUtils {
     public static String getGermanDateString() {
         Calendar calendar = Calendar.getInstance();
 
-        @SuppressLint("SimpleDateFormat") SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat format = new SimpleDateFormat(getGermanDateFormat());
         return format.format(calendar.getTime());
     }
 
@@ -26,5 +26,9 @@ public class DateUtils {
 
         @SuppressLint("SimpleDateFormat") SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         return format.format(calendar.getTime());
+    }
+
+    public static String getGermanDateFormat() {
+        return "dd.MM.yyyy";
     }
 }
