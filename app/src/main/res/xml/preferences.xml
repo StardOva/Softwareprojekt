@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <EditTextPreference
+        android:defaultValue="90"
+        android:icon="@drawable/timer_white"
+        android:key="timer_length_preference"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:summary="Länge des Workout-Timers in Sekunden"
+        android:title="Workout-Timer" />
+</PreferenceScreen>

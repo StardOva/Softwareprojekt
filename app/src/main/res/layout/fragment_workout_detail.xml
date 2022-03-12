@@ -29,6 +29,12 @@
             android:layout_height="wrap_content"
             android:text="@string/stats" />
 
+        <Button
+            android:id="@+id/btnSettings"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="TODO Einstellungen" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewWorkoutExercises"
             android:layout_width="match_parent"
