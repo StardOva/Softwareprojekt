@@ -1,6 +1,7 @@
 package com.example.fitforfit.ui.main;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -230,8 +232,24 @@ public class TrainingActivity extends AppCompatActivity {
             fab.setClickable(false);
             Toast.makeText(getApplicationContext(), "Timer gestartet", Toast.LENGTH_SHORT).show();
 
-            // TODO die Zeit aus den Shared Preferences auslesen
-            int countDown = 10 * 1000; // in Millisekunden
+            // die Zeit aus den Shared Preferences auslesen
+            SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+            String countDownString = sharedPrefs.getString("timer_length_preference", "90");
+
+            // wenn das erste Zeichen ein String ist, mit dem default von 90s ersetzen
+            // da Android bei Number Text Views einen führenden Punkt erlaubt
+            if(countDownString.startsWith(".")){
+                countDownString = "90";
+            }
+
+            // wenn ein Punkt enthalten ist, alles danach abschneiden
+            if (countDownString.contains(".")) {
+                countDownString = countDownString.replaceAll("\\..*", "");
+            }
+
+            // dann in int umwandeln
+            int countDownSeconds = Integer.parseInt(countDownString);
+            int countDown        = countDownSeconds * 1000; // in Millisekunden
 
             new CountDownTimer(countDown, 1000) {
                 @Override

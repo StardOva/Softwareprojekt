@@ -26,6 +26,7 @@ import com.example.fitforfit.entity.Exercise;
 import com.example.fitforfit.entity.Training;
 import com.example.fitforfit.singleton.Database;
 import com.example.fitforfit.ui.main.AddExerciseToWorkoutActivity;
+import com.example.fitforfit.ui.main.SettingsActivity;
 import com.example.fitforfit.ui.main.TrainingActivity;
 import com.example.fitforfit.ui.main.WorkoutStatsActivity;
 import com.example.fitforfit.utils.DateUtils;
@@ -140,6 +141,13 @@ public class WorkoutDetailFragment extends Fragment {
         workoutStatsBtn.setOnClickListener(view1 -> {
             Intent intent = new Intent(getActivity(), WorkoutStatsActivity.class);
             intent.putExtra("workoutId", workoutId);
+            requireActivity().startActivity(intent);
+        });
+
+        // TODO auf Dreipunktemenü legen
+        Button settingsBtn = requireView().findViewById(R.id.btnSettings);
+        settingsBtn.setOnClickListener(view1 -> {
+            Intent intent = new Intent(getActivity(), SettingsActivity.class);
             requireActivity().startActivity(intent);
         });
 
