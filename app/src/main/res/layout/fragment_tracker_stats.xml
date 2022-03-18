@@ -122,7 +122,7 @@
             android:layout_height="wrap_content"
             android:text="Nährwerte"
             android:textSize="30dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="@dimen/app_margin"
 
             >
 
@@ -137,7 +137,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingTop="10dp">
+            android:paddingTop="@dimen/app_margin">
 
 
         </LinearLayout>

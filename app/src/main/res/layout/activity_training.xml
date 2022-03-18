@@ -16,15 +16,15 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
+            android:layout_marginStart="@dimen/app_margin"
+            android:layout_marginEnd="@dimen/app_margin"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/trainingWorkoutName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="@dimen/app_margin"
                 android:text=""
                 android:textSize="20sp" />
 
@@ -32,7 +32,7 @@
                 android:id="@+id/trainingExerciseName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="@dimen/app_margin"
                 android:text=""
                 android:textSize="30sp"
                 android:textStyle="bold" />
@@ -48,7 +48,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/add_set"
-                android:layout_marginTop="10dp"/>
+                android:layout_marginTop="@dimen/app_margin"/>
 
         </LinearLayout>
 
@@ -56,9 +56,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginBottom="10dp">
+            android:layout_marginStart="@dimen/app_margin"
+            android:layout_marginEnd="@dimen/app_margin"
+            android:layout_marginBottom="@dimen/app_margin">
 
             <Button
                 android:id="@+id/buttonTrainingPrevExercise"

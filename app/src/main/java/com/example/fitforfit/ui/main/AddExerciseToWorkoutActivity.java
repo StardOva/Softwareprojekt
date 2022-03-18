@@ -15,7 +15,7 @@ public class AddExerciseToWorkoutActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         if (savedInstanceState == null) {
@@ -28,7 +28,7 @@ public class AddExerciseToWorkoutActivity extends AppCompatActivity {
 
             getSupportFragmentManager().beginTransaction()
                     .setReorderingAllowed(true)
-                    .add(R.id.fragment_add_exercise_to_workout, fragment, null)
+                    .add(R.id.fragment_add_exercise_to_workout, fragment)
                     .commit();
         }
     }

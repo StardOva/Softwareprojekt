@@ -81,6 +81,7 @@ public class WorkoutDetailFragment extends Fragment {
             TextView textView = this.binding.workoutDetailTextView;
 
             if (this.workoutDetailAdapter.getItemCount() == 0) {
+                textView.setVisibility(View.VISIBLE);
                 textView.setText(R.string.workout_detail_no_exercises);
             } else {
                 textView.setVisibility(View.GONE);
@@ -104,8 +105,8 @@ public class WorkoutDetailFragment extends Fragment {
 
         this.workoutDetailAdapter = new WorkoutDetailAdapter(getContext(), this.workoutId, this);
 
-        ItemTouchHelper.Callback callback    = new WorkoutDetailMoveCallback(this.workoutDetailAdapter);
-        ItemTouchHelper          touchHelper = new ItemTouchHelper(callback);
+        ItemTouchHelper.Callback callback = new WorkoutDetailMoveCallback(this.workoutDetailAdapter);
+        ItemTouchHelper touchHelper = new ItemTouchHelper(callback);
         touchHelper.attachToRecyclerView(recyclerView);
 
         recyclerView.setAdapter(this.workoutDetailAdapter);
@@ -115,14 +116,22 @@ public class WorkoutDetailFragment extends Fragment {
 
     private void loadExerciseList() {
         AsyncTask.execute(() -> {
-            AppDatabase    db           = Database.getInstance(getContext());
+            AppDatabase db = Database.getInstance(getContext());
             List<Exercise> exerciseList = db.workoutDao().getRelatedExercises(this.workoutId);
             if (exerciseList != null) {
                 requireActivity().runOnUiThread(() -> {
                     this.workoutDetailAdapter.setExerciseList(exerciseList);
+
+                    TextView textView = requireView().findViewById(R.id.workoutDetailTextView);
                     if (this.workoutDetailAdapter.getItemCount() == 0) {
-                        TextView textView = requireView().findViewById(R.id.workoutDetailTextView);
+                        textView.setVisibility(View.VISIBLE);
                         textView.setText(R.string.workout_detail_no_exercises);
+                    }
+                    else {
+                        textView.setVisibility(View.GONE);
+                        if (fab != null) {
+                            fab.setVisibility(View.VISIBLE);
+                        }
                     }
                 });
             }
@@ -154,13 +163,13 @@ public class WorkoutDetailFragment extends Fragment {
         initFab();
     }
 
-    private void initFab(){
+    private void initFab() {
         AsyncTask.execute(() -> {
             AppDatabase db = Database.getInstance(getContext());
 
-            LocalDate date       = LocalDate.now();
-            String    dateString = date.format(DateTimeFormatter.ofPattern(DateUtils.getGermanDateFormat()));
-            Training  training   = db.trainingDao().getTrainingByDate(dateString);
+            LocalDate date = LocalDate.now();
+            String dateString = date.format(DateTimeFormatter.ofPattern(DateUtils.getGermanDateFormat()));
+            Training training = db.trainingDao().getTrainingByDate(dateString);
 
             requireActivity().runOnUiThread(() -> {
                 fab = requireView().findViewById(R.id.fabStartTraining);
