@@ -44,5 +44,7 @@
     <string name="deleteWorkout">Löschen</string>
     <string name="removeTrainingSet">Entfernen</string>
     <string name="workout_progress_fragment_prev_sessions">Zuletzt absolvierte Workouts</string>
+    <string name="workoutplaner">Workoutplaner</string>
+    <string name="info">Info</string>
 
 </resources>
