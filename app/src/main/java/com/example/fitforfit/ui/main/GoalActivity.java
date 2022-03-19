@@ -78,6 +78,7 @@ public class GoalActivity extends AppCompatActivity {
     private void initOldWeight() {
 
         TextView oldWeightText = findViewById(R.id.weightOldText);
+        TextView oldWeightText2 = findViewById(R.id.weightOldText2);
         EditText yearEdit = findViewById(R.id.yearText);
         EditText monthText = findViewById(R.id.monthText);
         EditText dayText = findViewById(R.id.dayText);
@@ -87,12 +88,14 @@ public class GoalActivity extends AppCompatActivity {
         try {
             Day lastDay = db.dayDao().getLastWeightDay(db.dayDao().getWeightById(this.dayId));
             oldWeightText.setText(String.valueOf(lastDay.weight));
+            oldWeightText2.setText(String.valueOf(lastDay.weight));
             yearEdit.setText(lastDay.date.substring(0, 4));
             monthText.setText(lastDay.date.substring(5,7));
             dayText.setText(lastDay.date.substring(8,10));
         }catch (SQLiteException | NumberFormatException | NullPointerException e){
             Day lastDay = db.dayDao().getLastDay();
             oldWeightText.setText(String.valueOf(lastDay.weight));
+            oldWeightText2.setText(String.valueOf(lastDay.weight));
             yearEdit.setText(lastDay.date.substring(0, 4));
             monthText.setText(lastDay.date.substring(5,7));
             dayText.setText(lastDay.date.substring(8,10));
@@ -177,18 +180,22 @@ public class GoalActivity extends AppCompatActivity {
         lineDataSet.setColor(colorUtils.getColor(R.color.fit_blue_dark));
         lineDataSet.setCircleColor(colorUtils.getColor(R.color.fit_blue_light));
         lineDataSet.setValueTextSize(0f);
+        lineDataSet.setValueTextColor(colorUtils.getColor(R.color.white));
+        lineChart.setTouchEnabled(false);
 
         LineData data = new LineData(dataSets);
         lineChart.setData(data);
         lineChart.invalidate();
 
         lineChart.getLegend().setCustom(this.legendList);
+        lineChart.getLegend().setTextColor(colorUtils.getColor(R.color.white));
 
         XAxis xAxis = lineChart.getXAxis();
         xAxis.setTextSize(12f);
         xAxis.setAxisMinimum(0);
         xAxis.setAxisMaximum(days.size());
         xAxis.setGranularity(1f);
+        xAxis.setTextColor((colorUtils.getColor(R.color.white)));
         //XAxis.XAxisPosition position = XAxis.XAxisPosition.BOTTOM;
         //xAxis.setPosition(position);
 
@@ -199,9 +206,11 @@ public class GoalActivity extends AppCompatActivity {
         leftAxis.setAxisMinimum(0);
         leftAxis.setAxisMaximum(getMaxWeight(this.days) + 20);
         leftAxis.setGranularity(1f);
+        leftAxis.setTextColor((colorUtils.getColor(R.color.white)));
 
         YAxis rightAxis = lineChart.getAxisRight();
         rightAxis.setEnabled(false);
+        rightAxis.setTextColor((colorUtils.getColor(R.color.white)));
 
     }
 
@@ -238,6 +247,7 @@ public class GoalActivity extends AppCompatActivity {
 
 
         }
+
         this.data.add(new Entry(i+1, 50));
         return data;
     }
