@@ -4,44 +4,46 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.main.CreateNewWorkoutActivity"
-    android:orientation="vertical">
-
-    <EditText
-        android:id="@+id/textViewWorkoutName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
-        android:ems="10"
-        android:hint="@string/activity_new_workout_message"
-        android:inputType="textPersonName"
-        android:minHeight="48dp"
-        android:layout_marginStart="@dimen/app_margin"
-        android:layout_marginEnd="@dimen/app_margin"/>
+    android:orientation="vertical"
+    tools:context=".ui.main.CreateNewWorkoutActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal"
-        android:layout_marginStart="@dimen/app_margin"
-        android:layout_marginEnd="@dimen/app_margin">
+        android:layout_margin="@dimen/app_margin"
+        android:orientation="vertical">
 
-        <Button
-            android:id="@+id/btnCreateNewWorkoutCancel"
-            android:layout_width="wrap_content"
+        <EditText
+            android:id="@+id/textViewWorkoutName"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/cancel"
-            android:layout_marginEnd="5dp"/>
+            android:layout_marginTop="60dp"
+            android:ems="10"
+            android:hint="@string/activity_new_workout_message"
+            android:inputType="textPersonName"
+            android:minHeight="48dp" />
 
-        <Button
-            android:id="@+id/btnCreateNewWorkoutConfirm"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/save"
-            android:layout_marginStart="5dp"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnCreateNewWorkoutCancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:layout_weight="1"
+                android:text="@string/cancel" />
+
+            <Button
+                android:id="@+id/btnCreateNewWorkoutConfirm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_weight="1"
+                android:text="@string/save" />
+        </LinearLayout>
     </LinearLayout>
-
 </LinearLayout>
 

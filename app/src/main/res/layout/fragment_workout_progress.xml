@@ -8,8 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginStart="@dimen/app_margin"
-        android:layout_marginEnd="@dimen/app_margin">
+        android:layout_margin="@dimen/app_margin">
 
         <com.kizitonwose.calendarview.CalendarView
             android:id="@+id/calendarViewLib"
@@ -26,7 +25,7 @@
             android:layout_height="wrap_content"
             android:text="@string/workout_progress_fragment_prev_sessions"
             android:textSize="20sp"
-            android:layout_marginTop="@dimen/app_margin"/>
+            android:layout_marginTop="10dp"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewWorkoutProgress"
