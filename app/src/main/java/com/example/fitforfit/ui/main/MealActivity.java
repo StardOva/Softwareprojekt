@@ -83,7 +83,7 @@ public class MealActivity extends AppCompatActivity {
         this.mealId = Integer.valueOf(mealIdS);
 
         Button addIngredient = findViewById(R.id.addbutton);
-        addIngredient.setText("+Ingredient");
+        //addIngredient.setText("+Ingredient");
         addIngredient.setOnClickListener((v -> {
             //AddIngredientToMealActivity öffnen
             Intent intent = new Intent(this, AddIngredientToMealActivity.class);
@@ -91,7 +91,7 @@ public class MealActivity extends AppCompatActivity {
             this.startActivity(intent);
         }));
         Button deleteButton = findViewById(R.id.deletebutton);
-        deleteButton.setText("Remove Meal");
+        //deleteButton.setText("Remove Meal");
         deleteButton.setOnClickListener((v -> {
 
             AppDatabase db = Database.getInstance(this);

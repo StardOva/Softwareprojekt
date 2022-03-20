@@ -28,7 +28,7 @@
         <Button
             android:id="@+id/btnNewWorkout"
             android:layout_width="match_parent"
-            android:layout_height="61dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:text="@string/new_workout_button"
             android:textSize="18sp" />

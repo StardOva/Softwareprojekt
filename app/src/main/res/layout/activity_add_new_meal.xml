@@ -6,30 +6,25 @@
     android:layout_marginStart="@dimen/app_margin"
     android:layout_marginEnd="@dimen/app_margin"
     android:orientation="vertical">
-
-    <TextView
-        android:id="@+id/textday"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Day" />
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingTop="20dp">
 
         <TextView
             android:id="@+id/textmeal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Name:" />
+            android:text="Mahlzeit:" />
 
         <EditText
             android:id="@+id/mealNameEditText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="2" />
+            android:layout_weight="2"
+            android:hint="Name"/>
 
     </LinearLayout>
 
@@ -43,7 +38,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Add" />
+            android:text="Speichern" />
 
 
         <Button
@@ -51,24 +46,33 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Cancel" />
+            android:text="Abbrechen" />
     </LinearLayout>
-
     <Button
         android:id="@+id/addIngToMealButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
 
         android:text="+Zutat" />
+    <!--<TextView
+        android:id="@+id/textday"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Day" />-->
+
+
+
+
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewMeals"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
     </ScrollView>
+
 </LinearLayout>
 
