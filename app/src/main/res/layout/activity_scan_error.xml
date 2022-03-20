@@ -5,22 +5,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.main.ScanErrorActivity"
-    android:orientation="vertical">
+    android:layout_marginStart="@dimen/app_margin"
+    android:layout_marginEnd="@dimen/app_margin"
+    android:orientation="vertical"
+    tools:context=".ui.main.ScanErrorActivity">
 
     <TextView
         android:id="@+id/errorTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="40dp"
-
-
-         />
+        android:paddingTop="40dp"/>
 
     <Button
         android:id="@+id/againButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Nochmal"
-        />
+        android:text="Nochmal" />
 </LinearLayout>

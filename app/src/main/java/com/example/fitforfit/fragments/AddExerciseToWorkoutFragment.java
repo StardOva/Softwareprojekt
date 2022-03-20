@@ -66,9 +66,10 @@ public class AddExerciseToWorkoutFragment extends Fragment {
         super.onResume();
         loadExerciseList();
         if (this.exerciseListAdapter != null && this.binding != null) {
-            TextView textView = this.binding.addExerciseToWorkoutTextView;
+            TextView textView = requireView().findViewById(R.id.addExerciseToWorkoutTextView);
 
             if (this.exerciseListAdapter.getItemCount() == 0) {
+                textView.setVisibility(View.VISIBLE);
                 textView.setText(R.string.add_exercise_to_workout_no_exercises);
             } else {
                 textView.setVisibility(View.GONE);
@@ -90,25 +91,46 @@ public class AddExerciseToWorkoutFragment extends Fragment {
 
     private void loadExerciseList() {
         AsyncTask.execute(() -> {
-            AppDatabase    db           = Database.getInstance(getContext());
-            List<Exercise> exerciseList = db.exerciseDao().getUnusedExercisesForThisWorkout(this.workoutId);
+            AppDatabase db = Database.getInstance(getContext());
+            List<Exercise> exerciseList = db.exerciseDao().getUnusedExercisesForWorkout(this.workoutId);
+
+            // bereits hinzugefügte auch einladen
+            List<Exercise> usedExerciseList = db.exerciseDao().getUsedExercisesForWorkout(this.workoutId);
+
             if (exerciseList != null) {
                 requireActivity().runOnUiThread(() -> {
                     this.exerciseListAdapter.setExerciseList(exerciseList);
+                    TextView textView = requireView().findViewById(R.id.addExerciseToWorkoutTextView);
+
                     if (this.exerciseListAdapter.getItemCount() == 0) {
-                        TextView textView = requireView().findViewById(R.id.addExerciseToWorkoutTextView);
                         textView.setText(R.string.add_exercise_to_workout_no_exercises);
+                    } else {
+                        textView.setVisibility(View.GONE);
+
                     }
                 });
             }
+
+            if (usedExerciseList != null) {
+                requireActivity().runOnUiThread(() -> {
+                    TextView usedTextView = requireView().findViewById(R.id.textViewAddedExercises);
+                    StringBuilder text = new StringBuilder("Folgende Übungen wurden bereits hinzugefügt:\n");
+                    for (Exercise exercise : usedExerciseList) {
+                        text.append("- ").append(exercise.name).append("\n");
+                    }
+
+                    usedTextView.setText(text.toString());
+                });
+            }
+
         });
     }
 
     private void initViews(View view) {
         Button btnCreateNewExercise = view.findViewById(R.id.btnCreateNewExercise);
         btnCreateNewExercise.setOnClickListener(view1 -> {
-            Intent intent = new Intent(this.parentActivity, CreateNewExerciseActivity.class);
-            this.parentActivity.startActivity(intent);
+            Intent intent = new Intent(requireActivity(), CreateNewExerciseActivity.class);
+            requireActivity().startActivity(intent);
         });
     }
 

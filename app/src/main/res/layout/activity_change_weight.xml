@@ -4,9 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.main.ChangeWeightActivity"
+    android:layout_marginStart="@dimen/app_margin"
+    android:layout_marginEnd="@dimen/app_margin"
     android:orientation="vertical"
-    android:paddingTop="60dp">
+    android:paddingTop="60dp"
+    tools:context=".ui.main.ChangeWeightActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,29 +16,30 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:text="Neues Gewicht:">
 
         </TextView>
+
         <EditText
-            android:layout_weight="1"
+            android:id="@+id/weightEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/weightEditText"
-            android:inputType="numberDecimal"
-            android:hint="Gewicht in kg">
+            android:layout_weight="1"
+            android:hint="Gewicht in kg"
+            android:inputType="numberDecimal">
 
         </EditText>
 
     </LinearLayout>
 
     <Button
+        android:id="@+id/saveWeightBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/save"
-        android:id="@+id/saveWeightBtn">
+        android:text="@string/save">
 
     </Button>
 

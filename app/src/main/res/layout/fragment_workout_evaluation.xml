@@ -2,11 +2,11 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginStart="5dp"
-    android:layout_marginEnd="5dp">
+    android:layout_marginStart="@dimen/app_margin"
+    android:layout_marginEnd="@dimen/app_margin">
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewWorkoutEvaluation"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/recyclerViewWorkoutEvaluation" />
+        android:layout_height="wrap_content" />
 </ScrollView>

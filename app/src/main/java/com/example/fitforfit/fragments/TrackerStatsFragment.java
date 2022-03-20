@@ -48,6 +48,7 @@ import org.w3c.dom.Text;
 
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -126,17 +127,19 @@ public class TrackerStatsFragment extends Fragment {
         String[] split = date.split("-");   //String Array der Werte Jahr-Monat-Tag des letzten Date Eintrags
         c.set(Integer.valueOf(split[0]),Integer.valueOf(split[1]),Integer.valueOf(split[2])); //erzeugen Kalender Objekt#
         String weekDay = "";
-        int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
+        // Parses the date
+        LocalDate dt = LocalDate.parse(date);
+        String dayOfWeek = String.valueOf(dt.getDayOfWeek());
         Log.d("WEEK_DAY", String.valueOf(dayOfWeek));
-        if(dayOfWeek == 0){
+        if(dayOfWeek.equals("")){
             weekDay = "Samstag";
-        }else if(dayOfWeek == 1){weekDay = "Sonntag";}
-        else if(dayOfWeek == 2){weekDay = "Montag";}
-        else if(dayOfWeek == 3){weekDay = "Dienstag";}
-        else if(dayOfWeek == 4){weekDay = "Mittwoch";}
-        else if(dayOfWeek == 5){weekDay = "Donnserstag";}
-        else if(dayOfWeek == 6){weekDay = "Freitag";}
-        else if(dayOfWeek == 7){weekDay = "Samstag";}
+        }else if(dayOfWeek.equals("SUNDAY")){weekDay = "Sonntag";}
+        else if(dayOfWeek.equals("MONDAY")){weekDay = "Montag";}
+        else if(dayOfWeek.equals("TUESDAY")){weekDay = "Dienstag";}
+        else if(dayOfWeek.equals("WEDNESDAY")){weekDay = "Mittwoch";}
+        else if(dayOfWeek.equals("THURSDAY")){weekDay = "Donnserstag";}
+        else if(dayOfWeek.equals("FRIDAY")){weekDay = "Freitag";}
+        else if(dayOfWeek.equals("SATURDAY")){weekDay = "Samstag";}
         weekDayText = view.findViewById(R.id.WeekDayvalue);
         weekDayText.setText(weekDay);
 

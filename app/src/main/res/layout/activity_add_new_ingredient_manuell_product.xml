@@ -2,334 +2,334 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
-    android:orientation="vertical"
-    android:padding="20dp">
-
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingBottom="20dp">
-        <TextView
-            android:id="@+id/textView6"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Name:"
-            />
-
-        <EditText
-            android:id="@+id/IngredientNameText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="Produktname"
-            android:textSize="14sp"
-            />
-    </LinearLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="3dp"
-        android:background="@android:color/darker_gray"/>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingTop="20dp">
+        android:layout_height="match_parent"
+        android:layout_marginStart="@dimen/app_margin"
+        android:layout_marginEnd="@dimen/app_margin"
+        android:orientation="vertical">
 
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Gebe alle Nährwerte pro 100g ein."
-            android:layout_weight="1"></TextView>
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingBottom="20dp">
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
+            android:orientation="horizontal"
+            android:paddingBottom="20dp">
 
             <TextView
-                android:id="@+id/ckalTextView"
+                android:id="@+id/textView6"
                 android:layout_width="wrap_content"
-                android:layout_height="40dp"
+                android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:paddingTop="10dp"
-                android:text="Kalorien:" />
+                android:text="Name:" />
 
-            <TextView
-                android:id="@+id/fatTextView"
+            <EditText
+                android:id="@+id/IngredientNameText"
                 android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_weight="2"
-                android:paddingTop="10dp"
-                android:text="Fett:" />
-
-            <TextView
-                android:id="@+id/satfatTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_weight="2"
-                android:paddingTop="10dp"
-                android:text="davon gesättigte Fette:" />
-
-            <TextView
-                android:id="@+id/carbTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_weight="2"
-                android:paddingTop="10dp"
-                android:text="Kohlenhydrate:" />
-
-            <TextView
-                android:id="@+id/sugarTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_weight="2"
-                android:paddingTop="10dp"
-                android:text="davon Zucker:" />
-
-            <TextView
-                android:id="@+id/fiberTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_weight="2"
-                android:paddingTop="10dp"
-                android:text="Ballast:" />
-
-            <TextView
-                android:id="@+id/textView7"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_weight="2"
-                android:paddingTop="10dp"
-                android:text="Protein:" />
-
-            <TextView
-                android:id="@+id/saltTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="40dp"
-                android:layout_weight="2"
-                android:paddingTop="10dp"
-                android:text="Salz:" />
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Produktname"
+                android:textSize="14sp" />
         </LinearLayout>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:background="@android:color/darker_gray" />
+
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            >
+            android:paddingTop="20dp">
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Gebe alle Nährwerte pro 100g ein."></TextView>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="20dp">
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="right"
                 android:layout_weight="1"
                 android:orientation="vertical">
 
-                <EditText
-                    android:id="@+id/ckalEdit"
+                <TextView
+                    android:id="@+id/ckalTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
                     android:layout_weight="1"
-                    android:hint="Energie"
-                    android:inputType="numberDecimal"
-                    android:textSize="14sp" />
+                    android:paddingTop="10dp"
+                    android:text="Kalorien:" />
 
-                <EditText
-                    android:id="@+id/fatEdit"
+                <TextView
+                    android:id="@+id/fatTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
-                    android:layout_weight="1"
-                    android:hint="Gramm"
-                    android:inputType="numberDecimal"
-                    android:textSize="14sp" />
+                    android:layout_weight="2"
+                    android:paddingTop="10dp"
+                    android:text="Fett:" />
 
-                <EditText
-                    android:id="@+id/satfatEdit"
+                <TextView
+                    android:id="@+id/satfatTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
-                    android:layout_weight="1"
-                    android:hint="Gramm"
-                    android:inputType="numberDecimal"
-                    android:textSize="14sp" />
+                    android:layout_weight="2"
+                    android:paddingTop="10dp"
+                    android:text="davon gesättigte Fette:" />
 
-                <EditText
-                    android:id="@+id/carbEdit"
+                <TextView
+                    android:id="@+id/carbTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
-                    android:layout_weight="1"
-                    android:hint="Gramm"
-                    android:inputType="numberDecimal"
-                    android:textSize="14sp" />
+                    android:layout_weight="2"
+                    android:paddingTop="10dp"
+                    android:text="Kohlenhydrate:" />
 
-                <EditText
-                    android:id="@+id/sugarEdit"
+                <TextView
+                    android:id="@+id/sugarTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
-                    android:layout_weight="1"
-                    android:hint="Gramm"
-                    android:inputType="numberDecimal"
-                    android:textSize="14sp" />
+                    android:layout_weight="2"
+                    android:paddingTop="10dp"
+                    android:text="davon Zucker:" />
 
-                <EditText
-                    android:id="@+id/fiberEdit"
+                <TextView
+                    android:id="@+id/fiberTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
-                    android:layout_weight="1"
-                    android:hint="Gramm"
-                    android:inputType="numberDecimal"
-                    android:textSize="14sp" />
+                    android:layout_weight="2"
+                    android:paddingTop="10dp"
+                    android:text="Ballast:" />
 
-                <EditText
-                    android:id="@+id/proteinEdit"
+                <TextView
+                    android:id="@+id/textView7"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
-                    android:layout_weight="1"
-                    android:hint="Gramm"
-                    android:inputType="numberDecimal"
-                    android:textSize="14sp" />
+                    android:layout_weight="2"
+                    android:paddingTop="10dp"
+                    android:text="Protein:" />
 
-                <EditText
-                    android:id="@+id/saltEdit"
+                <TextView
+                    android:id="@+id/saltTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
-                    android:layout_weight="1"
-                    android:hint="Gramm"
-                    android:inputType="numberDecimal"
-                    android:textSize="14sp" />
+                    android:layout_weight="2"
+                    android:paddingTop="10dp"
+                    android:text="Salz:" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
+                android:orientation="horizontal">
 
-                <TextView
+                <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:layout_weight="0.2"
-                    android:paddingTop="10dp"
-                    android:text="ckal"></TextView>
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
-                <TextView
+                    <EditText
+                        android:id="@+id/ckalEdit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_weight="1"
+                        android:hint="Energie"
+                        android:inputType="numberDecimal"
+                        android:textSize="14sp" />
+
+                    <EditText
+                        android:id="@+id/fatEdit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_weight="1"
+                        android:hint="Gramm"
+                        android:inputType="numberDecimal"
+                        android:textSize="14sp" />
+
+                    <EditText
+                        android:id="@+id/satfatEdit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_weight="1"
+                        android:hint="Gramm"
+                        android:inputType="numberDecimal"
+                        android:textSize="14sp" />
+
+                    <EditText
+                        android:id="@+id/carbEdit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_weight="1"
+                        android:hint="Gramm"
+                        android:inputType="numberDecimal"
+                        android:textSize="14sp" />
+
+                    <EditText
+                        android:id="@+id/sugarEdit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_weight="1"
+                        android:hint="Gramm"
+                        android:inputType="numberDecimal"
+                        android:textSize="14sp" />
+
+                    <EditText
+                        android:id="@+id/fiberEdit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_weight="1"
+                        android:hint="Gramm"
+                        android:inputType="numberDecimal"
+                        android:textSize="14sp" />
+
+                    <EditText
+                        android:id="@+id/proteinEdit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_weight="1"
+                        android:hint="Gramm"
+                        android:inputType="numberDecimal"
+                        android:textSize="14sp" />
+
+                    <EditText
+                        android:id="@+id/saltEdit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_weight="1"
+                        android:hint="Gramm"
+                        android:inputType="numberDecimal"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:layout_weight="0.2"
-                    android:paddingTop="10dp"
-                    android:text="g">
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
-                </TextView>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_weight="0.2"
+                        android:paddingTop="10dp"
+                        android:text="ckal"></TextView>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:layout_weight="0.2"
-                    android:paddingTop="10dp"
-                    android:text="g"></TextView>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_weight="0.2"
+                        android:paddingTop="10dp"
+                        android:text="g">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:layout_weight="0.2"
-                    android:paddingTop="10dp"
-                    android:text="g"></TextView>
+                    </TextView>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:layout_weight="0.2"
-                    android:paddingTop="10dp"
-                    android:text="g"></TextView>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_weight="0.2"
+                        android:paddingTop="10dp"
+                        android:text="g"></TextView>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:layout_weight="0.2"
-                    android:paddingTop="10dp"
-                    android:text="g"></TextView>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_weight="0.2"
+                        android:paddingTop="10dp"
+                        android:text="g"></TextView>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:layout_weight="0.2"
-                    android:paddingTop="10dp"
-                    android:text="g"></TextView>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_weight="0.2"
+                        android:paddingTop="10dp"
+                        android:text="g"></TextView>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="40dp"
-                    android:layout_weight="0.2"
-                    android:paddingTop="10dp"
-                    android:text="g"></TextView>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_weight="0.2"
+                        android:paddingTop="10dp"
+                        android:text="g"></TextView>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_weight="0.2"
+                        android:paddingTop="10dp"
+                        android:text="g"></TextView>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="40dp"
+                        android:layout_weight="0.2"
+                        android:paddingTop="10dp"
+                        android:text="g"></TextView>
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:background="@android:color/darker_gray" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingTop="20dp">
+
+            <TextView
+                android:id="@+id/textView8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Info:" />
+
+            <EditText
+                android:id="@+id/infoEdit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="weitere Informationen"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/RemoveIngredientButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="5dp"
+                android:text="Add" />
+
+            <Button
+                android:id="@+id/cancelIngredientButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:padding="5dp"
+                android:text="Cancel" />
+        </LinearLayout>
     </LinearLayout>
-
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="3dp"
-        android:background="@android:color/darker_gray"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingTop="20dp">
-        <TextView
-            android:id="@+id/textView8"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Info:"
-             />
-        <EditText
-            android:id="@+id/infoEdit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:hint="weitere Informationen"
-            android:layout_weight="1"
-            android:textSize="14sp"
-            />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <Button
-            android:id="@+id/RemoveIngredientButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Add"
-            android:layout_weight="1"
-            android:padding="5dp"
-           />
-
-        <Button
-            android:id="@+id/cancelIngredientButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-           android:layout_weight="1"
-            android:padding="5dp"
-            android:text="Cancel"
-          />
-    </LinearLayout>
-</LinearLayout>
 </ScrollView>

@@ -5,22 +5,24 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.main.GoalActivity">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="20dp">
+        android:layout_marginStart="@dimen/app_margin"
+        android:layout_marginEnd="@dimen/app_margin"
+        android:orientation="vertical">
 
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Analyse"
-            android:textSize="30dp"
-
-            >
+            android:layout_marginTop="0dp"
+            android:text="Daten"
+            android:textSize="30sp">
 
         </TextView>
+
         <View
             android:layout_width="match_parent"
             android:layout_height="2dp"
@@ -28,21 +30,6 @@
 
         </View>
 
-
-
-
-    <com.github.mikephil.charting.charts.LineChart
-        android:id="@+id/reportingChart"
-        android:layout_width="match_parent"
-        android:layout_height="230dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginTop="8dp"
-        android:background="@color/fit_grey"
-        android:elevation="10dp"
-        android:layout_marginBottom="20dp"
-
-        />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -51,8 +38,9 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:text="Aktuelles Gewicht:"
-                android:layout_weight="1">
+                android:textSize="20sp">
 
             </TextView>
 
@@ -61,94 +49,100 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:hint="Gewicht">
+                android:hint="Gewicht"
+                android:textSize="20sp">
 
 
             </TextView>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="0.2"
                 android:text="kg"
-                android:layout_weight="0.2">
+                android:textSize="20sp">
 
             </TextView>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:orientation="horizontal">
+
             <Button
                 android:id="@+id/changeWeightBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Ändern"
                 android:layout_weight="1"
+                android:text="Ändern">
+
+            </Button>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Letztes Gewicht:"
+                android:textSize="20sp">
+
+            </TextView>
+
+            <TextView
+                android:id="@+id/weightOldText2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Gewicht"
+                android:textSize="20sp">
+
+
+            </TextView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.2"
+                android:text="kg"
+                android:textSize="20sp">
+
+            </TextView>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Gewicht am "
+
                 >
 
-            </Button>
-        </LinearLayout>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Vergangene Daten"
-            android:textSize="30dp"
-            android:layout_marginTop="40dp"
-            >
-
-        </TextView>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:background="@color/fit_grey">
-
-        </View>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Letztes Gewicht:"
-                android:layout_weight="1">
-
             </TextView>
-
-            <TextView
-                android:id="@+id/weightOldText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="Gewicht">
-
-
-            </TextView>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="kg"
-                android:layout_weight="0.2">
-
-            </TextView>
-            <Button
-                android:id="@+id/changeOldWeightBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Ändern"
-                android:layout_weight="1">
-
-            </Button>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            >
 
             <EditText
                 android:id="@+id/yearText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="Jahr"
                 android:layout_weight="1"
+                android:hint="Jahr"
                 android:inputType="numberDecimal">
 
             </EditText>
@@ -163,182 +157,93 @@
 
 
             </EditText>
+
             <EditText
                 android:id="@+id/dayText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="Day"
                 android:layout_weight="1"
+                android:hint="Day"
                 android:inputType="numberDecimal">
 
             </EditText>
+
+            <TextView
+                android:id="@+id/weightOldText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Gewicht">
+
+
+            </TextView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="kg ">
+
+            </TextView>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:orientation="horizontal">
+
             <Button
                 android:id="@+id/showOldWeightBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Show"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:text="Zeigen">
 
             </Button>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
 
-
-
-
-        </LinearLayout>
-       <!-- <View
-            android:layout_width="match_parent"
-            android:layout_height="3dp"
-            android:layout_margin="20dp"
-            android:background="@android:color/darker_gray"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Ziel:"
-                android:layout_weight="1">
-
-            </TextView>
-
-            <TextView
-                android:id="@+id/goalText"
+            <Button
+                android:id="@+id/changeOldWeightBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:hint="Aufbau/Defizit">
+                android:text="Ändern">
 
-
-            </TextView>
+            </Button>
 
         </LinearLayout>
-        <Button
+
+
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Change"
-            android:id="@+id/changeGoalBtn">
+            android:text="Analyse"
+            android:textSize="30sp"
 
-        </Button>
+            >
+
+        </TextView>
+
         <View
             android:layout_width="match_parent"
-            android:layout_height="3dp"
-            android:layout_margin="20dp"
-            android:background="@android:color/darker_gray"/>
+            android:layout_height="2dp"
+            android:background="@color/fit_grey">
 
-        <LinearLayout
+        </View>
+
+
+        <com.github.mikephil.charting.charts.LineChart
+            android:id="@+id/reportingChart"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            >
+            android:layout_height="230dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="16dp"
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="aktueller Alltag:"
-                android:layout_weight="1">
+            android:layout_marginBottom="20dp"
+            android:elevation="10dp"
 
-            </TextView>
-
-            <TextView
-                android:id="@+id/everydayText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="Normal">
-
-
-            </TextView>
-
-        </LinearLayout>
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Change"
-            android:id="@+id/changeEverydayBtn">
-
-        </Button>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="3dp"
-            android:layout_margin="20dp"
-            android:background="@android:color/darker_gray"/>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Geburtstag/Alter:"
-                android:layout_weight="1">
-
-            </TextView>
-
-            <TextView
-                android:id="@+id/ageText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="2000-10-06">
-
-
-            </TextView>
-
-        </LinearLayout>
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Change"
-            android:id="@+id/changeAgeBtn">
-
-        </Button>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="3dp"
-            android:layout_margin="20dp"
-            android:background="@android:color/darker_gray"/>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Größe:"
-                android:layout_weight="1">
-
-            </TextView>
-
-            <TextView
-                android:id="@+id/heightText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="1.80m">
-
-
-            </TextView>
-
-        </LinearLayout>
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Change"
-            android:id="@+id/changeheightBtn">
-
-        </Button>-->
+            />
     </LinearLayout>
 </ScrollView>
