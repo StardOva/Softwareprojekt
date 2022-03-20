@@ -56,17 +56,17 @@ public class AddNewMealActivity extends AppCompatActivity {
         this.mealList = db.mealDao().getAllMealsOnDay(this.dayId);
         int mealCount = this.mealList.size();
 
-        TextView day = findViewById(R.id.textday);
-        day.setText(date);
+        //TextView day = findViewById(R.id.textday);
+        //day.setText(date);
 
         TextView mealName = findViewById(R.id.textmeal);
-        mealName.setText("Name:");
+        //mealName.setText("Name:");
 
         EditText mealNameText = findViewById(R.id.mealNameEditText);
         mealNameText.setText("");
 
         Button addIngredient = findViewById(R.id.addIngToMealButton);
-        addIngredient.setText("+Ingredient");
+        //addIngredient.setText("+Ingredient");
         addIngredient.setOnClickListener((v -> {
             //AddIngredientToMealActivity öffnen
             Intent intent = new Intent(this, AddIngredientToMealActivity.class);
@@ -76,7 +76,7 @@ public class AddNewMealActivity extends AppCompatActivity {
 
         Button addButton = findViewById(R.id.addButton);
         addButton.setEnabled(false);
-        addButton.setText("Add");
+        //addButton.setText("Add");
         addButton.setOnClickListener((v -> {
             String name = mealNameText.getText().toString();
             if (name == null || name == "" || name.matches("")) {
@@ -90,7 +90,7 @@ public class AddNewMealActivity extends AppCompatActivity {
 
         }));
         Button cancelButton = findViewById(R.id.cancelButton);
-        cancelButton.setText("Cancel");
+        //cancelButton.setText("Cancel");
         cancelButton.setOnClickListener((v -> {
 
             db.mealDao().deleteMealById(db.mealDao().getLastMealId());

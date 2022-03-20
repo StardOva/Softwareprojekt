@@ -77,7 +77,7 @@ public class DayListAdapter extends RecyclerView.Adapter<DayListAdapter.MyViewHo
         }else if(date.equals(today.minus(Period.ofDays(2)).toString())){
             weekDay = "Vorgestern";
         }
-       // Log.d("TEST", date + " " + LocalDate.now().minus(Period.ofDays(2)).toString());
+        Log.d("TESTLOL", date + " " + LocalDate.now().minus(Period.ofDays(2)).toString());
 
         String   displayDate = weekDay + " " + split[2] + "." + split[1] + ".";
         holder.dayButton.setText(displayDate);
