@@ -77,7 +77,7 @@ public class CreateNewExerciseActivity extends AppCompatActivity {
         saveButton.setEnabled(false);
         saveButton.setOnClickListener(view -> {
             Exercise exercise = new Exercise();
-            exercise.name = editText.getText().toString();
+            exercise.name = editText.getText().toString().trim();
             AsyncTask.execute(() -> {
                 if (context == CONTEXT_ADD) {
                     db.exerciseDao().insert(exercise);

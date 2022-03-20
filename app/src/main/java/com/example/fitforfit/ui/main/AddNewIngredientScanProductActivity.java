@@ -39,7 +39,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 public class AddNewIngredientScanProductActivity extends AppCompatActivity {
-    private CodeScanner mCodeScanner;
+    private CodeScanner mCodeScanner = null;
     //TextView codeText;
     //String nameAdel;
     String eanCode;
@@ -59,9 +59,9 @@ public class AddNewIngredientScanProductActivity extends AppCompatActivity {
         int PERMISSION_ALL = 1;
         String[] PERMISSIONS = {android.Manifest.permission.CAMERA};
 
-        if(!hasPermissions(this, PERMISSIONS)){
+        if (!hasPermissions(this, PERMISSIONS)) {
             ActivityCompat.requestPermissions(this, PERMISSIONS, PERMISSION_ALL);
-        }else {
+        } else {
 
             //codeText = findViewById(R.id.codeTextView);
 
@@ -94,7 +94,9 @@ public class AddNewIngredientScanProductActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        mCodeScanner.startPreview();
+        if (mCodeScanner != null) {
+            mCodeScanner.startPreview();
+        }
     }
 
     @Override
@@ -103,13 +105,9 @@ public class AddNewIngredientScanProductActivity extends AppCompatActivity {
         super.onPause();
     }
 
-    class fetchData extends Thread{
+    class fetchData extends Thread {
 
         String data = "";
-
-
-
-
 
         @Override
         public void run() {
@@ -122,46 +120,54 @@ public class AddNewIngredientScanProductActivity extends AppCompatActivity {
                     progressDialog.setMessage("Fetching Data");
                     progressDialog.setCancelable(false);
                     progressDialog.show();
-
                 }
             });
 
             try {
-                URL url = new URL("https://world.openfoodfacts.org/api/v0/product/"+eanCode);
+                URL url = new URL("https://world.openfoodfacts.org/api/v0/product/" + eanCode);
                 HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
                 InputStream inputStream = httpURLConnection.getInputStream();
                 BufferedReader bufferedReader = new BufferedReader((new InputStreamReader(inputStream)));
                 String line;
 
-                while((line = bufferedReader.readLine()) != null){
-                    data = data+ line;
+                while ((line = bufferedReader.readLine()) != null) {
+                    data = data + line;
                 }
 
-                if(!data.isEmpty()){
+                if (!data.isEmpty()) {
                     product = new Product();
 
                     JSONObject jsonObject = new JSONObject(data);
                     JSONObject users = jsonObject.getJSONObject("product");
-                    if(users.has("product_name_de")) {
-                    product.product_name = users.getString("product_name_de");}
+                    if (users.has("product_name_de")) {
+                        product.product_name = users.getString("product_name_de");
+                    }
                     JSONObject nutris = users.getJSONObject("nutriments");
                     //String name = nutris.getString("carbohydrates_100g");
-                    if(nutris.has("energy-kcal_100g")) {
-                        product.ckal = Integer.parseInt(nutris.getString("energy-kcal_100g"));}
-                    if(nutris.has("fat_100g")){
-                        product.fat = Float.parseFloat(nutris.getString("fat_100g"));}
-                    if(nutris.has("saturated-fat_100g")){
-                        product.saturated_fat = Float.parseFloat(nutris.getString("saturated-fat_100g"));}
-                    if(nutris.has("carbohydrates_100g")){
-                        product.carb = Float.parseFloat(nutris.getString("carbohydrates_100g"));}
-                    if(nutris.has("sugars_100g")){
-                        product.sugar = Float.parseFloat(nutris.getString("sugars_100g"));}
-                    if(nutris.has("fiber_100g")){
-                        product.fiber = Float.parseFloat(nutris.getString("fiber_100g"));}
-                    if(nutris.has("proteins_100g")){
-                        product.protein = Float.parseFloat(nutris.getString("proteins_100g"));}
-                    if(nutris.has("salt_100g")){
-                        product.salt = Float.parseFloat(nutris.getString("salt_100g"));}
+                    if (nutris.has("energy-kcal_100g")) {
+                        product.ckal = Integer.parseInt(nutris.getString("energy-kcal_100g"));
+                    }
+                    if (nutris.has("fat_100g")) {
+                        product.fat = Float.parseFloat(nutris.getString("fat_100g"));
+                    }
+                    if (nutris.has("saturated-fat_100g")) {
+                        product.saturated_fat = Float.parseFloat(nutris.getString("saturated-fat_100g"));
+                    }
+                    if (nutris.has("carbohydrates_100g")) {
+                        product.carb = Float.parseFloat(nutris.getString("carbohydrates_100g"));
+                    }
+                    if (nutris.has("sugars_100g")) {
+                        product.sugar = Float.parseFloat(nutris.getString("sugars_100g"));
+                    }
+                    if (nutris.has("fiber_100g")) {
+                        product.fiber = Float.parseFloat(nutris.getString("fiber_100g"));
+                    }
+                    if (nutris.has("proteins_100g")) {
+                        product.protein = Float.parseFloat(nutris.getString("proteins_100g"));
+                    }
+                    if (nutris.has("salt_100g")) {
+                        product.salt = Float.parseFloat(nutris.getString("salt_100g"));
+                    }
 
 
                     //codeText.setText(name);
@@ -175,7 +181,7 @@ public class AddNewIngredientScanProductActivity extends AppCompatActivity {
             } catch (MalformedURLException e) {
                 e.printStackTrace();
                 //codeText.setText("SEITE NICHT ERREICHBAR");
-                error ="SEITE NICHT ERREICHBAR";
+                error = "SEITE NICHT ERREICHBAR";
                 startErrorActivity(error);
                 //Intent mir error String an ErrorScanActivity
             } catch (IOException e) {
@@ -194,7 +200,7 @@ public class AddNewIngredientScanProductActivity extends AppCompatActivity {
             mainHandler.post(new Runnable() {
                 @Override
                 public void run() {
-                    if(progressDialog.isShowing()){
+                    if (progressDialog.isShowing()) {
                         progressDialog.dismiss();
                     }
 
@@ -222,7 +228,7 @@ public class AddNewIngredientScanProductActivity extends AppCompatActivity {
         } catch (SQLiteConstraintException e) {
             id = db.productDao().findByManyName(product.product_name).id;
         }
-        if(getIntent().hasExtra("mealId")) {
+        if (getIntent().hasExtra("mealId")) {
             String mealIdS = getIntent().getStringExtra("mealId");
             this.mealId = Integer.valueOf(mealIdS);
             Log.d("GET_MEAL_ID", String.valueOf(this.mealId));
@@ -236,14 +242,13 @@ public class AddNewIngredientScanProductActivity extends AppCompatActivity {
         finish();
 
 
-
     }
 
     //TODO nach permission camera fragen
-    public static boolean hasPermissions(Context context, String... permissions){
-        if(context != null && permissions != null){
-            for (String permission: permissions){
-                if(ActivityCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED){
+    public static boolean hasPermissions(Context context, String... permissions) {
+        if (context != null && permissions != null) {
+            for (String permission : permissions) {
+                if (ActivityCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED) {
                     return false;
                 }
             }

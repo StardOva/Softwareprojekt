@@ -73,26 +73,40 @@ public class WorkoutEvaluationAdapter extends RecyclerView.Adapter<WorkoutEvalua
         lineChart.setDragEnabled(true);
         lineChart.setScaleEnabled(true);
         lineChart.setDrawGridBackground(false);
-        //lineChart.setBackgroundColor(Color.BLACK);
 
         Description description = new Description();
         description.setText("");
         lineChart.setDescription(description);
 
         // Eine Liste für das Gewicht, eine für die Wiederholungen und eine für die Legende
-        ArrayList<Entry>       weightList = new ArrayList<>();
-        ArrayList<Entry>       repList    = new ArrayList<>();
+        ArrayList<Entry> weightList = new ArrayList<>();
+        ArrayList<Entry> repList = new ArrayList<>();
         ArrayList<LegendEntry> legendList = new ArrayList<>();
 
         ArrayList<Training> trainingList = exerciseTrainingList.get(exercise.id);
 
         if (trainingList != null && trainingList.size() > 0) {
-            int   i         = 0;
+            int i = 0;
             float maxWeight = 0;
-            int   maxReps   = 0;
+            int maxReps = 0;
+
+            // für Berechnung der prozentualen Steigerung seit Beginn der Aufzeichnungen
+            float firstWeight = 0;
+            float lastWeight = 0;
+            int percentGain;
 
             for (Training training : trainingList) {
                 if (training != null) {
+
+                    // vom ersten Satz das Gewicht speichern
+                    if (trainingList.size() > 1 && i == 0) {
+                        firstWeight = training.weight;
+                    }
+
+                    if (trainingList.size() > 1 && i == trainingList.size() - 1) {
+                        lastWeight = training.weight;
+                    }
+
                     weightList.add(new Entry(i, training.weight));
                     repList.add(new Entry(i, training.reps));
 
@@ -152,6 +166,23 @@ public class WorkoutEvaluationAdapter extends RecyclerView.Adapter<WorkoutEvalua
             rightAxis.setGranularity(1f);
             rightAxis.setTextColor(colorUtils.getColor(R.color.white));
 
+            // Berechnung der prozentualen Steigerung
+            percentGain = Math.round(((lastWeight / firstWeight) - 1) * 100); // integer Genauigkeit reicht aus
+            String stringPercentGain;
+
+            if (firstWeight > 0 && lastWeight > 0) {
+                if (percentGain > 0) {
+                    stringPercentGain = "+" + percentGain + "% Steigerung";
+                    holder.textViewPercentGain.setTextColor(colorUtils.getColor(R.color.fit_green));
+                } else if (percentGain == 0) {
+                    stringPercentGain = "Noch keine Steigerung";
+                    holder.textViewPercentGain.setTextColor(colorUtils.getColor(R.color.white));
+                } else {
+                    stringPercentGain = percentGain + "% Verringerung";
+                    holder.textViewPercentGain.setTextColor(colorUtils.getColor(R.color.fit_red));
+                }
+                holder.textViewPercentGain.setText(stringPercentGain);
+            }
         }
     }
 
@@ -167,11 +198,13 @@ public class WorkoutEvaluationAdapter extends RecyclerView.Adapter<WorkoutEvalua
     public static class WorkoutEvaluationViewHolder extends RecyclerView.ViewHolder {
         LineChart lineChart;
         TextView workoutEvaluationExerciseName;
+        TextView textViewPercentGain;
 
         public WorkoutEvaluationViewHolder(@NonNull View itemView) {
             super(itemView);
             lineChart = itemView.findViewById(R.id.lineChart);
             workoutEvaluationExerciseName = itemView.findViewById(R.id.workoutEvaluationExerciseName);
+            textViewPercentGain = itemView.findViewById(R.id.textViewPercentGain);
         }
     }
 }

@@ -32,6 +32,8 @@ public class AddExerciseToWorkoutFragment extends Fragment {
     public ExerciseListAdapter exerciseListAdapter = null;
     public int workoutId;
 
+    List<Exercise> usedExerciseList = null;
+
     private AddExerciseToWorkoutActivity parentActivity;
 
     public AddExerciseToWorkoutFragment() {
@@ -68,7 +70,8 @@ public class AddExerciseToWorkoutFragment extends Fragment {
         if (this.exerciseListAdapter != null && this.binding != null) {
             TextView textView = requireView().findViewById(R.id.addExerciseToWorkoutTextView);
 
-            if (this.exerciseListAdapter.getItemCount() == 0) {
+            if ((this.exerciseListAdapter.getItemCount() == 0 && usedExerciseList == null) ||
+                    (this.exerciseListAdapter.getItemCount() == 0 && usedExerciseList != null && usedExerciseList.size() == 0)) {
                 textView.setVisibility(View.VISIBLE);
                 textView.setText(R.string.add_exercise_to_workout_no_exercises);
             } else {
@@ -95,23 +98,9 @@ public class AddExerciseToWorkoutFragment extends Fragment {
             List<Exercise> exerciseList = db.exerciseDao().getUnusedExercisesForWorkout(this.workoutId);
 
             // bereits hinzugefügte auch einladen
-            List<Exercise> usedExerciseList = db.exerciseDao().getUsedExercisesForWorkout(this.workoutId);
+            usedExerciseList = db.exerciseDao().getUsedExercisesForWorkout(this.workoutId);
 
-            if (exerciseList != null) {
-                requireActivity().runOnUiThread(() -> {
-                    this.exerciseListAdapter.setExerciseList(exerciseList);
-                    TextView textView = requireView().findViewById(R.id.addExerciseToWorkoutTextView);
-
-                    if (this.exerciseListAdapter.getItemCount() == 0) {
-                        textView.setText(R.string.add_exercise_to_workout_no_exercises);
-                    } else {
-                        textView.setVisibility(View.GONE);
-
-                    }
-                });
-            }
-
-            if (usedExerciseList != null) {
+            if (usedExerciseList != null && usedExerciseList.size() > 0) {
                 requireActivity().runOnUiThread(() -> {
                     TextView usedTextView = requireView().findViewById(R.id.textViewAddedExercises);
                     StringBuilder text = new StringBuilder("Folgende Übungen wurden bereits hinzugefügt:\n");
@@ -123,6 +112,20 @@ public class AddExerciseToWorkoutFragment extends Fragment {
                 });
             }
 
+            if (exerciseList != null) {
+                requireActivity().runOnUiThread(() -> {
+                    this.exerciseListAdapter.setExerciseList(exerciseList);
+                    TextView textView = requireView().findViewById(R.id.addExerciseToWorkoutTextView);
+
+                    if ((this.exerciseListAdapter.getItemCount() == 0 && usedExerciseList == null) ||
+                            (this.exerciseListAdapter.getItemCount() == 0 && usedExerciseList != null && usedExerciseList.size() == 0)) {
+                        textView.setText(R.string.add_exercise_to_workout_no_exercises);
+                    } else {
+                        textView.setVisibility(View.GONE);
+
+                    }
+                });
+            }
         });
     }
 
