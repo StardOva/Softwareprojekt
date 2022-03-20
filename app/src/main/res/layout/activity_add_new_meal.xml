@@ -17,7 +17,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Mahlzeit" />
+            android:text="Mahlzeit:" />
 
         <EditText
             android:id="@+id/mealNameEditText"

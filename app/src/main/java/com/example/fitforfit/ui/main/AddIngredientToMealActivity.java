@@ -156,12 +156,12 @@ public class AddIngredientToMealActivity extends AppCompatActivity {
         });
 
         this.addIngButton = findViewById(R.id.addIngButton);
-        this.addIngButton.setText("Add");
+        //this.addIngButton.setText("Add");
         this.addIngButton.setEnabled(false);
 
 
         Button cancelIngButton = findViewById(R.id.cancelIngButton);
-        cancelIngButton.setText("Cancel");
+        //cancelIngButton.setText("Cancel");
         cancelIngButton.setOnClickListener(view -> {
             //AppDatabase db = Database.getInstance(this);
             //db.productDao().deleteProductById(db.productDao().getLastProductId());
