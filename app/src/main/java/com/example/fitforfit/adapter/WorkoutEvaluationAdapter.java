@@ -93,7 +93,8 @@ public class WorkoutEvaluationAdapter extends RecyclerView.Adapter<WorkoutEvalua
             // für Berechnung der prozentualen Steigerung seit Beginn der Aufzeichnungen
             float firstWeight = 0;
             float lastWeight = 0;
-            int percentGain;
+            int percentGainMax;
+            int percentGainLatest;
 
             for (Training training : trainingList) {
                 if (training != null) {
@@ -166,22 +167,39 @@ public class WorkoutEvaluationAdapter extends RecyclerView.Adapter<WorkoutEvalua
             rightAxis.setGranularity(1f);
             rightAxis.setTextColor(colorUtils.getColor(R.color.white));
 
-            // Berechnung der prozentualen Steigerung
-            percentGain = Math.round(((lastWeight / firstWeight) - 1) * 100); // integer Genauigkeit reicht aus
-            String stringPercentGain;
+            // Berechnung der prozentualen Steigerung beim letzten Workout
+            percentGainLatest = Math.round(((lastWeight / firstWeight) - 1) * 100); // integer Genauigkeit reicht aus
 
             if (firstWeight > 0 && lastWeight > 0) {
-                if (percentGain > 0) {
-                    stringPercentGain = "+" + percentGain + "% Steigerung";
-                    holder.textViewPercentGain.setTextColor(colorUtils.getColor(R.color.fit_green));
-                } else if (percentGain == 0) {
-                    stringPercentGain = "Noch keine Steigerung";
-                    holder.textViewPercentGain.setTextColor(colorUtils.getColor(R.color.white));
+                String stringPercentGain;
+                if (percentGainLatest > 0) {
+                    stringPercentGain = "+" + percentGainLatest + "% Steigerung (letztes Workout zum ersten Workout)";
+                    holder.textViewPercentGainLatest.setTextColor(colorUtils.getColor(R.color.fit_green));
+                } else if (percentGainLatest == 0) {
+                    stringPercentGain = "noch keine Steigerung (letztes Workout zum ersten Workout)";
+                    holder.textViewPercentGainLatest.setTextColor(colorUtils.getColor(R.color.white));
                 } else {
-                    stringPercentGain = percentGain + "% Verringerung";
-                    holder.textViewPercentGain.setTextColor(colorUtils.getColor(R.color.fit_red));
+                    stringPercentGain = percentGainLatest + "% Verringerung (letztes Workout zum ersten Workout)";
+                    holder.textViewPercentGainLatest.setTextColor(colorUtils.getColor(R.color.fit_red));
                 }
-                holder.textViewPercentGain.setText(stringPercentGain);
+                holder.textViewPercentGainLatest.setText(stringPercentGain);
+            }
+
+            // Berechnung der Steigerung in Bezug auf den all-time Maximalwert
+            percentGainMax = Math.round(((maxWeight / firstWeight) - 1) * 100);
+            if (maxWeight > 0 && firstWeight > 0) {
+                String stringPercentGain;
+                if (percentGainMax > 0) {
+                    stringPercentGain = "+" + percentGainMax + "% Steigerung (bestes Workout zum ersten Workout)";
+                    holder.textViewPercentGainMax.setTextColor(colorUtils.getColor(R.color.fit_green));
+                } else if (percentGainMax == 0) {
+                    stringPercentGain = "noch keine Steigerung (bestes Workout zum letzten Workout)";
+                    holder.textViewPercentGainMax.setTextColor(colorUtils.getColor(R.color.white));
+                } else {
+                    stringPercentGain = percentGainMax + "% Verringerung (bestes Workout zum ersten Workout)";
+                    holder.textViewPercentGainMax.setTextColor(colorUtils.getColor(R.color.fit_red));
+                }
+                holder.textViewPercentGainMax.setText(stringPercentGain);
             }
         }
     }
@@ -198,13 +216,15 @@ public class WorkoutEvaluationAdapter extends RecyclerView.Adapter<WorkoutEvalua
     public static class WorkoutEvaluationViewHolder extends RecyclerView.ViewHolder {
         LineChart lineChart;
         TextView workoutEvaluationExerciseName;
-        TextView textViewPercentGain;
+        TextView textViewPercentGainLatest;
+        TextView textViewPercentGainMax;
 
         public WorkoutEvaluationViewHolder(@NonNull View itemView) {
             super(itemView);
             lineChart = itemView.findViewById(R.id.lineChart);
             workoutEvaluationExerciseName = itemView.findViewById(R.id.workoutEvaluationExerciseName);
-            textViewPercentGain = itemView.findViewById(R.id.textViewPercentGain);
+            textViewPercentGainLatest = itemView.findViewById(R.id.textViewPercentGainLatest);
+            textViewPercentGainMax = itemView.findViewById(R.id.textViewPercentGainMax);
         }
     }
 }
