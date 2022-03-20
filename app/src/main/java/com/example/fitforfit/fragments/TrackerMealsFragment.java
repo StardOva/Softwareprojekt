@@ -71,7 +71,7 @@ public class TrackerMealsFragment extends Fragment {
         //loadMealList();//TODO
 
         Button addMealButton = view.findViewById(R.id.addMealButton);
-        addMealButton.setText("+ Meal");
+        //addMealButton.setText("+ Meal");
         addMealButton.setOnClickListener(v -> {
 
             AppDatabase db      = Database.getInstance(getActivity());
