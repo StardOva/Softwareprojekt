@@ -14,6 +14,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FitforFit">
         <activity
+            android:name=".ui.main.AboutUsActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.main.ChangeWeightActivity"
             android:exported="false" />
         <activity
