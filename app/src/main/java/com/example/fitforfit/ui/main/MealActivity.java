@@ -1,7 +1,12 @@
 package com.example.fitforfit.ui.main;
 
+import android.content.Intent;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.widget.Button;
+
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -10,18 +15,11 @@ import com.example.fitforfit.R;
 import com.example.fitforfit.adapter.IngredientListAdapter;
 import com.example.fitforfit.database.AppDatabase;
 import com.example.fitforfit.entity.Ingredient;
-import com.example.fitforfit.entity.Meal;
 import com.example.fitforfit.singleton.Database;
-
-import android.content.Intent;
-import android.os.AsyncTask;
-import android.os.Bundle;
-import android.util.Log;
-import android.widget.Button;
 
 import java.util.List;
 
-public class MealActivity extends AppCompatActivity {
+public class MealActivity extends BaseActivity {
 
     int mealId;
     private IngredientListAdapter ingListAdapter;
@@ -30,6 +28,8 @@ public class MealActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_meal);
+
+        initToolbar(getString(R.string.tracker_name));
 
         /*
         TODO intent -> meal_id von Button bekommen

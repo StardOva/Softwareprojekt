@@ -2,6 +2,8 @@ package com.example.fitforfit.ui.main;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
 import com.example.fitforfit.R;
 import com.example.fitforfit.database.AppDatabase;
 import com.example.fitforfit.entity.Ingredient;
@@ -20,7 +22,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-public class AddIngredientToMealActivity extends AppCompatActivity {
+public class AddIngredientToMealActivity extends BaseActivity {
 
     int mealId;
     int productId;
@@ -33,10 +35,9 @@ public class AddIngredientToMealActivity extends AppCompatActivity {
     Button searchButton;
     Button addIngButton;
 
-    TextView txt3 ;
+    TextView txt3;
     TextView txt4;
-    TextView txt5 ;
-
+    TextView txt5;
 
 
     @Override
@@ -44,7 +45,7 @@ public class AddIngredientToMealActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_ingredient_to_meal);
 
-
+        initToolbar(getString(R.string.tracker_name));
 
         initViews();
         checkIntent();
@@ -54,8 +55,7 @@ public class AddIngredientToMealActivity extends AppCompatActivity {
     private void checkIntent() {
 
         String prodIdS = getIntent().getStringExtra("prodId");
-        if(prodIdS != null && prodIdS != "" && getIntent().hasExtra("prodId"))
-        {
+        if (prodIdS != null && prodIdS != "" && getIntent().hasExtra("prodId")) {
             this.productId = Integer.valueOf(prodIdS);
             this.manuellButton.setEnabled(false);
             this.searchButton.setEnabled(false);
@@ -178,7 +178,7 @@ public class AddIngredientToMealActivity extends AppCompatActivity {
         String mealIdS = getIntent().getStringExtra("mealId");
         this.mealId = Integer.valueOf(mealIdS);
 
-       this.txt3 = findViewById(R.id.textView3);
+        this.txt3 = findViewById(R.id.textView3);
         this.txt4 = findViewById(R.id.textView4);
         this.txt5 = findViewById(R.id.textView5);
 
@@ -218,7 +218,7 @@ public class AddIngredientToMealActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode == 0 && resultCode == RESULT_OK && data != null && data.hasExtra("lastProdId")){
+        if (requestCode == 0 && resultCode == RESULT_OK && data != null && data.hasExtra("lastProdId")) {
             this.productId = Integer.parseInt(data.getStringExtra("lastProdId"));
             AppDatabase db = Database.getInstance(this);
             this.product = db.productDao().findById(productId);

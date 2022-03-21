@@ -10,43 +10,6 @@
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:text="Button"
-        android:textSize="20dp"
-        android:translationY="10dp"
-
-
-        />
-    <!--<RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:padding="15dp"
-        android:id="@+id/buttonDay"
-        android:background="@color/fit_orange_light"
-        >
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Event Name"
-            android:id="@+id/dayText"
-            android:layout_alignParentLeft="true"
-
-            android:textSize="20dp"
-            android:textColor="@color/white"
-            android:translationY="10dp"
-            android:textStyle="bold"
-            />
-
-        <TextView
-            android:id="@+id/dayDate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:text="(23)"
-            android:textSize="20dp"
-            android:translationY="10dp"
-            android:textColor="@color/white"/>
-
-    </RelativeLayout>-->
-
-
+        android:textSize="20sp"
+        android:translationY="10dp" />
 </LinearLayout>

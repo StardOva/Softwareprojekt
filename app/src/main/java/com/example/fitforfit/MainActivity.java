@@ -2,12 +2,18 @@ package com.example.fitforfit;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.appcompat.widget.Toolbar;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.fitforfit.database.AppDatabase;
@@ -31,7 +37,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        //TODO Layout Farben an DarkMode anpassen
         //immer Darkmode aktiviert
         AppCompatDelegate.setDefaultNightMode(
                 AppCompatDelegate.MODE_NIGHT_YES);
@@ -49,4 +54,6 @@ public class MainActivity extends AppCompatActivity {
                 tab.setText(TAB_TITLES[position])
         ).attach();
     }
+
+
 }

@@ -36,7 +36,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-public class WorkoutDetailFragment extends Fragment {
+public class WorkoutDetailFragment extends BaseFragment {
 
     public FragmentWorkoutDetailBinding binding;
     private WorkoutDetailAdapter workoutDetailAdapter = null;
@@ -63,7 +63,6 @@ public class WorkoutDetailFragment extends Fragment {
 
         this.binding = FragmentWorkoutDetailBinding.inflate(inflater, container, false);
 
-        // TODO so entfernt er leider nicht mehr das TextView
         //return inflater.inflate(R.layout.fragment_workout_detail, this.binding.getRoot());
         return super.onCreateView(inflater, container, savedInstanceState);
     }
@@ -71,6 +70,8 @@ public class WorkoutDetailFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         initRecyclerView(view);
+
+        initWorkoutDetailToolbar(workoutId);
     }
 
     @Override
@@ -143,20 +144,6 @@ public class WorkoutDetailFragment extends Fragment {
         addExerciseBtn.setOnClickListener(view1 -> {
             Intent intent = new Intent(getActivity(), AddExerciseToWorkoutActivity.class);
             intent.putExtra("workoutId", workoutId);
-            requireActivity().startActivity(intent);
-        });
-
-        Button workoutStatsBtn = requireView().findViewById(R.id.btnWorkoutStats);
-        workoutStatsBtn.setOnClickListener(view1 -> {
-            Intent intent = new Intent(getActivity(), WorkoutStatsActivity.class);
-            intent.putExtra("workoutId", workoutId);
-            requireActivity().startActivity(intent);
-        });
-
-        // TODO auf Dreipunktemenü legen
-        Button settingsBtn = requireView().findViewById(R.id.btnSettings);
-        settingsBtn.setOnClickListener(view1 -> {
-            Intent intent = new Intent(getActivity(), SettingsActivity.class);
             requireActivity().startActivity(intent);
         });
 

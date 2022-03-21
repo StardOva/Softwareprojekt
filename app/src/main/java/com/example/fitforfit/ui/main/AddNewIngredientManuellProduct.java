@@ -1,6 +1,7 @@
 package com.example.fitforfit.ui.main;
 
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.fitforfit.R;
 import com.example.fitforfit.database.AppDatabase;
 import com.example.fitforfit.entity.Product;
@@ -15,7 +16,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-public class AddNewIngredientManuellProduct extends AppCompatActivity {
+public class AddNewIngredientManuellProduct extends BaseActivity {
 
     int allEditsFilled = 0;
 
@@ -36,19 +37,21 @@ public class AddNewIngredientManuellProduct extends AppCompatActivity {
         public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
         }
+
         @Override
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
             String textFieldString = charSequence.toString().trim();
 
-            if(prodNameEditText.getText().toString().matches("") || fatEdit.getText().toString().matches("") ||
-                satfatEdit.getText().toString().matches("") || carbEdit.getText().toString().matches("") ||
-                sugarEdit.getText().toString().matches("") || fiberEdit.getText().toString().matches("") ||
-                proteinEdit.getText().toString().matches("") || saltEdit.getText().toString().matches("")){
+            if (prodNameEditText.getText().toString().matches("") || fatEdit.getText().toString().matches("") ||
+                    satfatEdit.getText().toString().matches("") || carbEdit.getText().toString().matches("") ||
+                    sugarEdit.getText().toString().matches("") || fiberEdit.getText().toString().matches("") ||
+                    proteinEdit.getText().toString().matches("") || saltEdit.getText().toString().matches("")) {
                 addButton.setEnabled(false);
-            }else{
+            } else {
                 addButton.setEnabled(true);
             }
         }
+
         @Override
         public void afterTextChanged(Editable editable) {
 
@@ -59,6 +62,8 @@ public class AddNewIngredientManuellProduct extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_new_ingredient_manuell_product);
+
+        initToolbar(getString(R.string.tracker_name));
 
         initViews();
     }
@@ -100,7 +105,6 @@ public class AddNewIngredientManuellProduct extends AppCompatActivity {
         this.saltEdit.addTextChangedListener(textWatcher);
 
 
-
         addButton.setOnClickListener(view -> {
             AppDatabase db = Database.getInstance(this);
             int productId = db.productDao().getLastProductId();
@@ -118,7 +122,7 @@ public class AddNewIngredientManuellProduct extends AppCompatActivity {
             newprod.info = infoEdit.getText().toString();
 
             try {
-                db.productDao().updateProductByMealId( newprod.product_name, newprod.ckal, newprod.fat, newprod.saturated_fat, newprod.carb, newprod.sugar, newprod.fiber,newprod.protein, newprod.salt,newprod.info, productId);
+                db.productDao().updateProductByMealId(newprod.product_name, newprod.ckal, newprod.fat, newprod.saturated_fat, newprod.carb, newprod.sugar, newprod.fiber, newprod.protein, newprod.salt, newprod.info, productId);
                 Intent resultIntent = new Intent();
                 resultIntent.putExtra("lastProdId", String.valueOf(productId));
                 setResult(RESULT_OK, resultIntent);

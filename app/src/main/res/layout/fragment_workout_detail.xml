@@ -3,11 +3,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <include layout="@layout/toolbar"
+        android:id="@+id/mainToolbar" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginStart="@dimen/app_margin"
         android:layout_marginEnd="@dimen/app_margin"
+        android:layout_marginTop="65dp"
         android:orientation="vertical">
 
         <TextView
@@ -22,18 +26,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/btn_add_exercise" />
-
-        <Button
-            android:id="@+id/btnWorkoutStats"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/stats" />
-
-        <Button
-            android:id="@+id/btnSettings"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="TODO Einstellungen" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewWorkoutExercises"
