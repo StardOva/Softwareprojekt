@@ -77,7 +77,7 @@ public class WorkoutProgressFragment extends BaseFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         this.workoutId = getArguments().getInt("workoutId");
 
-        initToolbar();
+        initToolbar(getString(R.string.workout_name));
 
         AsyncTask.execute(() -> {
             loadWorkoutProgressList();

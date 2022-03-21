@@ -32,7 +32,7 @@ public class AddNewIngredientSearchProduct extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_new_ingredient_search_product);
 
-        initToolbar();
+        initToolbar(getString(R.string.tracker_name));
 
         initViews();
         initRecyclerView();// zeigt alle Zutaten des meals

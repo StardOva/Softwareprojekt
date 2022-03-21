@@ -72,7 +72,7 @@ public class WorkoutDetailFragment extends BaseFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         initRecyclerView(view);
 
-        initToolbar();
+        initToolbar(getString(R.string.workout_name));
     }
 
     @Override

@@ -21,7 +21,14 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     protected void initToolbar() {
+        initToolbar("");
+    }
+
+    protected void initToolbar(String addToAppName) {
         Toolbar toolbar = findViewById(R.id.mainToolbar);
+        if (!addToAppName.equals("")) {
+            toolbar.setTitle(getString(R.string.app_name) + " - " + addToAppName);
+        }
         setSupportActionBar(toolbar);
     }
 

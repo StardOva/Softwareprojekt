@@ -29,7 +29,7 @@ public class MealActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_meal);
 
-        initToolbar();
+        initToolbar(getString(R.string.tracker_name));
 
         /*
         TODO intent -> meal_id von Button bekommen

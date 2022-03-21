@@ -58,7 +58,7 @@ public class WorkoutMainFragment extends BaseFragment {
 
         initRecyclerView(view);
 
-        initToolbar("Workoutplaner");
+        initToolbar(getString(R.string.workout_name));
     }
 
     private void initRecyclerView(View view) {

@@ -56,7 +56,7 @@ public class TrackerMealsFragment extends BaseFragment {
         //onAttach(getActivity());
         initViews(view);
 
-        initToolbar();
+        initToolbar(getString(R.string.tracker_name));
     }
 
     private void cleanProducts() {

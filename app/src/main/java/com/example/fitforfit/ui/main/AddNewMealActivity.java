@@ -35,7 +35,7 @@ public class AddNewMealActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_new_meal);
 
-        initToolbar();
+        initToolbar(getString(R.string.tracker_name));
 
         initViews();
         cleanProducts();

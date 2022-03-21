@@ -63,7 +63,7 @@ public class AddNewIngredientManuellProduct extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_new_ingredient_manuell_product);
 
-        initToolbar();
+        initToolbar(getString(R.string.tracker_name));
 
         initViews();
     }

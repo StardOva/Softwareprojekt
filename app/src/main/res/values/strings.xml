@@ -5,6 +5,8 @@
     <string name="app_name">FitforFit</string>
     <string name="tab_text_1">Tracker</string>
     <string name="tab_text_2">Workout</string>
+    <string name="tracker_name">Ernährungstracker</string>
+    <string name="workout_name">Workoutplaner</string>
     <string name="day_tab_text_1">Stats</string>
     <string name="day_tab_text_2">Meals</string>
     <string name="day_tab_text_3">More</string>

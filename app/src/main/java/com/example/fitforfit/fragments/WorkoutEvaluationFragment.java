@@ -69,7 +69,7 @@ public class WorkoutEvaluationFragment extends BaseFragment {
         }
         initRecyclerView(view);
 
-        initToolbar();
+        initToolbar(getString(R.string.workout_name));
     }
 
     private void initRecyclerView(View view) {

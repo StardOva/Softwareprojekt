@@ -69,7 +69,7 @@ public class TrackerMainFragment extends BaseFragment {
         });
         initRecyclerView(view);
 
-        initToolbar( "Ernährungstracker");
+        initToolbar(getString(R.string.tracker_name));
     }
 
 

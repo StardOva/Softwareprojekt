@@ -22,7 +22,7 @@ public class ChangeWeightActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_weight);
 
-        initToolbar();
+        initToolbar(getString(R.string.tracker_name));
 
         initData();
 

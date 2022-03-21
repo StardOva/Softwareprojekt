@@ -45,7 +45,7 @@ public class AddIngredientToMealActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_ingredient_to_meal);
 
-        initToolbar();
+        initToolbar(getString(R.string.tracker_name));
 
         initViews();
         checkIntent();

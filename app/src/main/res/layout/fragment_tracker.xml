@@ -17,27 +17,10 @@
         android:layout_marginEnd="@dimen/app_margin"
         android:orientation="vertical">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Ernährungstracker"
-            android:textSize="30sp">
-
-        </TextView>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:background="@color/fit_grey">
-
-        </View>
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewTrackerMain"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-
-            />
+            android:layout_height="wrap_content" />
 
         <View
             android:layout_width="match_parent"

@@ -45,7 +45,7 @@ public class GoalActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_goal);
 
-        initToolbar();
+        initToolbar(getString(R.string.tracker_name));
 
         initData();
         initViews();

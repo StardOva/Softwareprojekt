@@ -109,7 +109,7 @@ public class TrackerStatsFragment extends BaseFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         initRecyclerView(view);
-        initToolbar();
+        initToolbar(getString(R.string.tracker_name));
         getData();
     }
 

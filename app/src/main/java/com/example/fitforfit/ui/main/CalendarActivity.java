@@ -49,7 +49,7 @@ public class CalendarActivity extends BaseActivity implements CalendarAdapter.On
         selectedDate = LocalDate.now();
         setMonthView();
 
-        initToolbar();
+        initToolbar(getString(R.string.tracker_name));
     }
 
     private void setMonthView() {
