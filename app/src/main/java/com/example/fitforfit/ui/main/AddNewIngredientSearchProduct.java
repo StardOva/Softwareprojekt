@@ -1,16 +1,15 @@
 package com.example.fitforfit.ui.main;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.widget.EditText;
+
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fitforfit.R;
 import com.example.fitforfit.adapter.ProductListAdapter;
@@ -21,7 +20,7 @@ import com.example.fitforfit.singleton.Database;
 import java.util.List;
 
 
-public class AddNewIngredientSearchProduct extends AppCompatActivity {
+public class AddNewIngredientSearchProduct extends BaseActivity {
 
     ProductListAdapter productListAdapter;
     List<Product> productList;
@@ -32,6 +31,8 @@ public class AddNewIngredientSearchProduct extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_new_ingredient_search_product);
+
+        initToolbar();
 
         initViews();
         initRecyclerView();// zeigt alle Zutaten des meals

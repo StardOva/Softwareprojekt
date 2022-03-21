@@ -1,46 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginStart="@dimen/app_margin"
-    android:layout_marginEnd="@dimen/app_margin"
     android:orientation="vertical"
-    android:paddingTop="60dp"
     tools:context=".ui.main.ChangeWeightActivity">
+
+    <include
+        android:id="@+id/mainToolbar"
+        layout="@layout/toolbar" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_marginStart="@dimen/app_margin"
+        android:layout_marginEnd="@dimen/app_margin"
+        android:orientation="vertical">
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Neues Gewicht:">
+            android:orientation="horizontal">
 
-        </TextView>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Neues Gewicht:">
 
-        <EditText
-            android:id="@+id/weightEditText"
+            </TextView>
+
+            <EditText
+                android:id="@+id/weightEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Gewicht in kg"
+                android:inputType="numberDecimal">
+
+            </EditText>
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/saveWeightBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="Gewicht in kg"
-            android:inputType="numberDecimal">
+            android:text="@string/save">
 
-        </EditText>
-
+        </Button>
     </LinearLayout>
-
-    <Button
-        android:id="@+id/saveWeightBtn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/save">
-
-    </Button>
-
 </LinearLayout>

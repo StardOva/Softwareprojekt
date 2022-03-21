@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class WorkoutEvaluationFragment extends Fragment {
+public class WorkoutEvaluationFragment extends BaseFragment {
 
     private FragmentMainBinding binding;
     private WorkoutEvaluationAdapter adapter = null;
@@ -68,6 +68,8 @@ public class WorkoutEvaluationFragment extends Fragment {
             this.workoutId = getArguments().getInt("workoutId");
         }
         initRecyclerView(view);
+
+        initToolbar();
     }
 
     private void initRecyclerView(View view) {

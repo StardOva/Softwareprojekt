@@ -30,7 +30,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 
-public class WorkoutMainFragment extends Fragment {
+public class WorkoutMainFragment extends BaseFragment {
 
     private FragmentMainBinding binding;
     private WorkoutListAdapter workoutListAdapter;
@@ -57,6 +57,8 @@ public class WorkoutMainFragment extends Fragment {
         });
 
         initRecyclerView(view);
+
+        initToolbar("Workoutplaner");
     }
 
     private void initRecyclerView(View view) {

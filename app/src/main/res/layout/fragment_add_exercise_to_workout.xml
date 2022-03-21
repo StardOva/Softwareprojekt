@@ -1,34 +1,42 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginStart="@dimen/app_margin"
-    android:layout_marginEnd="@dimen/app_margin"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/addExerciseToWorkoutTextView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:text="" />
+    <include
+        android:id="@+id/mainToolbar"
+        layout="@layout/toolbar" />
 
-    <Button
-        android:id="@+id/btnCreateNewExercise"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/create_new_exercise" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewExercises"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <TextView
-        android:id="@+id/textViewAddedExercises"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="@dimen/app_margin"
-        android:text=""
-        android:textSize="14sp" />
+        android:layout_marginStart="@dimen/app_margin"
+        android:layout_marginEnd="@dimen/app_margin"
+        android:orientation="vertical">
 
+        <TextView
+            android:id="@+id/addExerciseToWorkoutTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="" />
+
+        <Button
+            android:id="@+id/btnCreateNewExercise"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/create_new_exercise" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewExercises"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/textViewAddedExercises"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/app_margin"
+            android:text=""
+            android:textSize="14sp" />
+    </LinearLayout>
 </LinearLayout>

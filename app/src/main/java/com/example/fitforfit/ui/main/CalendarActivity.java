@@ -1,7 +1,9 @@
 package com.example.fitforfit.ui.main;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -10,6 +12,7 @@ import com.example.fitforfit.adapter.CalendarAdapter;
 import com.example.fitforfit.database.AppDatabase;
 import com.example.fitforfit.singleton.Database;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
@@ -17,6 +20,8 @@ import android.database.sqlite.SQLiteException;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -29,7 +34,7 @@ import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
-public class CalendarActivity extends AppCompatActivity implements CalendarAdapter.OnItemListener {
+public class CalendarActivity extends BaseActivity implements CalendarAdapter.OnItemListener {
 
     private TextView textView;
     private RecyclerView calendarRecyclerView;
@@ -43,25 +48,27 @@ public class CalendarActivity extends AppCompatActivity implements CalendarAdapt
         initWidgets();
         selectedDate = LocalDate.now();
         setMonthView();
+
+        initToolbar();
     }
 
     private void setMonthView() {
         textView.setText(monthYearFromDate(selectedDate));
         ArrayList<String> daysInMonth = daysInMonthArray(selectedDate);
 
-        CalendarAdapter            calendarAdapter = new CalendarAdapter(daysInMonth,selectedDate,this);
-        RecyclerView.LayoutManager layoutManager   = new GridLayoutManager(getApplicationContext(), 7);
+        CalendarAdapter calendarAdapter = new CalendarAdapter(daysInMonth, selectedDate, this);
+        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getApplicationContext(), 7);
         calendarRecyclerView.setLayoutManager(layoutManager);
         calendarRecyclerView.setAdapter(calendarAdapter);
     }
 
     private ArrayList<String> daysInMonthArray(LocalDate date) {
         ArrayList<String> daysInMonthArray = new ArrayList<>();
-        YearMonth         yearMonth        = YearMonth.from(date);
+        YearMonth yearMonth = YearMonth.from(date);
 
-        int       daysInMonth  = yearMonth.lengthOfMonth();
+        int daysInMonth = yearMonth.lengthOfMonth();
         LocalDate firstOfMonth = selectedDate.withDayOfMonth(1);
-        int       dayOfWeek    = firstOfMonth.getDayOfWeek().getValue();
+        int dayOfWeek = firstOfMonth.getDayOfWeek().getValue();
 
         for (int i = 1; i <= 42; i++) {
             if (i <= dayOfWeek || i > daysInMonth + dayOfWeek) {
@@ -92,7 +99,6 @@ public class CalendarActivity extends AppCompatActivity implements CalendarAdapt
     }
 
 
-
     @Override
     public void onItemClick(int position, String dayText) {
         String m = "";
@@ -113,7 +119,7 @@ public class CalendarActivity extends AppCompatActivity implements CalendarAdapt
 
         try {
             AppDatabase db = Database.getInstance(this);
-            int         id = db.dayDao().getIdByDate(date);
+            int id = db.dayDao().getIdByDate(date);
             if (id > 0) {
                 Intent intent = new Intent(getBaseContext(), TrackerDayActivity.class);
                 intent.putExtra("date", date);

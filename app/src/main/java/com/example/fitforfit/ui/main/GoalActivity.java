@@ -1,6 +1,16 @@
 package com.example.fitforfit.ui.main;
 
-import androidx.appcompat.app.AppCompatActivity;
+import android.content.Intent;
+import android.database.sqlite.SQLiteException;
+import android.os.Bundle;
+import android.util.Log;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.appcompat.widget.Toolbar;
+
 import com.example.fitforfit.R;
 import com.example.fitforfit.database.AppDatabase;
 import com.example.fitforfit.entity.Day;
@@ -15,25 +25,12 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
-import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
-
-import android.content.Intent;
-import android.database.sqlite.SQLiteException;
-import android.graphics.Color;
-import android.os.Bundle;
-import android.provider.ContactsContract;
-import android.util.Log;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
-public class GoalActivity extends AppCompatActivity {
+public class GoalActivity extends BaseActivity {
 
     private int dayId;
     AppDatabase db = Database.getInstance(this);
@@ -47,6 +44,8 @@ public class GoalActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_goal);
+
+        initToolbar();
 
         initData();
         initViews();

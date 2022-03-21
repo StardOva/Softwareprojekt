@@ -53,7 +53,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public class TrackerStatsFragment extends Fragment {
+public class TrackerStatsFragment extends BaseFragment {
 
     private FragmentMainBinding binding;
     private int dayId;
@@ -90,8 +90,7 @@ public class TrackerStatsFragment extends Fragment {
     int alltag = 500; //in kcal
 
 
-
-    public TrackerStatsFragment(){
+    public TrackerStatsFragment() {
         super(R.layout.fragment_tracker_stats);
     }
 
@@ -99,7 +98,7 @@ public class TrackerStatsFragment extends Fragment {
     public View onCreateView(
             @NonNull LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-        
+
         binding = FragmentMainBinding.inflate(inflater, container, false);
 
         return inflater.inflate(R.layout.fragment_tracker_stats, binding.getRoot());
@@ -110,10 +109,8 @@ public class TrackerStatsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         initRecyclerView(view);
-
+        initToolbar();
         getData();
-
-
     }
 
     private void initViews(View view) {
@@ -125,28 +122,36 @@ public class TrackerStatsFragment extends Fragment {
 
         Calendar c = Calendar.getInstance(); //neue Kalender Instanz
         String[] split = date.split("-");   //String Array der Werte Jahr-Monat-Tag des letzten Date Eintrags
-        c.set(Integer.valueOf(split[0]),Integer.valueOf(split[1]),Integer.valueOf(split[2])); //erzeugen Kalender Objekt#
+        c.set(Integer.valueOf(split[0]), Integer.valueOf(split[1]), Integer.valueOf(split[2])); //erzeugen Kalender Objekt#
         String weekDay = "";
         // Parses the date
         LocalDate dt = LocalDate.parse(date);
         String dayOfWeek = String.valueOf(dt.getDayOfWeek());
         Log.d("WEEK_DAY", String.valueOf(dayOfWeek));
-        if(dayOfWeek.equals("")){
+        if (dayOfWeek.equals("")) {
             weekDay = "Samstag";
-        }else if(dayOfWeek.equals("SUNDAY")){weekDay = "Sonntag";}
-        else if(dayOfWeek.equals("MONDAY")){weekDay = "Montag";}
-        else if(dayOfWeek.equals("TUESDAY")){weekDay = "Dienstag";}
-        else if(dayOfWeek.equals("WEDNESDAY")){weekDay = "Mittwoch";}
-        else if(dayOfWeek.equals("THURSDAY")){weekDay = "Donnserstag";}
-        else if(dayOfWeek.equals("FRIDAY")){weekDay = "Freitag";}
-        else if(dayOfWeek.equals("SATURDAY")){weekDay = "Samstag";}
+        } else if (dayOfWeek.equals("SUNDAY")) {
+            weekDay = "Sonntag";
+        } else if (dayOfWeek.equals("MONDAY")) {
+            weekDay = "Montag";
+        } else if (dayOfWeek.equals("TUESDAY")) {
+            weekDay = "Dienstag";
+        } else if (dayOfWeek.equals("WEDNESDAY")) {
+            weekDay = "Mittwoch";
+        } else if (dayOfWeek.equals("THURSDAY")) {
+            weekDay = "Donnserstag";
+        } else if (dayOfWeek.equals("FRIDAY")) {
+            weekDay = "Freitag";
+        } else if (dayOfWeek.equals("SATURDAY")) {
+            weekDay = "Samstag";
+        }
         weekDayText = view.findViewById(R.id.WeekDayvalue);
         weekDayText.setText(weekDay);
 
         this.gewicht = db.dayDao().getWeightById(this.dayId);
 
         TextView weigthText = view.findViewById(R.id.weightValue);
-        weigthText.setText(String.valueOf(this.gewicht)+"kg");
+        weigthText.setText(String.valueOf(this.gewicht) + "kg");
 
         DecimalFormat round = new DecimalFormat("#.##");
 
@@ -169,25 +174,24 @@ public class TrackerStatsFragment extends Fragment {
         saltText.setText(String.valueOf(round.format(this.saltOfDay)));
 
 
-
         ///BARCHART
-        float grundumsatz = (float)(66.47 + (13.7 * this.gewicht) + (5 * this.groesse) - (6.8 * 21)) + this.alltag;
+        float grundumsatz = (float) (66.47 + (13.7 * this.gewicht) + (5 * this.groesse) - (6.8 * 21)) + this.alltag;
         float kcal = (this.kcalOfDay * 100) / grundumsatz;
         db.dayDao().updateProgressById((int) kcal, this.dayId);
         TextView progressText = view.findViewById(R.id.progressValue);
-        progressText.setText(String.valueOf(round.format(kcal))+ "%");
+        progressText.setText(String.valueOf(round.format(kcal)) + "%");
         //TODO Grundumsatz sollte summe von carb fat und protein sein
         //defizit benötigt Obergrenze
         //Log.d("Grundumsatz", String.valueOf(grundumsatz));
 
-        float proteinsoll = (float)(1.8 * this.gewicht); //1.8g in Aufbau
+        float proteinsoll = (float) (1.8 * this.gewicht); //1.8g in Aufbau
         float protein = (this.proteinOfDay * 100) / proteinsoll;
 
-        float fatsoll = (float)(1 * this.gewicht); //1g in Aufbau
+        float fatsoll = (float) (1 * this.gewicht); //1g in Aufbau
         float fat = (this.fatOfDay * 100) / fatsoll;
 
-        float carbsoll = (float)(((grundumsatz)-((proteinsoll * 4.1) + (fatsoll * 9.3)))/4.1);
-        float carb = (this.carbOfDay * 100) /carbsoll;
+        float carbsoll = (float) (((grundumsatz) - ((proteinsoll * 4.1) + (fatsoll * 9.3))) / 4.1);
+        float carb = (this.carbOfDay * 100) / carbsoll;
         //protein -> 4.1kcal pro gramm
         //fat -> 9.3kcal pro gramm
         //carbs -> 4.1kcal pro gramm
@@ -196,19 +200,37 @@ public class TrackerStatsFragment extends Fragment {
         BarChart bar = view.findViewById(R.id.barChart);
         ArrayList<BarEntry> listb = new ArrayList<>();
         float a = 0;
-        if(100-kcal <= 0){a = 0;}else{a = 100-kcal;};
+        if (100 - kcal <= 0) {
+            a = 0;
+        } else {
+            a = 100 - kcal;
+        }
+        ;
         float b = 0;
-        if(100-protein <= 0){b = 0;}else{b = 100-protein;};
+        if (100 - protein <= 0) {
+            b = 0;
+        } else {
+            b = 100 - protein;
+        }
+        ;
         float e = 0;
-        if(100-fat <= 0){e = 0;}else{e = 100-fat;};
+        if (100 - fat <= 0) {
+            e = 0;
+        } else {
+            e = 100 - fat;
+        }
+        ;
         float d = 0;
-        if(100-carb <= 0){d = 0;}else{d = 100-carb;};
-        listb.add(new BarEntry(1, new float[]{kcal,a}));
-        listb.add(new BarEntry(2, new float[]{protein,b}));
-        listb.add(new BarEntry(3, new float[]{fat,e}));
-        listb.add(new BarEntry(4, new float[]{carb,d}));
-
-
+        if (100 - carb <= 0) {
+            d = 0;
+        } else {
+            d = 100 - carb;
+        }
+        ;
+        listb.add(new BarEntry(1, new float[]{kcal, a}));
+        listb.add(new BarEntry(2, new float[]{protein, b}));
+        listb.add(new BarEntry(3, new float[]{fat, e}));
+        listb.add(new BarEntry(4, new float[]{carb, d}));
 
 
         BarDataSet barDataSet = new BarDataSet(listb, "");
@@ -230,12 +252,12 @@ public class TrackerStatsFragment extends Fragment {
         bar.getDescription().setText("");
         bar.animateY(2000);
         bar.setTouchEnabled(false);
-        String[] labels = {"", "Energie","Proteine", "Fette", "Kohlendydrate"};
+        String[] labels = {"", "Energie", "Proteine", "Fette", "Kohlendydrate"};
         bar.getLegend().setVerticalAlignment(Legend.LegendVerticalAlignment.TOP);
         bar.getLegend().setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
         bar.getLegend().setTextColor(
-                Color.parseColor("#"+Integer.toHexString(ContextCompat.getColor(getContext(), R.color.white))
-        ));
+                Color.parseColor("#" + Integer.toHexString(ContextCompat.getColor(getContext(), R.color.white))
+                ));
         XAxis x = bar.getXAxis();
         x.setGranularity(1f);
         x.setGranularityEnabled(true);
@@ -243,8 +265,8 @@ public class TrackerStatsFragment extends Fragment {
         x.setPosition(XAxis.XAxisPosition.BOTTOM);
         x.setValueFormatter(new IndexAxisValueFormatter(labels));
         x.setTextColor(
-                Color.parseColor("#"+Integer.toHexString(ContextCompat.getColor(getContext(), R.color.white))
-        ));
+                Color.parseColor("#" + Integer.toHexString(ContextCompat.getColor(getContext(), R.color.white))
+                ));
 
         /*
         TODO Werte fpr Piechart bestimmen
@@ -297,16 +319,16 @@ public class TrackerStatsFragment extends Fragment {
 
         PieChart piefat = view.findViewById(R.id.pieChartfat);
         ArrayList<PieEntry> listfat = new ArrayList<>();
-        if(this.fatOfDay == 0 && this.satfatOfDay == 0){
-            listfat.add(new PieEntry(100,"Keine Daten"));
-        }else {
+        if (this.fatOfDay == 0 && this.satfatOfDay == 0) {
+            listfat.add(new PieEntry(100, "Keine Daten"));
+        } else {
             listfat.add(new PieEntry(this.fatOfDay - this.satfatOfDay, "ungesättigte Fett"));
             listfat.add(new PieEntry(this.satfatOfDay, "gesättigte Fette"));
         }
         PieDataSet pieDataSetfat = new PieDataSet(listfat, "");
         pieDataSetfat.setColors(
-                Color.parseColor("#"+Integer.toHexString(ContextCompat.getColor(getContext(), R.color.fit_orange_dark))),
-                Color.parseColor("#"+Integer.toHexString(ContextCompat.getColor(getContext(), R.color.fit_orange_light))));
+                Color.parseColor("#" + Integer.toHexString(ContextCompat.getColor(getContext(), R.color.fit_orange_dark))),
+                Color.parseColor("#" + Integer.toHexString(ContextCompat.getColor(getContext(), R.color.fit_orange_light))));
         pieDataSetfat.setValueTextSize(0f);
 
         piefat.setData(new PieData(pieDataSetfat));
@@ -318,16 +340,16 @@ public class TrackerStatsFragment extends Fragment {
 
         PieChart piecarb = view.findViewById(R.id.pieChartcarb);
         ArrayList<PieEntry> listcarb = new ArrayList<>();
-        if(this.carbOfDay == 0 && this.sugarOfDay == 0){
-            listcarb.add(new PieEntry(100,"Keine Daten"));
-        }else {
+        if (this.carbOfDay == 0 && this.sugarOfDay == 0) {
+            listcarb.add(new PieEntry(100, "Keine Daten"));
+        } else {
             listcarb.add(new PieEntry(this.carbOfDay - this.sugarOfDay, "andere\nKohlenhydrate"));
             listcarb.add(new PieEntry(this.sugarOfDay, "Zucker"));
         }
         PieDataSet pieDataSetcarb = new PieDataSet(listcarb, "");
         pieDataSetcarb.setColors(
-                Color.parseColor("#"+Integer.toHexString(ContextCompat.getColor(getContext(), R.color.fit_blue_dark))),
-                Color.parseColor("#"+Integer.toHexString(ContextCompat.getColor(getContext(), R.color.fit_blue_light))));
+                Color.parseColor("#" + Integer.toHexString(ContextCompat.getColor(getContext(), R.color.fit_blue_dark))),
+                Color.parseColor("#" + Integer.toHexString(ContextCompat.getColor(getContext(), R.color.fit_blue_light))));
         pieDataSetcarb.setValueTextSize(0f);
         piecarb.setData(new PieData(pieDataSetcarb));
         piecarb.getLegend().setEnabled(false);
@@ -335,7 +357,6 @@ public class TrackerStatsFragment extends Fragment {
         piecarb.setTouchEnabled(false);
         piecarb.setTransparentCircleRadius(0);
         piecarb.setHoleRadius(0);
-
 
 
     }
@@ -354,16 +375,15 @@ public class TrackerStatsFragment extends Fragment {
         this.meals.clear();
 
 
-
         TrackerDayActivity dayActivity = (TrackerDayActivity) getActivity();
         this.dayId = dayActivity.getCurrentDayId();
-        Log.d("GET_DATA", "DayID: "+ String.valueOf(this.dayId));
+        Log.d("GET_DATA", "DayID: " + String.valueOf(this.dayId));
 
 
         this.meals = db.mealDao().getAllMealsOnDay(this.dayId);
         try {
-            for(Meal meal : meals){
-                List<Ingredient> ingredientsOfMeal  = db.ingredientDao().getAllIngredientsOnMeal(meal.id);
+            for (Meal meal : meals) {
+                List<Ingredient> ingredientsOfMeal = db.ingredientDao().getAllIngredientsOnMeal(meal.id);
                 //for(Ingredient ing: ingredientsOfMeal){
                 //    this.ingredientsOfDay.add(ingredient);
                 //Log.d("GET_DATA", "IngredientID: "+ String.valueOf(ing.id));
@@ -375,12 +395,12 @@ public class TrackerStatsFragment extends Fragment {
                 Log.d("GET_DATA", "CHECK");
 
             }
-        }catch (NullPointerException e){
+        } catch (NullPointerException e) {
             Log.d("GET_DATA", "MEAL ITERATION NULLPOINTER");
         }
 
         try {
-            for(Ingredient ingredient : this.ingredientsOfDay){
+            for (Ingredient ingredient : this.ingredientsOfDay) {
                 Product product = db.productDao().getProductById(ingredient.product_id);
                 float quant = (float) ingredient.quantity;
                 float quantFactor = quant / 100;
@@ -395,7 +415,7 @@ public class TrackerStatsFragment extends Fragment {
                 this.saltOfDay = saltOfDay + (product.salt * quantFactor);
             }
 
-        }catch (NullPointerException e){
+        } catch (NullPointerException e) {
             Log.d("GET_DATA", "INGREDIENT ITERATION NULLPOINTER");
         }
 

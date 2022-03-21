@@ -40,7 +40,7 @@ import java.time.temporal.WeekFields;
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class WorkoutProgressFragment extends Fragment {
+public class WorkoutProgressFragment extends BaseFragment {
 
     private FragmentMainBinding binding;
     private WorkoutProgressAdapter workoutProgressAdapter;
@@ -76,6 +76,8 @@ public class WorkoutProgressFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         this.workoutId = getArguments().getInt("workoutId");
+
+        initToolbar();
 
         AsyncTask.execute(() -> {
             loadWorkoutProgressList();

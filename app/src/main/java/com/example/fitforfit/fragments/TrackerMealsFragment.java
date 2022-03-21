@@ -29,7 +29,7 @@ import com.example.fitforfit.ui.main.TrackerDayActivity;
 
 import java.util.List;
 
-public class TrackerMealsFragment extends Fragment {
+public class TrackerMealsFragment extends BaseFragment {
 
     private FragmentMainBinding binding;
     private MealListAdapter mealListAdapter;// = new MealListAdapter(getActivity());
@@ -56,7 +56,7 @@ public class TrackerMealsFragment extends Fragment {
         //onAttach(getActivity());
         initViews(view);
 
-
+        initToolbar();
     }
 
     private void cleanProducts() {

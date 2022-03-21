@@ -2,24 +2,33 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginStart="@dimen/app_margin"
-    android:layout_marginEnd="@dimen/app_margin"
-    android:layout_marginTop="@dimen/app_margin"
     android:orientation="vertical">
 
-    <Button
-        android:id="@+id/addMealButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="+Mahlzeit" />
+    <include
+        android:id="@+id/mainToolbar"
+        layout="@layout/toolbar" />
 
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginStart="@dimen/app_margin"
+        android:layout_marginEnd="@dimen/app_margin"
+        android:orientation="vertical">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerViewTrackerMeals"
+        <Button
+            android:id="@+id/addMealButton"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-    </ScrollView>
+            android:layout_height="wrap_content"
+            android:text="+Mahlzeit" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewTrackerMeals"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </ScrollView>
+    </LinearLayout>
 </LinearLayout>

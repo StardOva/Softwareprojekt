@@ -26,7 +26,7 @@ import com.example.fitforfit.ui.main.CreateNewExerciseActivity;
 
 import java.util.List;
 
-public class AddExerciseToWorkoutFragment extends Fragment {
+public class AddExerciseToWorkoutFragment extends BaseFragment {
 
     public FragmentAddExerciseToWorkoutBinding binding = null;
     public ExerciseListAdapter exerciseListAdapter = null;
@@ -59,6 +59,8 @@ public class AddExerciseToWorkoutFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         initRecyclerView(view);
+
+        initToolbar();
     }
 
     @Override

@@ -1,33 +1,30 @@
 package com.example.fitforfit.ui.main;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.fitforfit.R;
 import com.example.fitforfit.adapter.IngredientListAdapter;
-import com.example.fitforfit.adapter.MealListAdapter;
 import com.example.fitforfit.database.AppDatabase;
 import com.example.fitforfit.entity.Ingredient;
 import com.example.fitforfit.entity.Meal;
-import com.example.fitforfit.entity.Workout;
 import com.example.fitforfit.singleton.Database;
 
 import java.util.List;
 
-public class AddNewMealActivity extends AppCompatActivity {
+public class AddNewMealActivity extends BaseActivity {
 
     int dayId;
     List<Meal> mealList;
@@ -37,6 +34,8 @@ public class AddNewMealActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_new_meal);
+
+        initToolbar();
 
         initViews();
         cleanProducts();
@@ -51,8 +50,8 @@ public class AddNewMealActivity extends AppCompatActivity {
     private void initViews() {
         String dayIdS = getIntent().getStringExtra("dayId");
         this.dayId = Integer.valueOf(dayIdS);
-        AppDatabase db   = Database.getInstance(this);
-        String      date = db.dayDao().getDateById(this.dayId);
+        AppDatabase db = Database.getInstance(this);
+        String date = db.dayDao().getDateById(this.dayId);
         this.mealList = db.mealDao().getAllMealsOnDay(this.dayId);
         int mealCount = this.mealList.size();
 
@@ -152,7 +151,7 @@ public class AddNewMealActivity extends AppCompatActivity {
         AsyncTask.execute(() -> {
             AppDatabase db = Database.getInstance(this);
             //mealID id des zukünftigen MEals
-            int              mealId         = db.mealDao().getLastMealId();
+            int mealId = db.mealDao().getLastMealId();
             List<Ingredient> ingredientList = db.ingredientDao().getAllIngredientsOnMeal(mealId);
 
             runOnUiThread(() -> {

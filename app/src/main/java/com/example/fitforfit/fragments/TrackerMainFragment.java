@@ -1,24 +1,27 @@
 package com.example.fitforfit.fragments;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fitforfit.R;
-import com.example.fitforfit.adapter.CalendarAdapter;
 import com.example.fitforfit.adapter.DayListAdapter;
 import com.example.fitforfit.database.AppDatabase;
 import com.example.fitforfit.databinding.FragmentMainBinding;
@@ -26,17 +29,15 @@ import com.example.fitforfit.entity.Day;
 import com.example.fitforfit.singleton.Database;
 import com.example.fitforfit.ui.main.CalendarActivity;
 import com.example.fitforfit.ui.main.GoalActivity;
-import com.example.fitforfit.ui.main.TrackerDayActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 
-public class TrackerMainFragment extends Fragment {
+public class TrackerMainFragment extends BaseFragment {
 
     private FragmentMainBinding binding;
     private DayListAdapter dayListAdapter;
-
 
     public TrackerMainFragment() {
         super(R.layout.fragment_tracker);
@@ -67,7 +68,10 @@ public class TrackerMainFragment extends Fragment {
             this.startActivity(intent);
         });
         initRecyclerView(view);
+
+        initToolbar( "Ernährungstracker");
     }
+
 
     private void initRecyclerView(View view) {
         RecyclerView recyclerView = view.findViewById(R.id.recyclerViewTrackerMain);
@@ -85,10 +89,10 @@ public class TrackerMainFragment extends Fragment {
         AppDatabase db = Database.getInstance(getActivity());
 
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");//FORMAT
-        Calendar         cal    = Calendar.getInstance();//HEUTE
+        Calendar cal = Calendar.getInstance();//HEUTE
         //cal.add(Calendar.DATE, 30);
-        String   formatted_date_today = format.format(cal.getTime());//HEUTE STRING
-        String[] splitToday           = formatted_date_today.split("-");
+        String formatted_date_today = format.format(cal.getTime());//HEUTE STRING
+        String[] splitToday = formatted_date_today.split("-");
         cal.set(Integer.valueOf(splitToday[0]), Integer.valueOf(splitToday[1]) - 1, Integer.valueOf(splitToday[2]));//HEUTE ALS CAL
 
         String lastDate = db.dayDao().getLastDate();//AUSLESEN LETZTES DATUM
@@ -100,7 +104,7 @@ public class TrackerMainFragment extends Fragment {
         }
 
         long diffmilli = cal.getTimeInMillis() - cal_last.getTimeInMillis();
-        long diffday   = diffmilli / (24 * 60 * 60 * 1000);
+        long diffday = diffmilli / (24 * 60 * 60 * 1000);
         Log.d("CHECK_DATE", "HEUTE: " + format.format(cal.getTime()));
         Log.d("CHECK_DATE", "Letztes eingetragendes Datum: " + lastDate + "(" + format.format(cal_last.getTime()) + ") mit d:" + String.valueOf(diffday));
         //System.out.println("Letztes eingetragendes Datum: "+ lastDate + "("+ format.format(cal_last.getTime())+") mit d:" + String.valueOf(diffday));
@@ -116,8 +120,8 @@ public class TrackerMainFragment extends Fragment {
 
                     Calendar newCal = cal;
                     newCal.add(Calendar.DATE, k * (-1));
-                    SimpleDateFormat format2               = new SimpleDateFormat("yyyy-MM-dd");
-                    String           formatted_date_today2 = format2.format(newCal.getTime());
+                    SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd");
+                    String formatted_date_today2 = format2.format(newCal.getTime());
                     newDayInsert(formatted_date_today2, db);
                     //System.out.println("DAtum eingetragen: " + formatted_date_today2);
                     //System.out.println(String.valueOf(k));
@@ -155,9 +159,9 @@ public class TrackerMainFragment extends Fragment {
         Day day = new Day();
         day.progress = 75;
         day.date = newday;
-        if(db.dayDao().getDayIdCount() < 1){
+        if (db.dayDao().getDayIdCount() < 1) {
             day.weight = 70;
-        }else{
+        } else {
             day.weight = db.dayDao().getLastWeight();
         }
 
