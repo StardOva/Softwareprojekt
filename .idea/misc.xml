@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/Konrad/AndroidStudioProjects/Softwareprojekt/app/src/main/res/layout/activity_about_us.xml" value="0.5" />
+        <entry key="..\:/Users/Konrad/AndroidStudioProjects/Softwareprojekt/app/src/main/res/layout/activity_add_exercise_to_workout.xml" value="0.3903985507246377" />
+        <entry key="..\:/Users/Konrad/AndroidStudioProjects/Softwareprojekt/app/src/main/res/layout/activity_change_weight.xml" value="0.25329280648429586" />
+        <entry key="..\:/Users/Konrad/AndroidStudioProjects/Softwareprojekt/app/src/main/res/layout/activity_goal.xml" value="0.5208333333333334" />
+        <entry key="..\:/Users/Konrad/AndroidStudioProjects/Softwareprojekt/app/src/main/res/layout/activity_license.xml" value="0.5541666666666667" />
+        <entry key="..\:/Users/Konrad/AndroidStudioProjects/Softwareprojekt/app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="..\:/Users/Konrad/AndroidStudioProjects/Softwareprojekt/app/src/main/res/layout/activity_scan_error.xml" value="0.5541666666666667" />
+        <entry key="..\:/Users/Konrad/AndroidStudioProjects/Softwareprojekt/app/src/main/res/layout/activity_settings.xml" value="0.5541666666666667" />
+        <entry key="..\:/Users/Konrad/AndroidStudioProjects/Softwareprojekt/app/src/main/res/layout/activity_training.xml" value="0.25329280648429586" />
+        <entry key="..\:/Users/Konrad/AndroidStudioProjects/Softwareprojekt/app/src/main/res/layout/fragment_main.xml" value="0.25329280648429586" />
+        <entry key="..\:/Users/Konrad/AndroidStudioProjects/Softwareprojekt/app/src/main/res/layout/fragment_tracker.xml" value="0.5208333333333334" />
+        <entry key="..\:/Users/Konrad/AndroidStudioProjects/Softwareprojekt/app/src/main/res/layout/fragment_tracker_stats.xml" value="0.5208333333333334" />
+        <entry key="..\:/Users/Konrad/AndroidStudioProjects/Softwareprojekt/app/src/main/res/layout/recycler_row_tracker_meals.xml" value="0.25329280648429586" />
+        <entry key="..\:/Users/Konrad/AndroidStudioProjects/Softwareprojekt/app/src/main/res/layout/recycler_row_workouts.xml" value="0.25329280648429586" />
+        <entry key="..\:/Users/Konrad/AndroidStudioProjects/Softwareprojekt/app/src/main/res/menu/exercise_options_menu.xml" value="0.5456410256410257" />
+        <entry key="..\:/Users/Konrad/AndroidStudioProjects/Softwareprojekt/app/src/main/res/menu/main_options_menu.xml" value="0.5541666666666667" />
+        <entry key="..\:/Users/Konrad/AndroidStudioProjects/Softwareprojekt/app/src/main/res/menu/start_options_menu.xml" value="0.5" />
+      </map>
+    </option>
+  </component>
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>

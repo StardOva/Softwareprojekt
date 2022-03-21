@@ -46,9 +46,13 @@ public class BaseActivity extends AppCompatActivity {
                 Intent intent = new Intent(this, SettingsActivity.class);
                 startActivity(intent);
                 return true;
-            case R.id.aboutUs:
-                Intent intent1 = new Intent(this, AboutUsActivity.class);
+            case R.id.license:
+                Intent intent1 = new Intent(this, LicenseActivity.class);
                 startActivity(intent1);
+                return true;
+            case R.id.aboutUs:
+                Intent intent2 = new Intent(this, AboutUsActivity.class);
+                startActivity(intent2);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

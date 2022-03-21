@@ -8,6 +8,11 @@
         app:showAsAction="never" />
 
     <item
+        android:id="@+id/license"
+        android:title="Lizenzen"
+        app:showAsAction="never" />
+
+    <item
         android:id="@+id/aboutUs"
         android:title="Über diese App"
         app:showAsAction="never" />
