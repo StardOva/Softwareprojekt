@@ -78,6 +78,8 @@ public class TrainingActivity extends AppCompatActivity {
 
     boolean editSession;
 
+    CountDownTimer countDownTimer = null;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -170,7 +172,9 @@ public class TrainingActivity extends AppCompatActivity {
         quitAlertDialog = new AlertDialog.Builder(this)
                 .setTitle("Bestätigen")
                 .setMessage("Das Training beenden ohne zu speichern?")
-                .setPositiveButton("JA", (dialogInterface, i) -> finish())
+                .setPositiveButton("JA", (dialogInterface, i) -> {
+                    finish();
+                })
                 .setNegativeButton("NEIN", null);
 
     }
@@ -238,7 +242,7 @@ public class TrainingActivity extends AppCompatActivity {
 
             // wenn das erste Zeichen ein String ist, mit dem default von 90s ersetzen
             // da Android bei Number Text Views einen führenden Punkt erlaubt
-            if(countDownString.startsWith(".")){
+            if (countDownString.startsWith(".")) {
                 countDownString = "90";
             }
 
@@ -249,9 +253,9 @@ public class TrainingActivity extends AppCompatActivity {
 
             // dann in int umwandeln
             int countDownSeconds = Integer.parseInt(countDownString);
-            int countDown        = countDownSeconds * 1000; // in Millisekunden
+            int countDown = countDownSeconds * 1000; // in Millisekunden
 
-            new CountDownTimer(countDown, 1000) {
+            countDownTimer = new CountDownTimer(countDown, 1000) {
                 @Override
                 public void onTick(long millisUntilFinished) {
                     String timeLeft = Math.round(millisUntilFinished / 1000f) + "s";
@@ -353,5 +357,13 @@ public class TrainingActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         quitAlertDialog.show();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (countDownTimer != null) {
+            countDownTimer.cancel();
+        }
     }
 }
