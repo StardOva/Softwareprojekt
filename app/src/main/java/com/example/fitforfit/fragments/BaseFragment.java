@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment;
 import com.example.fitforfit.R;
 import com.example.fitforfit.ui.main.AboutUsActivity;
 import com.example.fitforfit.ui.main.SettingsActivity;
+import com.example.fitforfit.ui.main.WorkoutStatsActivity;
 
 public class BaseFragment extends Fragment {
 
@@ -73,6 +74,33 @@ public class BaseFragment extends Fragment {
         } else {
             setHasOptionsMenu(false);
         }
+    }
+
+    @SuppressLint("NonConstantResourceId")
+    protected void initWorkoutDetailToolbar(int workoutId){
+        toolbar = requireView().findViewById(R.id.mainToolbar);
+        String title = getString(R.string.app_name) + " - " + getString(R.string.workout_name);
+        toolbar.setTitle(title);
+
+        toolbar.inflateMenu(R.menu.workout_detail_menu);
+        toolbar.setOnMenuItemClickListener(item -> {
+            switch (item.getItemId()){
+                case R.id.settings:
+                    Intent intent = new Intent(requireActivity(), SettingsActivity.class);
+                    requireActivity().startActivity(intent);
+                    return true;
+                case R.id.aboutUs:
+                    Intent intent1 = new Intent(requireActivity(), AboutUsActivity.class);
+                    startActivity(intent1);
+                    return true;
+                case R.id.stats:
+                    Intent intent2 = new Intent(requireActivity(), WorkoutStatsActivity.class);
+                    intent2.putExtra("workoutId", workoutId);
+                    startActivity(intent2);
+                default:
+                    return super.onOptionsItemSelected(item);
+            }
+        });
     }
 
     protected void hideToolbar() {

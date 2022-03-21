@@ -63,7 +63,6 @@ public class WorkoutDetailFragment extends BaseFragment {
 
         this.binding = FragmentWorkoutDetailBinding.inflate(inflater, container, false);
 
-        // TODO so entfernt er leider nicht mehr das TextView
         //return inflater.inflate(R.layout.fragment_workout_detail, this.binding.getRoot());
         return super.onCreateView(inflater, container, savedInstanceState);
     }
@@ -72,7 +71,7 @@ public class WorkoutDetailFragment extends BaseFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         initRecyclerView(view);
 
-        initToolbar(getString(R.string.workout_name));
+        initWorkoutDetailToolbar(workoutId);
     }
 
     @Override
@@ -144,13 +143,6 @@ public class WorkoutDetailFragment extends BaseFragment {
         Button addExerciseBtn = requireView().findViewById(R.id.btnAddExercise);
         addExerciseBtn.setOnClickListener(view1 -> {
             Intent intent = new Intent(getActivity(), AddExerciseToWorkoutActivity.class);
-            intent.putExtra("workoutId", workoutId);
-            requireActivity().startActivity(intent);
-        });
-
-        Button workoutStatsBtn = requireView().findViewById(R.id.btnWorkoutStats);
-        workoutStatsBtn.setOnClickListener(view1 -> {
-            Intent intent = new Intent(getActivity(), WorkoutStatsActivity.class);
             intent.putExtra("workoutId", workoutId);
             requireActivity().startActivity(intent);
         });
