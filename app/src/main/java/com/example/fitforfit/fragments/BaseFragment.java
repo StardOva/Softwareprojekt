@@ -14,6 +14,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
 import com.example.fitforfit.R;
+import com.example.fitforfit.ui.main.AboutUsActivity;
 import com.example.fitforfit.ui.main.SettingsActivity;
 
 public class BaseFragment extends Fragment {
@@ -62,7 +63,8 @@ public class BaseFragment extends Fragment {
                         requireActivity().startActivity(intent);
                         return true;
                     case R.id.aboutUs:
-                        Toast.makeText(requireActivity(), "Item 2 selected", Toast.LENGTH_SHORT).show();
+                        Intent intent1 = new Intent(requireActivity(), AboutUsActivity.class);
+                        startActivity(intent1);
                         return true;
                     default:
                         return super.onOptionsItemSelected(item);

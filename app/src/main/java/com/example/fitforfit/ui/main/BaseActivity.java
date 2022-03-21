@@ -47,7 +47,8 @@ public class BaseActivity extends AppCompatActivity {
                 startActivity(intent);
                 return true;
             case R.id.aboutUs:
-                Toast.makeText(this, "Item 4 selected", Toast.LENGTH_SHORT).show();
+                Intent intent1 = new Intent(this, AboutUsActivity.class);
+                startActivity(intent1);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
