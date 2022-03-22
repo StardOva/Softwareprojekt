@@ -31,6 +31,7 @@ public class BaseFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         setHasOptionsMenu(true);
+
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
@@ -55,6 +56,9 @@ public class BaseFragment extends Fragment {
             title += " - " + addToAppName;
         }
         toolbar.setTitle(title);
+
+        toolbar.setNavigationIcon(R.drawable.ic_action_back);
+        toolbar.setNavigationOnClickListener(view -> requireActivity().onBackPressed());
 
         if (showOptionsMenu) {
             toolbar.inflateMenu(R.menu.main_options_menu);
@@ -86,6 +90,9 @@ public class BaseFragment extends Fragment {
         toolbar = requireView().findViewById(R.id.mainToolbar);
         String title = getString(R.string.app_name) + " - " + getString(R.string.workout_name);
         toolbar.setTitle(title);
+
+        toolbar.setNavigationIcon(R.drawable.ic_action_back);
+        toolbar.setNavigationOnClickListener(view -> requireActivity().onBackPressed());
 
         toolbar.inflateMenu(R.menu.workout_detail_menu);
         toolbar.setOnMenuItemClickListener(item -> {

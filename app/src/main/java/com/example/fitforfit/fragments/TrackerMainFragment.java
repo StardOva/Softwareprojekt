@@ -70,6 +70,7 @@ public class TrackerMainFragment extends BaseFragment {
         initRecyclerView(view);
 
         initToolbar(getString(R.string.tracker_name));
+        toolbar.setNavigationIcon(null);
     }
 
 

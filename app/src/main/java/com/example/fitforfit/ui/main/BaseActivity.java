@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.example.fitforfit.MainActivity;
 import com.example.fitforfit.R;
 
 public class BaseActivity extends AppCompatActivity {
@@ -29,6 +30,9 @@ public class BaseActivity extends AppCompatActivity {
         if (!addToAppName.equals("")) {
             toolbar.setTitle(getString(R.string.app_name) + " - " + addToAppName);
         }
+
+        toolbar.setNavigationIcon(R.drawable.ic_action_back);
+
         setSupportActionBar(toolbar);
     }
 
@@ -57,5 +61,11 @@ public class BaseActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 }
