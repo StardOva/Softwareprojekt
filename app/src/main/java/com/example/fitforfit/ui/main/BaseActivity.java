@@ -29,6 +29,10 @@ public class BaseActivity extends AppCompatActivity {
         if (!addToAppName.equals("")) {
             toolbar.setTitle(getString(R.string.app_name) + " - " + addToAppName);
         }
+
+        toolbar.setNavigationIcon(R.drawable.ic_action_back);
+        //toolbar.setNavigationOnClickListener(view -> finish());
+
         setSupportActionBar(toolbar);
     }
 
@@ -57,5 +61,11 @@ public class BaseActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 }

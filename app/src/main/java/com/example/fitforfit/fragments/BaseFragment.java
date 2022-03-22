@@ -31,6 +31,8 @@ public class BaseFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         setHasOptionsMenu(true);
+        //requireActivity().getActionBar().setDisplayShowHomeEnabled(true);
+
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 

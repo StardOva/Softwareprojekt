@@ -176,7 +176,7 @@ public class WorkoutEvaluationAdapter extends RecyclerView.Adapter<WorkoutEvalua
                     stringPercentGain = "+" + percentGainLatest + "% Steigerung (letztes zum ersten Workout)";
                     holder.textViewPercentGainLatest.setTextColor(colorUtils.getColor(R.color.fit_green));
                 } else if (percentGainLatest == 0) {
-                    stringPercentGain = "noch keine Steigerung (letztes zum ersten Workout)";
+                    stringPercentGain = "keine Steigerung (letztes zum ersten Workout)";
                     holder.textViewPercentGainLatest.setTextColor(colorUtils.getColor(R.color.white));
                 } else {
                     stringPercentGain = percentGainLatest + "% Verringerung (letztes zum ersten Workout)";
@@ -193,7 +193,7 @@ public class WorkoutEvaluationAdapter extends RecyclerView.Adapter<WorkoutEvalua
                     stringPercentGain = "+" + percentGainMax + "% Steigerung (bestes zum ersten Workout)";
                     holder.textViewPercentGainMax.setTextColor(colorUtils.getColor(R.color.fit_green));
                 } else if (percentGainMax == 0) {
-                    stringPercentGain = "noch keine Steigerung (bestes zum letzten Workout)";
+                    stringPercentGain = "keine Steigerung (bestes zum letzten Workout)";
                     holder.textViewPercentGainMax.setTextColor(colorUtils.getColor(R.color.white));
                 } else {
                     stringPercentGain = percentGainMax + "% Verringerung (bestes zum ersten Workout)";

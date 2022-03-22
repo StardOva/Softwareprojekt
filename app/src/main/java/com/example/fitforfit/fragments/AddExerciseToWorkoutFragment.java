@@ -94,7 +94,6 @@ public class AddExerciseToWorkoutFragment extends BaseFragment {
         recyclerView.addItemDecoration(dividerItemDecoration);
 
         this.exerciseListAdapter = new ExerciseListAdapter(getContext(), this.parentActivity);
-        this.exerciseListAdapter.setWorkoutId(this.workoutId);
         recyclerView.setAdapter(this.exerciseListAdapter);
 
         initViews(view);
@@ -151,7 +150,7 @@ public class AddExerciseToWorkoutFragment extends BaseFragment {
                 AsyncTask.execute(() -> {
                     AppDatabase db = Database.getInstance(getContext());
 
-                    for (Exercise exercise : exerciseListAdapter.selectedExercises.values()) {
+                    for (Exercise exercise : exerciseListAdapter.selectedExercises) {
                         WorkoutExercise workoutExercise = new WorkoutExercise();
                         workoutExercise.workoutId = this.workoutId;
                         workoutExercise.exerciseId = exercise.id;

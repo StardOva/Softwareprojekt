@@ -21,6 +21,7 @@ import com.example.fitforfit.singleton.Database;
 import com.example.fitforfit.ui.main.AddExerciseToWorkoutActivity;
 import com.example.fitforfit.utils.ColorUtils;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -30,11 +31,9 @@ public class ExerciseListAdapter extends RecyclerView.Adapter<ExerciseListAdapte
     private Context workoutDetailActivity;
     private List<Exercise> exerciseList = null;
     private final AddExerciseToWorkoutActivity parentActivity;
-    private int workoutId;
     ColorUtils colorUtils;
 
-    public HashMap<Integer, Exercise> selectedExercises = new HashMap<>();
-
+    public ArrayList<Exercise> selectedExercises = new ArrayList<>();
 
     public ExerciseListAdapter(Context context, AddExerciseToWorkoutActivity parentActivity) {
         this.context = context;
@@ -44,10 +43,6 @@ public class ExerciseListAdapter extends RecyclerView.Adapter<ExerciseListAdapte
 
     public void setContext(Context workoutDetailActivity) {
         this.workoutDetailActivity = workoutDetailActivity;
-    }
-
-    public void setWorkoutId(int workoutId) {
-        this.workoutId = workoutId;
     }
 
     public void setExerciseList(List<Exercise> exerciseList) {
@@ -69,33 +64,14 @@ public class ExerciseListAdapter extends RecyclerView.Adapter<ExerciseListAdapte
 
         holder.btnAddExerciseToWorkout.setText(exercise.name);
         holder.btnAddExerciseToWorkout.setOnClickListener(view -> {
-
             // noch nicht ausgewählt -> auswählen
-            if (selectedExercises.get(exercise.id) == null) {
-                selectedExercises.put(exercise.id, exercise);
+            if (!selectedExercises.contains(exercise)) {
+                selectedExercises.add(exercise);
                 holder.btnAddExerciseToWorkout.setBackgroundColor(colorUtils.getColor(R.color.fit_light_grey));
             } else {
-                selectedExercises.remove(exercise.id);
+                selectedExercises.remove(exercise);
                 holder.btnAddExerciseToWorkout.setBackgroundColor(Color.TRANSPARENT);
             }
-
-            // speichere die Zuordnung und generiere eine Position
-            /*
-            AsyncTask.execute(() -> {
-                AppDatabase db = Database.getInstance(this.context);
-
-                WorkoutExercise workoutExercise = new WorkoutExercise();
-                workoutExercise.workoutId = this.workoutId;
-                workoutExercise.exerciseId = this.exerciseList.get(position).id;
-
-                int pos = db.workoutExerciseDao().getLastPosByWorkoutId(this.workoutId);
-                workoutExercise.pos = pos + 1;
-
-                db.workoutExerciseDao().insert(workoutExercise);
-            });
-
-            this.parentActivity.finish();
-             */
         });
     }
 
