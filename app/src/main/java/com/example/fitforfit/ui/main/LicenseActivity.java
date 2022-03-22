@@ -27,11 +27,23 @@ public class LicenseActivity extends AppCompatActivity {
 
         View aboutPage = new AboutPage(this)
                 .isRTL(false)
-                .setDescription("Fit for Fit von Christoph Manitz, Moritz Reichelt und Konrad Werner")
-                .addItem(new Element().setTitle("Version 1.0").setGravity(Gravity.CENTER))
-                .addItem(new Element().setTitle("Apache License 2.0").
+                .setDescription("Lizensierung:")
+                .addItem(new Element().setTitle("Androidx [Apache License 2.0]").setGravity(Gravity.CENTER).
                         setGravity(Gravity.CENTER).setIntent(new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.apache.org/licenses/LICENSE-2.0"))))
-                .addGroup("CONNECT WITH US!")
+                .addItem(new Element().setTitle("github.PhilJay [Apache License 2.0]").setGravity(Gravity.CENTER).
+                setGravity(Gravity.CENTER).setIntent(new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.apache.org/licenses/LICENSE-2.0"))))
+                .addItem(new Element().setTitle("android.tools [Apache License 2.0]").setGravity(Gravity.CENTER).
+                        setGravity(Gravity.CENTER).setIntent(new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.apache.org/licenses/LICENSE-2.0"))))
+                .addItem(new Element().setTitle("budiyev.android [MIT License]").setGravity(Gravity.CENTER).
+                        setGravity(Gravity.CENTER).setIntent(new Intent(Intent.ACTION_VIEW, Uri.parse("https://choosealicense.com/licenses/mit/"))))
+                .addItem(new Element().setTitle("github.kizitonwose [MIT License]").setGravity(Gravity.CENTER).
+                        setGravity(Gravity.CENTER).setIntent(new Intent(Intent.ACTION_VIEW, Uri.parse("https://choosealicense.com/licenses/mit/"))))
+                .addItem(new Element().setTitle("Falticon Icon: 'Gym' [Flaticon License]").setGravity(Gravity.CENTER).
+                        setGravity(Gravity.CENTER).setIntent(new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.flaticon.com/premium-icon/gym_1010943?term=barbell&page=1&position=70&page=1&position=70&related_id=1010943&origin=search"))))
+                .addItem(new Element().setTitle("Falticon Icon: 'Trend' [Flaticon License]").setGravity(Gravity.CENTER).
+                        setGravity(Gravity.CENTER).setIntent(new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.flaticon.com/free-icon/trend_3121571?term=statistics&page=1&position=7&page=1&position=7&related_id=3121571&origin=search"))))
+                .addItem(new Element().setTitle("Falticon Icon: 'Add' [Flaticon License]").setGravity(Gravity.CENTER).
+                        setGravity(Gravity.CENTER).setIntent(new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.flaticon.com/free-icon/add_1237946?term=add&page=1&position=3&page=1&position=3&related_id=1237946&origin=search"))))
                 .create();
         setContentView(aboutPage);
     }

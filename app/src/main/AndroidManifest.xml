@@ -55,6 +55,9 @@
             android:name=".ui.main.AddNewIngredientManuellProduct"
             android:exported="false" />
         <activity
+            android:name=".ui.main.LicenseActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.main.AddIngredientToMealActivity"
             android:exported="false" />
         <activity
