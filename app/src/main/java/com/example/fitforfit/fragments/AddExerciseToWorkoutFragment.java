@@ -8,10 +8,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -20,9 +22,11 @@ import com.example.fitforfit.adapter.ExerciseListAdapter;
 import com.example.fitforfit.database.AppDatabase;
 import com.example.fitforfit.databinding.FragmentAddExerciseToWorkoutBinding;
 import com.example.fitforfit.entity.Exercise;
+import com.example.fitforfit.entity.WorkoutExercise;
 import com.example.fitforfit.singleton.Database;
 import com.example.fitforfit.ui.main.AddExerciseToWorkoutActivity;
 import com.example.fitforfit.ui.main.CreateNewExerciseActivity;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
 
@@ -55,7 +59,7 @@ public class AddExerciseToWorkoutFragment extends BaseFragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         this.binding = FragmentAddExerciseToWorkoutBinding.inflate(inflater, container, false);
 
-        return inflater.inflate(R.layout.fragment_add_exercise_to_workout, this.binding.getRoot());
+        return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     @Override
@@ -85,6 +89,9 @@ public class AddExerciseToWorkoutFragment extends BaseFragment {
     private void initRecyclerView(View view) {
         RecyclerView recyclerView = view.findViewById(R.id.recyclerViewExercises);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(requireActivity(), DividerItemDecoration.VERTICAL);
+        recyclerView.addItemDecoration(dividerItemDecoration);
 
         this.exerciseListAdapter = new ExerciseListAdapter(getContext(), this.parentActivity);
         this.exerciseListAdapter.setWorkoutId(this.workoutId);
@@ -136,6 +143,29 @@ public class AddExerciseToWorkoutFragment extends BaseFragment {
         btnCreateNewExercise.setOnClickListener(view1 -> {
             Intent intent = new Intent(requireActivity(), CreateNewExerciseActivity.class);
             requireActivity().startActivity(intent);
+        });
+
+        FloatingActionButton fabBulkAdd = view.findViewById(R.id.fabAddExercisesToWorkout);
+        fabBulkAdd.setOnClickListener(view1 -> {
+            if (exerciseListAdapter.selectedExercises.size() > 0) {
+                AsyncTask.execute(() -> {
+                    AppDatabase db = Database.getInstance(getContext());
+
+                    for (Exercise exercise : exerciseListAdapter.selectedExercises.values()) {
+                        WorkoutExercise workoutExercise = new WorkoutExercise();
+                        workoutExercise.workoutId = this.workoutId;
+                        workoutExercise.exerciseId = exercise.id;
+
+                        int pos = db.workoutExerciseDao().getLastPosByWorkoutId(this.workoutId);
+                        workoutExercise.pos = pos + 1;
+
+                        db.workoutExerciseDao().insert(workoutExercise);
+                    }
+                });
+                parentActivity.finish();
+            } else {
+                Toast.makeText(getContext(), "Keine Übung ausgewählt", Toast.LENGTH_SHORT).show();
+            }
         });
     }
 

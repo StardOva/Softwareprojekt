@@ -11,7 +11,7 @@
         android:layout_height="match_parent"
         android:layout_marginStart="@dimen/app_margin"
         android:layout_marginEnd="@dimen/app_margin"
-        android:layout_marginTop="65dp"
+        android:layout_marginTop="70dp"
         android:orientation="vertical">
 
         <TextView
@@ -34,7 +34,6 @@
 
         </androidx.recyclerview.widget.RecyclerView>
     </LinearLayout>
-
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabStartTraining"

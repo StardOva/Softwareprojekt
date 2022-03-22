@@ -75,6 +75,7 @@ public class WorkoutDetailAdapter extends RecyclerView.Adapter<WorkoutDetailAdap
             holder.exerciseName.setText(name);
         }
 
+        // DreipunkteMenü am Objekt
         holder.optionsMenu.setOnClickListener(view -> {
             PopupMenu popup = new PopupMenu(this.context, holder.optionsMenu);
             popup.inflate(R.menu.exercise_options_menu);
@@ -182,7 +183,7 @@ public class WorkoutDetailAdapter extends RecyclerView.Adapter<WorkoutDetailAdap
         myViewHolder.exerciseName.setBackgroundColor(Color.TRANSPARENT);
         // jetzt noch die neue Liste asynchron speichern
         AsyncTask.execute(() -> {
-            int         i  = 1;
+            int i = 1;
             AppDatabase db = Database.getInstance(this.context);
 
             for (Exercise exercise : exerciseList) {

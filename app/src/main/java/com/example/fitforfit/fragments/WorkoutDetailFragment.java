@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -26,9 +25,7 @@ import com.example.fitforfit.entity.Exercise;
 import com.example.fitforfit.entity.Training;
 import com.example.fitforfit.singleton.Database;
 import com.example.fitforfit.ui.main.AddExerciseToWorkoutActivity;
-import com.example.fitforfit.ui.main.SettingsActivity;
 import com.example.fitforfit.ui.main.TrainingActivity;
-import com.example.fitforfit.ui.main.WorkoutStatsActivity;
 import com.example.fitforfit.utils.DateUtils;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -63,7 +60,6 @@ public class WorkoutDetailFragment extends BaseFragment {
 
         this.binding = FragmentWorkoutDetailBinding.inflate(inflater, container, false);
 
-        //return inflater.inflate(R.layout.fragment_workout_detail, this.binding.getRoot());
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
