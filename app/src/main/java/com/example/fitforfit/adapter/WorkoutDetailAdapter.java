@@ -3,6 +3,7 @@ package com.example.fitforfit.adapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -178,7 +179,7 @@ public class WorkoutDetailAdapter extends RecyclerView.Adapter<WorkoutDetailAdap
 
     @Override
     public void onRowClear(WorkoutDetailViewHolder myViewHolder) {
-        myViewHolder.exerciseName.setBackgroundColor(colorUtils.getColor(R.color.fit_dark_grey));
+        myViewHolder.exerciseName.setBackgroundColor(Color.TRANSPARENT);
         // jetzt noch die neue Liste asynchron speichern
         AsyncTask.execute(() -> {
             int         i  = 1;
