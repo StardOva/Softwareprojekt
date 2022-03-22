@@ -2,7 +2,6 @@ package com.example.fitforfit.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.os.AsyncTask;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -16,9 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fitforfit.R;
-import com.example.fitforfit.database.AppDatabase;
 import com.example.fitforfit.entity.Training;
-import com.example.fitforfit.singleton.Database;
 
 import java.util.ArrayList;
 
@@ -62,7 +59,7 @@ public class TrainingSetListAdapter extends RecyclerView.Adapter<TrainingSetList
         holder.repCountListener.updatePosition(holder.getAbsoluteAdapterPosition());
         holder.weightListener.updatePosition(holder.getAbsoluteAdapterPosition());
 
-        int   reps   = trainingList.get(position).reps;
+        int reps = trainingList.get(position).reps;
         float weight = trainingList.get(position).weight;
 
         if (reps > 0) {
@@ -175,8 +172,11 @@ public class TrainingSetListAdapter extends RecyclerView.Adapter<TrainingSetList
         @Override
         public void afterTextChanged(Editable editable) {
             String text = editable.toString();
-            if (text.equals("")) {
+            if (text.equals("") || text.startsWith(".")) {
                 trainingList.get(position).reps = 0;
+            } else if (text.contains(".")) {
+                text = text.replaceAll("\\..*", "");
+                trainingList.get(position).reps = Integer.parseInt(text);
             } else {
                 trainingList.get(position).reps = Integer.parseInt(text);
             }
@@ -206,6 +206,8 @@ public class TrainingSetListAdapter extends RecyclerView.Adapter<TrainingSetList
             String text = editable.toString();
             if (text.equals("")) {
                 trainingList.get(position).weight = 0;
+            } else if (text.startsWith(".")) {
+                trainingList.get(position).weight = Float.parseFloat("0" + text);
             } else {
                 trainingList.get(position).weight = Float.parseFloat(text);
             }
