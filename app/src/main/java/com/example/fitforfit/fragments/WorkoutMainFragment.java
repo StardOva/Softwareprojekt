@@ -59,6 +59,7 @@ public class WorkoutMainFragment extends BaseFragment {
         initRecyclerView(view);
 
         initToolbar(getString(R.string.workout_name));
+        toolbar.setNavigationIcon(null);
     }
 
     private void initRecyclerView(View view) {

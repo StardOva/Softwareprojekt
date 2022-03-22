@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.example.fitforfit.MainActivity;
 import com.example.fitforfit.R;
 
 public class BaseActivity extends AppCompatActivity {
@@ -31,7 +32,6 @@ public class BaseActivity extends AppCompatActivity {
         }
 
         toolbar.setNavigationIcon(R.drawable.ic_action_back);
-        //toolbar.setNavigationOnClickListener(view -> finish());
 
         setSupportActionBar(toolbar);
     }
