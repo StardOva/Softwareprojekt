@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.fitforfit.R;
 import com.example.fitforfit.ui.main.AboutUsActivity;
+import com.example.fitforfit.ui.main.LicenseActivity;
 import com.example.fitforfit.ui.main.SettingsActivity;
 import com.example.fitforfit.ui.main.WorkoutStatsActivity;
 
@@ -63,9 +64,13 @@ public class BaseFragment extends Fragment {
                         Intent intent = new Intent(requireActivity(), SettingsActivity.class);
                         requireActivity().startActivity(intent);
                         return true;
-                    case R.id.aboutUs:
-                        Intent intent1 = new Intent(requireActivity(), AboutUsActivity.class);
+                    case R.id.license:
+                        Intent intent1 = new Intent(requireActivity(), LicenseActivity.class);
                         startActivity(intent1);
+                        return true;
+                    case R.id.aboutUs:
+                        Intent intent2 = new Intent(requireActivity(), AboutUsActivity.class);
+                        startActivity(intent2);
                         return true;
                     default:
                         return super.onOptionsItemSelected(item);
@@ -89,14 +94,18 @@ public class BaseFragment extends Fragment {
                     Intent intent = new Intent(requireActivity(), SettingsActivity.class);
                     requireActivity().startActivity(intent);
                     return true;
-                case R.id.aboutUs:
-                    Intent intent1 = new Intent(requireActivity(), AboutUsActivity.class);
+                case R.id.license:
+                    Intent intent1 = new Intent(requireActivity(), LicenseActivity.class);
                     startActivity(intent1);
                     return true;
-                case R.id.stats:
-                    Intent intent2 = new Intent(requireActivity(), WorkoutStatsActivity.class);
-                    intent2.putExtra("workoutId", workoutId);
+                case R.id.aboutUs:
+                    Intent intent2 = new Intent(requireActivity(), AboutUsActivity.class);
                     startActivity(intent2);
+                    return true;
+                case R.id.stats:
+                    Intent intent3 = new Intent(requireActivity(), WorkoutStatsActivity.class);
+                    intent3.putExtra("workoutId", workoutId);
+                    startActivity(intent3);
                 default:
                     return super.onOptionsItemSelected(item);
             }
