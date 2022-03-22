@@ -4,8 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <include layout="@layout/toolbar"
-        android:id="@+id/mainToolbar" />
+    <include
+        android:id="@+id/mainToolbar"
+        layout="@layout/toolbar" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -80,6 +81,12 @@
                     android:text="@string/next" />
 
             </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="50dp">
+
+            </View>
 
         </LinearLayout>
 
