@@ -21,5 +21,13 @@ public class SettingsFragment extends PreferenceFragmentCompat {
                 editText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
             });
         }
+
+        EditTextPreference backup = findPreference("backup");
+
+        if (backup != null) {
+            backup.setOnBindEditTextListener(editText -> {
+                editText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+            });
+        }
     }
 }

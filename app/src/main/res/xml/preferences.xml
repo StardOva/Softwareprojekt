@@ -8,4 +8,13 @@
         android:singleLine="true"
         android:summary="Länge des Workout-Timers in Sekunden"
         android:title="Workout-Timer" />
+
+    <EditTextPreference
+        android:defaultValue="90"
+        android:icon="@drawable/timer_white"
+        android:key="backup"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:summary="Daten in der Cloud sichern"
+        android:title="Backup" />
 </PreferenceScreen>
