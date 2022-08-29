@@ -10,11 +10,20 @@
         android:title="Workout-Timer" />
 
     <EditTextPreference
-        android:defaultValue="90"
-        android:icon="@drawable/timer_white"
+        android:defaultValue="localhost"
+        android:icon="@android:drawable/arrow_up_float"
         android:key="backup"
         android:selectAllOnFocus="true"
         android:singleLine="true"
         android:summary="Daten in der Cloud sichern"
-        android:title="Backup" />
+        android:title="Backup Upload" />
+
+    <EditTextPreference
+        android:defaultValue="localhost"
+        android:icon="@android:drawable/arrow_down_float"
+        android:key="backup_down"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:summary="Daten aus der Cloud laden"
+        android:title="Backup Download" />
 </PreferenceScreen>
