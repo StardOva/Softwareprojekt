@@ -3,6 +3,7 @@ package com.example.fitforfit.sync;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
+import android.widget.Toast;
 
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,6 +12,8 @@ import androidx.preference.PreferenceManager;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -19,9 +22,11 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.io.File;
+import java.util.Arrays;
 
 public class DatabaseSync extends AppCompatActivity {
     // die Zeit aus den Shared Preferences auslesen
@@ -33,14 +38,12 @@ public class DatabaseSync extends AppCompatActivity {
     static String filePath = "/path/to/file";
 
 
-
-
     public static void uploadDB(Context context, String urlString) {
         Log.d("UPLOAD", "Datei hochladen...");
         File dbFile = context.getDatabasePath(dbName);
         String path = dbFile.getAbsolutePath();
 
-        OutputStream out = null;
+        OutputStream out;
 
         // file to byte[], Path
         try {
@@ -51,8 +54,8 @@ public class DatabaseSync extends AppCompatActivity {
                 urlConnection.setRequestMethod("POST");
                 out = new BufferedOutputStream(urlConnection.getOutputStream());
 
-                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(out, "UTF-8"));
-                writer.write(String.valueOf(bytesData));
+                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(out, StandardCharsets.UTF_8));
+                writer.write(Arrays.toString(bytesData));
                 writer.flush();
                 writer.close();
                 out.close();
@@ -72,7 +75,7 @@ public class DatabaseSync extends AppCompatActivity {
 
         File dbFile = context.getDatabasePath(dbName);
         String path = dbFile.getAbsolutePath();
-        String data = null;
+        StringBuilder data = new StringBuilder();
 
         try {
             URL url = new URL(urlString);
@@ -82,23 +85,27 @@ public class DatabaseSync extends AppCompatActivity {
             String line;
 
             while ((line = bufferedReader.readLine()) != null) {
-                data = data + line;
+                data.append(line);
             }
-        } catch (MalformedURLException e) {
+
+            if (!data.toString().isEmpty()) {
+                writeToFile(data.toString(), context);
+            }
+            else
+            {
+                Toast.makeText(context, "Heruntergeladene Datei ist leer", Toast.LENGTH_SHORT).show();
+            }
+
+        } catch (IOException e) {
             e.printStackTrace();
             //codeText.setText("SEITE NICHT ERREICHBAR");
             //error = "SEITE NICHT ERREICHBAR";
             //startErrorActivity(error);
             //Intent mir error String an ErrorScanActivity
-        } catch (IOException e) {
-            e.printStackTrace();
-            //codeText.setText("KEINE NETZWERKVERBINDUNG");
-            //error = "KEINE NETZWERKVERBINDUNG";
-            //startErrorActivity(error);
-        }
-        writeToFile(data, context);
-    }
+        }//codeText.setText("KEINE NETZWERKVERBINDUNG");
+//error = "KEINE NETZWERKVERBINDUNG";
 
+    }
 
 
     private static void writeToFile(String data, Context context) {
@@ -107,51 +114,15 @@ public class DatabaseSync extends AppCompatActivity {
         String path = dbFile.getAbsolutePath();
 
         try {
-            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput(path, Context.MODE_PRIVATE));
+            FileOutputStream fos = new FileOutputStream(path);
+            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(fos);
             outputStreamWriter.write(data);
             outputStreamWriter.close();
-        }
-        catch (IOException e) {
+            fos.close();
+        } catch (IOException e) {
             Log.e("Exception", "File write failed: " + e.toString());
         }
     }
-    /*
-    private static void downloadDB(Context context) {
-        String urlString = "localhost";
-        String dbName = "com.example.fitforfit.database.AppDatabase";
-        String filePath = "/path/to/file";
-
-        File dbFile = context.getDatabasePath(dbName);
-        String path = dbFile.getAbsolutePath();
-
-        OutputStream out = null;
-
-        // file to byte[], Path
-        try {
-            byte[] bytesData = Files.readAllBytes(Paths.get(path));
-            try {
-                URL url = new URL(urlString);
-                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-                urlConnection.setRequestMethod("POST");
-                out = new BufferedOutputStream(urlConnection.getOutputStream());
-
-                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(out, "UTF-8"));
-                writer.write(String.valueOf(bytesData));
-                writer.flush();
-                writer.close();
-                out.close();
-
-                urlConnection.connect();
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-
-    }*/
-
 }
 
 
