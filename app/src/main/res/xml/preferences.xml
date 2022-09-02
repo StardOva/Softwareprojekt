@@ -10,20 +10,18 @@
         android:title="Workout-Timer" />
 
     <EditTextPreference
-        android:defaultValue="localhost"
-        android:icon="@android:drawable/arrow_up_float"
-        android:key="backup"
+        android:defaultValue="http://localhost:8000/database_sync/"
+        android:icon="@android:drawable/ic_menu_save"
+        android:key="backup_url"
         android:selectAllOnFocus="true"
         android:singleLine="true"
-        android:summary="Daten in der Cloud sichern"
-        android:title="Backup Upload" />
+        android:title="URL für Backup" />
 
     <EditTextPreference
-        android:defaultValue="localhost"
+        android:defaultValue=""
         android:icon="@android:drawable/arrow_down_float"
-        android:key="backup_down"
+        android:key="api_key"
         android:selectAllOnFocus="true"
         android:singleLine="true"
-        android:summary="Daten aus der Cloud laden"
-        android:title="Backup Download" />
+        android:title="API-Schlüssel" />
 </PreferenceScreen>

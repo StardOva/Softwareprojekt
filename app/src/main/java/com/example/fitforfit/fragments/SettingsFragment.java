@@ -25,28 +25,20 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             });
         }
 
-        EditTextPreference backup = findPreference("backup");
+        EditTextPreference backup_url = findPreference("backup_url");
 
-        if (backup != null) {
-            backup.setOnBindEditTextListener(editText -> {
+        if (backup_url != null) {
+            backup_url.setOnBindEditTextListener(editText -> {
                 editText.setInputType(InputType.TYPE_TEXT_FLAG_AUTO_COMPLETE | InputType.TYPE_CLASS_TEXT);
             });
-
-            SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this.getContext());
-            String urlString = sharedPrefs.getString("backup", "localhost");
-            DatabaseSync.uploadDB(this.getContext(), urlString);
         }
 
-        EditTextPreference backupDown = findPreference("backup_down");
+        EditTextPreference api_key = findPreference("api_key");
 
-        if (backup != null) {
-            backupDown.setOnBindEditTextListener(editText -> {
+        if (api_key != null) {
+            api_key.setOnBindEditTextListener(editText -> {
                 editText.setInputType(InputType.TYPE_TEXT_FLAG_AUTO_COMPLETE | InputType.TYPE_CLASS_TEXT);
             });
-
-            SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this.getContext());
-            String urlString = sharedPrefs.getString("backup_down", "localhost");
-            DatabaseSync.downloadDB(this.getContext(), urlString);
         }
     }
 }

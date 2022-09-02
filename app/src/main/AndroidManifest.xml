@@ -12,7 +12,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_gym_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.FitforFit">
+        android:theme="@style/Theme.FitforFit"
+        android:usesCleartextTraffic="true">
         <activity
             android:name=".ui.main.AboutUsActivity"
             android:exported="false" />
