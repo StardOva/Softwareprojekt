@@ -9,6 +9,9 @@ import com.example.fitforfit.database.AppDatabase;
 public class Database {
     static AppDatabase db = null;
     public static String DB_NAME = "fitforfit";
+    public static String BACKUP_PATH = "/storage/emulated/0/Android/data/com.example.fitforfit/files/backup/fitforfit.sqlite3";
+    public static String RESTORE_PATH = "/storage/emulated/0/Android/data/com.example.fitforfit/files/restore/fitforfit.sqlite3";
+
 
     public static AppDatabase getInstance(Context context) {
         if (db != null) {

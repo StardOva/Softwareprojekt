@@ -89,4 +89,5 @@ dependencies {
     implementation 'com.github.medyo:android-about-page:1.2.6'
     implementation 'com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava'
 
+    implementation 'de.raphaelebner:roomdatabasebackup:1.0.0-beta10'
 }

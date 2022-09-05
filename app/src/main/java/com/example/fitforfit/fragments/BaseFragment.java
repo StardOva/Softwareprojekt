@@ -3,21 +3,28 @@ package com.example.fitforfit.fragments;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
+import com.example.fitforfit.MainActivity;
 import com.example.fitforfit.R;
+import com.example.fitforfit.singleton.Database;
+import com.example.fitforfit.sync.DatabaseSync;
 import com.example.fitforfit.ui.main.AboutUsActivity;
 import com.example.fitforfit.ui.main.LicenseActivity;
 import com.example.fitforfit.ui.main.SettingsActivity;
 import com.example.fitforfit.ui.main.WorkoutStatsActivity;
+
+import java.io.File;
+
+import de.raphaelebner.roomdatabasebackup.core.RoomBackup;
 
 public class BaseFragment extends Fragment {
 
@@ -60,6 +67,11 @@ public class BaseFragment extends Fragment {
         toolbar.setNavigationIcon(R.drawable.ic_action_back);
         toolbar.setNavigationOnClickListener(view -> requireActivity().onBackPressed());
 
+        MainActivity mainActivity = (MainActivity) getActivity();
+
+        assert mainActivity != null;
+        RoomBackup roomBackup = mainActivity.roomBackup;
+
         if (showOptionsMenu) {
             toolbar.inflateMenu(R.menu.main_options_menu);
             toolbar.setOnMenuItemClickListener(item -> {
@@ -76,6 +88,22 @@ public class BaseFragment extends Fragment {
                         Intent intent2 = new Intent(requireActivity(), AboutUsActivity.class);
                         startActivity(intent2);
                         return true;
+                    case R.id.downloadDb:
+                        //DatabaseSync.downloadDB(getApplicationContext(), DatabaseSync.getBackupUrl(getApplicationContext()));
+                        // roomBackup.restartApp(new Intent(requireContext(), MainActivity.class));
+
+                        return true;
+                    case R.id.uploadDb:
+                        roomBackup.backupLocationCustomFile(new File(Database.BACKUP_PATH));
+                        roomBackup.customBackupFileName(Database.DB_NAME + ".sqlite3");
+                        roomBackup.onCompleteListener((success, message, exitCode) -> {
+                            if (success) {
+                                Log.d("abc", "message: " + message);
+                                DatabaseSync.uploadDB(requireContext());
+                            }
+                        });
+                        roomBackup.backup();
+                        return true;
                     default:
                         return super.onOptionsItemSelected(item);
                 }
@@ -86,7 +114,7 @@ public class BaseFragment extends Fragment {
     }
 
     @SuppressLint("NonConstantResourceId")
-    protected void initWorkoutDetailToolbar(int workoutId){
+    protected void initWorkoutDetailToolbar(int workoutId) {
         toolbar = requireView().findViewById(R.id.mainToolbar);
         String title = getString(R.string.app_name) + " - " + getString(R.string.workout_name);
         toolbar.setTitle(title);
@@ -96,7 +124,7 @@ public class BaseFragment extends Fragment {
 
         toolbar.inflateMenu(R.menu.workout_detail_menu);
         toolbar.setOnMenuItemClickListener(item -> {
-            switch (item.getItemId()){
+            switch (item.getItemId()) {
                 case R.id.settings:
                     Intent intent = new Intent(requireActivity(), SettingsActivity.class);
                     requireActivity().startActivity(intent);

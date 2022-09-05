@@ -5,18 +5,15 @@ import android.content.SharedPreferences;
 import android.util.Log;
 import android.widget.Toast;
 
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
 
 import com.example.fitforfit.singleton.Database;
 
 import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.DataOutputStream;
-import java.io.FileInputStream;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -24,32 +21,21 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.ProtocolException;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.io.File;
-import java.util.Arrays;
 
 public class DatabaseSync extends AppCompatActivity {
-    // die Zeit aus den Shared Preferences auslesen
-    // SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
-    // String urlString = sharedPrefs.getString("backup", "localhost");
-    //String urlString = "localhost";
-    static String filePath = "/path/to/file";
 
-
-    public static void uploadDB(Context context, String urlString) {
+    public static void uploadDB(Context context) {
         Log.d("UPLOAD", "Datei hochladen...");
-        File dbFile = context.getDatabasePath(Database.DB_NAME);
+        File dbFile = new File(Database.BACKUP_PATH);
         String path = dbFile.getAbsolutePath();
 
         OutputStream out;
 
-        String attachmentName = "db";
-        String attachmentFileName = "database.db";
+        String attachmentName = "fitforfit";
+        String attachmentFileName = dbFile.getName();
         String crlf = "\r\n";
         String twoHyphens = "--";
         String boundary = "*****";
@@ -57,7 +43,7 @@ public class DatabaseSync extends AppCompatActivity {
         try {
             byte[] bytesData = Files.readAllBytes(Paths.get(path));
             try {
-                URL url = new URL(urlString);
+                URL url = new URL(getBackupUrl(context));
                 HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
                 urlConnection.setUseCaches(false);
                 urlConnection.setDoOutput(true);
@@ -133,14 +119,14 @@ public class DatabaseSync extends AppCompatActivity {
         }
     }
 
-    public static void downloadDB(Context context, String urlString) {
+    public static void downloadDB(Context context) {
 
         File dbFile = context.getDatabasePath(Database.DB_NAME);
         String path = dbFile.getAbsolutePath();
         StringBuilder data = new StringBuilder();
 
         try {
-            URL url = new URL(urlString);
+            URL url = new URL(getBackupUrl(context));
             Log.i("abc", "Deine hässliche Mutter");
             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
             InputStream inputStream = httpURLConnection.getInputStream();
@@ -161,16 +147,11 @@ public class DatabaseSync extends AppCompatActivity {
 
         } catch (IOException e) {
             e.printStackTrace();
-            //codeText.setText("SEITE NICHT ERREICHBAR");
-            //error = "SEITE NICHT ERREICHBAR";
-            //startErrorActivity(error);
-            //Intent mir error String an ErrorScanActivity
-        }//codeText.setText("KEINE NETZWERKVERBINDUNG");
-//error = "KEINE NETZWERKVERBINDUNG";
+
+        }
     }
 
     private static void writeToFile(String data, Context context) {
-
         File dbFile = context.getDatabasePath(Database.DB_NAME);
         String path = dbFile.getAbsolutePath();
 
