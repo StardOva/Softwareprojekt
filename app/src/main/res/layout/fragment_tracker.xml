@@ -46,17 +46,5 @@
             android:layout_height="wrap_content"
             android:text="Gewicht" />
 
-        <Button
-            android:id="@+id/uploadDbBtn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="In die Cloud speichern" />
-
-        <Button
-            android:id="@+id/downloadDbBtn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Aus der Cloud herunterladen" />
-
     </LinearLayout>
 </LinearLayout>

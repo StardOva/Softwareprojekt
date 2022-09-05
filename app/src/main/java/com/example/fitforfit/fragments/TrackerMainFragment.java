@@ -21,7 +21,6 @@ import com.example.fitforfit.database.AppDatabase;
 import com.example.fitforfit.databinding.FragmentMainBinding;
 import com.example.fitforfit.entity.Day;
 import com.example.fitforfit.singleton.Database;
-import com.example.fitforfit.sync.DatabaseSync;
 import com.example.fitforfit.ui.main.CalendarActivity;
 import com.example.fitforfit.ui.main.GoalActivity;
 
@@ -66,19 +65,6 @@ public class TrackerMainFragment extends BaseFragment {
 
         initToolbar(getString(R.string.tracker_name));
         toolbar.setNavigationIcon(null);
-
-        Button uploadDbBtn = view.findViewById(R.id.uploadDbBtn);
-        Button downloadDbBtn = view.findViewById(R.id.downloadDbBtn);
-
-        String backupUrl = DatabaseSync.getBackupUrl(getContext());
-
-        uploadDbBtn.setOnClickListener(view1 -> {
-
-        });
-
-        downloadDbBtn.setOnClickListener(view1 -> {
-            DatabaseSync.downloadDB(requireContext(), backupUrl);
-        });
     }
 
 

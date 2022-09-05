@@ -42,86 +42,83 @@ public class DatabaseSync extends AppCompatActivity {
 
         try {
             byte[] bytesData = Files.readAllBytes(Paths.get(path));
-            try {
-                URL url = new URL(getBackupUrl(context));
-                HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-                urlConnection.setUseCaches(false);
-                urlConnection.setDoOutput(true);
 
-                urlConnection.setRequestMethod("POST");
-                urlConnection.setRequestProperty("Connection", "Keep-Alive");
-                urlConnection.setRequestProperty("Cache-Control", "no-cache");
-                urlConnection.setRequestProperty(
-                        "Content-Type", "multipart/form-data;boundary=" + boundary);
+            URL url = new URL(getBackupUrl(context));
+            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+            urlConnection.setUseCaches(false);
+            urlConnection.setDoOutput(true);
 
-
-                DataOutputStream request = new DataOutputStream(
-                        urlConnection.getOutputStream());
-
-                request.writeBytes(twoHyphens + boundary + crlf);
-                request.writeBytes("Content-Disposition: form-data; name=\"" +
-                        attachmentName + "\";filename=\"" +
-                        attachmentFileName + "\"" + crlf);
-                request.writeBytes(crlf);
-
-                request.write(bytesData);
-
-                request.writeBytes(crlf);
-                request.writeBytes(twoHyphens + boundary +
-                        twoHyphens + crlf);
-
-                request.flush();
-                request.close();
-
-                InputStream responseStream = new
-                        BufferedInputStream(urlConnection.getInputStream());
-                BufferedReader responseStreamReader =
-                        new BufferedReader(new InputStreamReader(responseStream));
-
-                String line = "";
-                StringBuilder stringBuilder = new StringBuilder();
-
-                while ((line = responseStreamReader.readLine()) != null) {
-                    stringBuilder.append(line).append("\n");
-                }
-                responseStreamReader.close();
-
-                String response = stringBuilder.toString();
-
-                Log.d("abc", response);
-
-                responseStream.close();
-                urlConnection.disconnect();
+            urlConnection.setRequestMethod("POST");
+            urlConnection.setRequestProperty("Connection", "Keep-Alive");
+            urlConnection.setRequestProperty("Cache-Control", "no-cache");
+            urlConnection.setRequestProperty(
+                    "Content-Type", "multipart/form-data;boundary=" + boundary);
 
 
+            DataOutputStream request = new DataOutputStream(
+                    urlConnection.getOutputStream());
 
+            request.writeBytes(twoHyphens + boundary + crlf);
+            request.writeBytes("Content-Disposition: form-data; name=\"" +
+                    attachmentName + "\";filename=\"" +
+                    attachmentFileName + "\"" + crlf);
+            request.writeBytes(crlf);
 
+            request.write(bytesData);
 
+            request.writeBytes(crlf);
+            request.writeBytes(twoHyphens + boundary +
+                    twoHyphens + crlf);
 
+            request.flush();
+            request.close();
 
-                /*
-                out = new BufferedOutputStream(urlConnection.getOutputStream());
+            InputStream responseStream = new
+                    BufferedInputStream(urlConnection.getInputStream());
+            BufferedReader responseStreamReader =
+                    new BufferedReader(new InputStreamReader(responseStream));
 
-                BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(out, StandardCharsets.UTF_8));
-                writer.write(Arrays.toString(bytesData));
-                writer.flush();
-                writer.close();
-                out.close();
+            String line = "";
+            StringBuilder stringBuilder = new StringBuilder();
 
-                urlConnection.disconnect();
-
-                 */
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
+            while ((line = responseStreamReader.readLine()) != null) {
+                stringBuilder.append(line).append("\n");
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+            responseStreamReader.close();
+
+            String response = stringBuilder.toString();
+
+            Log.d("abc", response);
+
+            responseStream.close();
+            urlConnection.disconnect();
+
+
+
+
+
+
+
+            /*
+            out = new BufferedOutputStream(urlConnection.getOutputStream());
+
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(out, StandardCharsets.UTF_8));
+            writer.write(Arrays.toString(bytesData));
+            writer.flush();
+            writer.close();
+            out.close();
+
+            urlConnection.disconnect();
+
+             */
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
     }
 
     public static void downloadDB(Context context) {
 
-        File dbFile = context.getDatabasePath(Database.DB_NAME);
+        File dbFile = new File(Database.RESTORE_PATH);
         String path = dbFile.getAbsolutePath();
         StringBuilder data = new StringBuilder();
 
@@ -140,7 +137,7 @@ public class DatabaseSync extends AppCompatActivity {
             }
 
             if (!data.toString().isEmpty()) {
-                writeToFile(data.toString(), context);
+                writeToFile(data.toString(), path);
             } else {
                 Toast.makeText(context, "Heruntergeladene Datei ist leer", Toast.LENGTH_SHORT).show();
             }
@@ -151,18 +148,15 @@ public class DatabaseSync extends AppCompatActivity {
         }
     }
 
-    private static void writeToFile(String data, Context context) {
-        File dbFile = context.getDatabasePath(Database.DB_NAME);
-        String path = dbFile.getAbsolutePath();
-
+    private static void writeToFile(String data, String filePath) {
         try {
-            FileOutputStream fos = new FileOutputStream(path);
+            FileOutputStream fos = new FileOutputStream(filePath);
             OutputStreamWriter outputStreamWriter = new OutputStreamWriter(fos);
             outputStreamWriter.write(data);
             outputStreamWriter.close();
             fos.close();
         } catch (IOException e) {
-            Log.e("Exception", "File write failed: " + e.toString());
+            Log.e("Exception", "File write failed: " + e);
         }
     }
 

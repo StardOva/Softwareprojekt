@@ -2,6 +2,7 @@ package com.example.fitforfit.fragments;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 
 import com.example.fitforfit.MainActivity;
 import com.example.fitforfit.R;
@@ -67,13 +69,18 @@ public class BaseFragment extends Fragment {
         toolbar.setNavigationIcon(R.drawable.ic_action_back);
         toolbar.setNavigationOnClickListener(view -> requireActivity().onBackPressed());
 
-        MainActivity mainActivity = (MainActivity) getActivity();
+        FragmentActivity fragmentActivity = getActivity();
+        RoomBackup roomBackup = null;
 
-        assert mainActivity != null;
-        RoomBackup roomBackup = mainActivity.roomBackup;
+        if (fragmentActivity instanceof MainActivity) {
+            MainActivity mainActivity = (MainActivity) fragmentActivity;
+            roomBackup = mainActivity.roomBackup;
+        }
+
 
         if (showOptionsMenu) {
             toolbar.inflateMenu(R.menu.main_options_menu);
+            RoomBackup finalRoomBackup = roomBackup;
             toolbar.setOnMenuItemClickListener(item -> {
                 switch (item.getItemId()) {
                     case R.id.settings:
@@ -89,20 +96,25 @@ public class BaseFragment extends Fragment {
                         startActivity(intent2);
                         return true;
                     case R.id.downloadDb:
-                        //DatabaseSync.downloadDB(getApplicationContext(), DatabaseSync.getBackupUrl(getApplicationContext()));
-                        // roomBackup.restartApp(new Intent(requireContext(), MainActivity.class));
+                        AsyncTask.execute(() -> {
+                            DatabaseSync.downloadDB(requireContext());
+                            // roomBackup.restartApp(new Intent(requireContext(), MainActivity.class));
+                        });
 
                         return true;
                     case R.id.uploadDb:
-                        roomBackup.backupLocationCustomFile(new File(Database.BACKUP_PATH));
-                        roomBackup.customBackupFileName(Database.DB_NAME + ".sqlite3");
-                        roomBackup.onCompleteListener((success, message, exitCode) -> {
-                            if (success) {
-                                Log.d("abc", "message: " + message);
-                                DatabaseSync.uploadDB(requireContext());
-                            }
-                        });
-                        roomBackup.backup();
+                        if(finalRoomBackup != null){
+                            finalRoomBackup.backupLocationCustomFile(new File(Database.BACKUP_PATH));
+                            finalRoomBackup.customBackupFileName(Database.DB_NAME + ".sqlite3");
+                            finalRoomBackup.onCompleteListener((success, message, exitCode) -> {
+                                if (success) {
+                                    Log.d("abc", "message: " + message);
+                                    DatabaseSync.uploadDB(requireContext());
+                                }
+                            });
+                            finalRoomBackup.backup();
+                        }
+
                         return true;
                     default:
                         return super.onOptionsItemSelected(item);
