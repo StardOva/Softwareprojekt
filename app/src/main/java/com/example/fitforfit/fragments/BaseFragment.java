@@ -77,7 +77,6 @@ public class BaseFragment extends Fragment {
             roomBackup = mainActivity.roomBackup;
         }
 
-
         if (showOptionsMenu) {
             toolbar.inflateMenu(R.menu.main_options_menu);
             RoomBackup finalRoomBackup = roomBackup;
@@ -96,23 +95,42 @@ public class BaseFragment extends Fragment {
                         startActivity(intent2);
                         return true;
                     case R.id.downloadDb:
-                        AsyncTask.execute(() -> {
-                            DatabaseSync.downloadDB(requireContext());
-                            // roomBackup.restartApp(new Intent(requireContext(), MainActivity.class));
-                        });
+                        if (finalRoomBackup != null) {
+                            AsyncTask.execute(() -> {
+                                DatabaseSync.downloadDB(requireContext());
 
+                                File restoreFile = new File(Database.RESTORE_PATH);
+
+                                if (restoreFile.exists() && restoreFile.isFile() && restoreFile.canRead()) {
+                                    finalRoomBackup.backupLocationCustomFile(new File(Database.RESTORE_PATH));
+                                    finalRoomBackup.customBackupFileName(Database.DB_NAME + ".sqlite3");
+                                    finalRoomBackup.onCompleteListener((success, message, exitCode) -> {
+                                        if (success) {
+                                            Log.d("abc", "message: " + message);
+                                            finalRoomBackup.restartApp(new Intent(requireContext(), MainActivity.class));
+                                        }
+                                    });
+                                    finalRoomBackup.restore();
+                                } else {
+                                    Log.d("abc", "Datei gibts nicht oder ist nicht lesbar lool");
+                                }
+
+                            });
+                        }
                         return true;
                     case R.id.uploadDb:
-                        if(finalRoomBackup != null){
-                            finalRoomBackup.backupLocationCustomFile(new File(Database.BACKUP_PATH));
-                            finalRoomBackup.customBackupFileName(Database.DB_NAME + ".sqlite3");
-                            finalRoomBackup.onCompleteListener((success, message, exitCode) -> {
-                                if (success) {
-                                    Log.d("abc", "message: " + message);
-                                    DatabaseSync.uploadDB(requireContext());
-                                }
+                        if (finalRoomBackup != null) {
+                            AsyncTask.execute(() -> {
+                                finalRoomBackup.backupLocationCustomFile(new File(Database.BACKUP_PATH));
+                                finalRoomBackup.customBackupFileName(Database.DB_NAME + ".sqlite3");
+                                finalRoomBackup.onCompleteListener((success, message, exitCode) -> {
+                                    if (success) {
+                                        Log.d("abc", "message: " + message);
+                                        DatabaseSync.uploadDB(requireContext());
+                                    }
+                                });
+                                finalRoomBackup.backup();
                             });
-                            finalRoomBackup.backup();
                         }
 
                         return true;

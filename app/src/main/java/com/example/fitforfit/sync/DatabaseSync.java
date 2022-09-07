@@ -3,7 +3,6 @@ package com.example.fitforfit.sync;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
@@ -14,12 +13,12 @@ import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.file.Files;
@@ -31,8 +30,6 @@ public class DatabaseSync extends AppCompatActivity {
         Log.d("UPLOAD", "Datei hochladen...");
         File dbFile = new File(Database.BACKUP_PATH);
         String path = dbFile.getAbsolutePath();
-
-        OutputStream out;
 
         String attachmentName = "fitforfit";
         String attachmentFileName = dbFile.getName();
@@ -47,6 +44,7 @@ public class DatabaseSync extends AppCompatActivity {
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.setUseCaches(false);
             urlConnection.setDoOutput(true);
+            urlConnection.setDoInput(true);
 
             urlConnection.setRequestMethod("POST");
             urlConnection.setRequestProperty("Connection", "Keep-Alive");
@@ -54,24 +52,33 @@ public class DatabaseSync extends AppCompatActivity {
             urlConnection.setRequestProperty(
                     "Content-Type", "multipart/form-data;boundary=" + boundary);
 
-
-            DataOutputStream request = new DataOutputStream(
+            DataOutputStream outputStream = new DataOutputStream(
                     urlConnection.getOutputStream());
 
-            request.writeBytes(twoHyphens + boundary + crlf);
-            request.writeBytes("Content-Disposition: form-data; name=\"" +
+            outputStream.writeBytes(twoHyphens + boundary + crlf);
+            outputStream.writeBytes("Content-Disposition: form-data; name=\"" +
                     attachmentName + "\";filename=\"" +
                     attachmentFileName + "\"" + crlf);
-            request.writeBytes(crlf);
+            outputStream.writeBytes(crlf);
 
-            request.write(bytesData);
+            //request.write(bytesData);
 
-            request.writeBytes(crlf);
-            request.writeBytes(twoHyphens + boundary +
+            FileInputStream inputStream = new FileInputStream(dbFile);
+            byte[] buffer = new byte[4096];
+            int bytesRead;
+
+            while ((bytesRead = inputStream.read(buffer)) != -1) {
+                outputStream.write(buffer, 0, bytesRead);
+            }
+
+            inputStream.close();
+
+            outputStream.writeBytes(crlf);
+            outputStream.writeBytes(twoHyphens + boundary +
                     twoHyphens + crlf);
 
-            request.flush();
-            request.close();
+            outputStream.flush();
+            outputStream.close();
 
             InputStream responseStream = new
                     BufferedInputStream(urlConnection.getInputStream());
@@ -112,51 +119,46 @@ public class DatabaseSync extends AppCompatActivity {
 
              */
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            Log.e("abc", e.getMessage());
         }
     }
 
     public static void downloadDB(Context context) {
 
-        File dbFile = new File(Database.RESTORE_PATH);
-        String path = dbFile.getAbsolutePath();
-        StringBuilder data = new StringBuilder();
+        File dbFile = new File(context.getCacheDir(), Database.DUMP_NAME);
 
         try {
             URL url = new URL(getBackupUrl(context));
             Log.i("abc", "Deine hässliche Mutter");
-            HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
-            InputStream inputStream = httpURLConnection.getInputStream();
-            BufferedReader bufferedReader = new BufferedReader((new InputStreamReader(inputStream)));
-            String line;
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
-            while ((line = bufferedReader.readLine()) != null) {
-                Log.i("abc", "Schreibe Daten " + line);
+            // expect HTTP 200 OK, so we don't mistakenly save error report
+            // instead of the file
+            if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
+                Log.e("abc", "Server returned HTTP " + connection.getResponseCode()
+                        + " " + connection.getResponseMessage());
 
-                data.append(line);
+                return;
             }
 
-            if (!data.toString().isEmpty()) {
-                writeToFile(data.toString(), path);
-            } else {
-                Toast.makeText(context, "Heruntergeladene Datei ist leer", Toast.LENGTH_SHORT).show();
+            InputStream input = connection.getInputStream();
+            OutputStream output = new FileOutputStream(dbFile);
+
+            byte[] data = new byte[4096];
+            int count;
+
+            while ((count = input.read(data)) != -1) {
+                output.write(data, 0, count);
             }
+
+            output.close();
+            input.close();
+            connection.disconnect();
+            dbFile.delete();
 
         } catch (IOException e) {
             e.printStackTrace();
 
-        }
-    }
-
-    private static void writeToFile(String data, String filePath) {
-        try {
-            FileOutputStream fos = new FileOutputStream(filePath);
-            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(fos);
-            outputStreamWriter.write(data);
-            outputStreamWriter.close();
-            fos.close();
-        } catch (IOException e) {
-            Log.e("Exception", "File write failed: " + e);
         }
     }
 
