@@ -99,38 +99,41 @@ public class BaseFragment extends Fragment {
                             AsyncTask.execute(() -> {
                                 DatabaseSync.downloadDB(requireContext());
 
-                                File restoreFile = new File(Database.RESTORE_PATH);
+                                requireActivity().runOnUiThread(() -> {
+                                    File restoreFile = new File(requireContext().getCacheDir(), Database.DUMP_NAME);
 
-                                if (restoreFile.exists() && restoreFile.isFile() && restoreFile.canRead()) {
-                                    finalRoomBackup.backupLocationCustomFile(new File(Database.RESTORE_PATH));
-                                    finalRoomBackup.customBackupFileName(Database.DB_NAME + ".sqlite3");
-                                    finalRoomBackup.onCompleteListener((success, message, exitCode) -> {
-                                        if (success) {
-                                            Log.d("abc", "message: " + message);
-                                            finalRoomBackup.restartApp(new Intent(requireContext(), MainActivity.class));
-                                        }
-                                    });
-                                    finalRoomBackup.restore();
-                                } else {
-                                    Log.d("abc", "Datei gibts nicht oder ist nicht lesbar lool");
-                                }
+                                    if (restoreFile.exists() && restoreFile.isFile() && restoreFile.canRead()) {
+                                        finalRoomBackup.backupLocationCustomFile(restoreFile);
+                                        finalRoomBackup.customBackupFileName(Database.DB_NAME + ".sqlite3");
+                                        finalRoomBackup.onCompleteListener((success, message, exitCode) -> {
+                                            if (success) {
+                                                Log.d("abc", "message: " + message);
+                                                restoreFile.delete();
+                                                finalRoomBackup.restartApp(new Intent(requireContext(), MainActivity.class));
+                                            }
+                                        });
+                                        finalRoomBackup.restore();
+                                    } else {
+                                        Log.d("abc", "Datei gibts nicht oder ist nicht lesbar lool");
+                                    }
+                                });
 
                             });
                         }
                         return true;
                     case R.id.uploadDb:
                         if (finalRoomBackup != null) {
-                            AsyncTask.execute(() -> {
-                                finalRoomBackup.backupLocationCustomFile(new File(Database.BACKUP_PATH));
-                                finalRoomBackup.customBackupFileName(Database.DB_NAME + ".sqlite3");
-                                finalRoomBackup.onCompleteListener((success, message, exitCode) -> {
-                                    if (success) {
-                                        Log.d("abc", "message: " + message);
+                            finalRoomBackup.backupLocationCustomFile(new File(Database.BACKUP_PATH));
+                            finalRoomBackup.customBackupFileName(Database.DB_NAME + ".sqlite3");
+                            finalRoomBackup.onCompleteListener((success, message, exitCode) -> {
+                                if (success) {
+                                    Log.d("abc", "message: " + message);
+                                    AsyncTask.execute(() -> {
                                         DatabaseSync.uploadDB(requireContext());
-                                    }
-                                });
-                                finalRoomBackup.backup();
+                                    });
+                                }
                             });
+                            finalRoomBackup.backup();
                         }
 
                         return true;

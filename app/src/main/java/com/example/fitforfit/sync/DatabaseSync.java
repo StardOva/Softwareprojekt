@@ -31,7 +31,8 @@ public class DatabaseSync extends AppCompatActivity {
         File dbFile = new File(Database.BACKUP_PATH);
         String path = dbFile.getAbsolutePath();
 
-        String attachmentName = "fitforfit";
+        // API erwartet die Datei im Feld db_file
+        String attachmentName = "db_file";
         String attachmentFileName = dbFile.getName();
         String crlf = "\r\n";
         String twoHyphens = "--";
@@ -154,7 +155,6 @@ public class DatabaseSync extends AppCompatActivity {
             output.close();
             input.close();
             connection.disconnect();
-            dbFile.delete();
 
         } catch (IOException e) {
             e.printStackTrace();
