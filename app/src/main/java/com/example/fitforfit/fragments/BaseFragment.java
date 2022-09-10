@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -103,7 +104,7 @@ public class BaseFragment extends Fragment {
                             File restoreFile = DatabaseSync.downloadDB(requireContext());
 
                             BroadcastReceiver onComplete = new BroadcastReceiver() {
-                                public void onReceive(Context ctxt, Intent intent) {
+                                public void onReceive(Context context, Intent intent) {
 
                                     if (restoreFile.exists() && restoreFile.isFile() && restoreFile.canRead()) {
                                         finalRoomBackup.backupLocationCustomFile(restoreFile);
@@ -112,6 +113,7 @@ public class BaseFragment extends Fragment {
                                             if (success) {
                                                 Log.d("abc", "message: " + message);
                                                 restoreFile.delete();
+                                                Toast.makeText(context, "Wiederherstellen erfolgreich", Toast.LENGTH_SHORT).show();
                                                 finalRoomBackup.restartApp(new Intent(requireContext(), MainActivity.class));
                                             }
                                         });
@@ -132,7 +134,11 @@ public class BaseFragment extends Fragment {
                                 if (success) {
                                     Log.d("abc", "message: " + message);
                                     AsyncTask.execute(() -> {
-                                        DatabaseSync.uploadDB(requireContext());
+                                        if (DatabaseSync.uploadDB(requireContext())) {
+                                            requireActivity().runOnUiThread(() -> {
+                                                Toast.makeText(requireContext(), "Speichern erfolgreich", Toast.LENGTH_SHORT).show();
+                                            });
+                                        }
                                     });
                                 }
                             });

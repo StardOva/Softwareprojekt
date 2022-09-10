@@ -24,7 +24,7 @@ import java.net.URL;
 
 public class DatabaseSync extends AppCompatActivity {
 
-    public static void uploadDB(Context context) {
+    public static boolean uploadDB(Context context) {
         Log.d("UPLOAD", "Datei hochladen...");
         File dbFile = new File(Database.BACKUP_PATH);
 
@@ -91,12 +91,17 @@ public class DatabaseSync extends AppCompatActivity {
 
             Log.d("abc", response);
 
+            if (!response.isEmpty()) {
+                return true;
+            }
+
             responseStream.close();
             urlConnection.disconnect();
 
         } catch (Exception e) {
             Log.e("abc", e.getMessage());
         }
+        return false;
     }
 
     public static File downloadDB(Context context) {
