@@ -1,7 +1,10 @@
 package com.example.fitforfit.sync;
 
+import android.app.DownloadManager;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.net.Uri;
+import android.os.Environment;
 import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -14,22 +17,16 @@ import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
 public class DatabaseSync extends AppCompatActivity {
 
     public static void uploadDB(Context context) {
         Log.d("UPLOAD", "Datei hochladen...");
         File dbFile = new File(Database.BACKUP_PATH);
-        String path = dbFile.getAbsolutePath();
 
         // API erwartet die Datei im Feld db_file
         String attachmentName = "db_file";
@@ -39,8 +36,6 @@ public class DatabaseSync extends AppCompatActivity {
         String boundary = "*****";
 
         try {
-            byte[] bytesData = Files.readAllBytes(Paths.get(path));
-
             URL url = new URL(getBackupUrl(context));
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
             urlConnection.setUseCaches(false);
@@ -61,8 +56,6 @@ public class DatabaseSync extends AppCompatActivity {
                     attachmentName + "\";filename=\"" +
                     attachmentFileName + "\"" + crlf);
             outputStream.writeBytes(crlf);
-
-            //request.write(bytesData);
 
             FileInputStream inputStream = new FileInputStream(dbFile);
             byte[] buffer = new byte[4096];
@@ -101,74 +94,29 @@ public class DatabaseSync extends AppCompatActivity {
             responseStream.close();
             urlConnection.disconnect();
 
-
-
-
-
-
-
-            /*
-            out = new BufferedOutputStream(urlConnection.getOutputStream());
-
-            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(out, StandardCharsets.UTF_8));
-            writer.write(Arrays.toString(bytesData));
-            writer.flush();
-            writer.close();
-            out.close();
-
-            urlConnection.disconnect();
-
-             */
         } catch (Exception e) {
             Log.e("abc", e.getMessage());
         }
     }
 
-    public static void downloadDB(Context context) {
+    public static File downloadDB(Context context) {
 
-        File dbFile = new File(context.getCacheDir(), Database.DUMP_NAME);
+        File dbFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), Database.DUMP_NAME);
 
         // aufräumen bevor es losgeht
         if (dbFile.exists()) {
             dbFile.delete();
         }
 
-        try {
-            URL url = new URL(getBackupUrl(context));
-            Log.i("abc", "Deine hässliche Mutter");
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(getBackupUrl(context)));
 
-            // expect HTTP 200 OK, so we don't mistakenly save error report
-            // instead of the file
-            if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
-                Log.e("abc", "Server returned HTTP " + connection.getResponseCode()
-                        + " " + connection.getResponseMessage());
+        // Save the file in the "Downloads" folder of SDCARD
+        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, dbFile.getName());
 
-                return;
-            }
+        DownloadManager downloadManager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
+        downloadManager.enqueue(request);
 
-            InputStream input = connection.getInputStream();
-            OutputStream output = new FileOutputStream(dbFile);
-
-            byte[] data = new byte[4096];
-            int count;
-
-            while ((count = input.read(data)) != -1) {
-                output.write(data, 0, count);
-            }
-
-            output.close();
-            input.close();
-            connection.disconnect();
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            try {
-                Log.i("abc", String.valueOf(Files.size(Paths.get(dbFile.getAbsolutePath()))));
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-        }
+        return dbFile;
     }
 
     public static String getBackupUrl(Context context) {
@@ -178,6 +126,8 @@ public class DatabaseSync extends AppCompatActivity {
 
         return backupUrl + apiKey;
     }
+
+
 }
 
 

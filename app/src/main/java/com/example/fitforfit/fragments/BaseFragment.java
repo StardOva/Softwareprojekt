@@ -1,7 +1,11 @@
 package com.example.fitforfit.fragments;
 
 import android.annotation.SuppressLint;
+import android.app.DownloadManager;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -96,11 +100,10 @@ public class BaseFragment extends Fragment {
                         return true;
                     case R.id.downloadDb:
                         if (finalRoomBackup != null) {
-                            AsyncTask.execute(() -> {
-                                DatabaseSync.downloadDB(requireContext());
+                            File restoreFile = DatabaseSync.downloadDB(requireContext());
 
-                                requireActivity().runOnUiThread(() -> {
-                                    File restoreFile = new File(requireContext().getCacheDir(), Database.DUMP_NAME);
+                            BroadcastReceiver onComplete = new BroadcastReceiver() {
+                                public void onReceive(Context ctxt, Intent intent) {
 
                                     if (restoreFile.exists() && restoreFile.isFile() && restoreFile.canRead()) {
                                         finalRoomBackup.backupLocationCustomFile(restoreFile);
@@ -116,9 +119,9 @@ public class BaseFragment extends Fragment {
                                     } else {
                                         Log.d("abc", "Datei gibts nicht oder ist nicht lesbar lool");
                                     }
-                                });
-
-                            });
+                                }
+                            };
+                            requireContext().registerReceiver(onComplete, new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
                         }
                         return true;
                     case R.id.uploadDb:
