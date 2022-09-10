@@ -128,6 +128,11 @@ public class DatabaseSync extends AppCompatActivity {
 
         File dbFile = new File(context.getCacheDir(), Database.DUMP_NAME);
 
+        // aufräumen bevor es losgeht
+        if (dbFile.exists()) {
+            dbFile.delete();
+        }
+
         try {
             URL url = new URL(getBackupUrl(context));
             Log.i("abc", "Deine hässliche Mutter");
@@ -158,7 +163,11 @@ public class DatabaseSync extends AppCompatActivity {
 
         } catch (IOException e) {
             e.printStackTrace();
-
+            try {
+                Log.i("abc", String.valueOf(Files.size(Paths.get(dbFile.getAbsolutePath()))));
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
         }
     }
 

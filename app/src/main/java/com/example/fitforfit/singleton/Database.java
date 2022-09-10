@@ -3,6 +3,7 @@ package com.example.fitforfit.singleton;
 import android.content.Context;
 
 import androidx.room.Room;
+import androidx.room.RoomDatabase;
 
 import com.example.fitforfit.database.AppDatabase;
 
@@ -14,12 +15,13 @@ public class Database {
     public static String DUMP_NAME = "fitforfit.sqlite3";
 
     public static AppDatabase getInstance(Context context) {
-        if (db != null) {
+        if (db != null && db.isOpen()) {
             return db;
         }
 
         db = Room.databaseBuilder(context, AppDatabase.class, DB_NAME)
                 .allowMainThreadQueries().fallbackToDestructiveMigration()
+                .setJournalMode(RoomDatabase.JournalMode.TRUNCATE)
                 /*
                 TODO -> .allowMainThreadQueries() loswerden -> Scheisse für Leistung
                  */
