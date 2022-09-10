@@ -29,6 +29,9 @@ android {
     buildFeatures {
         viewBinding true
     }
+    packagingOptions {
+        resources.excludes.add("META-INF/*")
+    }
 }
 
 dependencies {
@@ -84,4 +87,5 @@ dependencies {
     // AboutUs
     implementation 'com.github.medyo:android-about-page:1.2.6'
 
+    implementation 'de.raphaelebner:roomdatabasebackup:1.0.0-beta10'
 }

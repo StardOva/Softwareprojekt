@@ -5,17 +5,16 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import com.example.fitforfit.MainActivity;
 import com.example.fitforfit.R;
 
 public class BaseActivity extends AppCompatActivity {
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,6 +57,7 @@ public class BaseActivity extends AppCompatActivity {
                 Intent intent2 = new Intent(this, AboutUsActivity.class);
                 startActivity(intent2);
                 return true;
+
             default:
                 return super.onOptionsItemSelected(item);
         }

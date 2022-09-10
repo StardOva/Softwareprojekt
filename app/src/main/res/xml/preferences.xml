@@ -8,4 +8,20 @@
         android:singleLine="true"
         android:summary="Länge des Workout-Timers in Sekunden"
         android:title="Workout-Timer" />
+
+    <EditTextPreference
+        android:defaultValue="http://localhost:8000/database_sync/"
+        android:icon="@android:drawable/ic_menu_save"
+        android:key="backup_url"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="URL für Backup" />
+
+    <EditTextPreference
+        android:defaultValue=""
+        android:icon="@android:drawable/arrow_down_float"
+        android:key="api_key"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="API-Schlüssel" />
 </PreferenceScreen>
